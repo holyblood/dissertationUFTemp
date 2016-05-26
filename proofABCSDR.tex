@@ -1,0 +1,478 @@
+\chapter{Proof of Approximate Bayesian Computation via Sufficient Dimension
+Reduction}
+
+
+\section{\label{sec:proof-thm-1}Proof of Theorem \ref{thm:bernstein-von-mises-mle}}
+\begin{proof}
+\begin{eqnarray*}
+ &  & P\left(\sqrt{n\hat{I}}\left(\theta-\hat{\theta}\right)\le t\mid\hat{\theta}\in O\left(\theta_{0},\varepsilon\right)\right)\\
+ & = & \frac{P\left(\sqrt{n\hat{I}}\left(\theta-\hat{\theta}\right)\le t,\hat{\theta}\in O\left(\theta_{0},\varepsilon\right)\right)}{P\left(\hat{\theta}\in O\left(\theta_{0},\varepsilon\right)\right)}\\
+ & = & \frac{\int I_{\left[\hat{\theta}\in O\left(\theta_{0},\varepsilon\right)\right]}I_{\left[\sqrt{n\hat{I}}\left(\theta-\hat{\theta}\right)\le t\right]}\prod_{i=1}^{n}\pi\left(X_{i}\mid\theta\right)\pi\left(\theta\right)\diff X_{i}\diff\theta}{\int I_{\left[\hat{\theta}\in O\left(\theta_{0},\varepsilon\right)\right]}\prod_{i=1}^{n}\pi\left(X_{i}\mid\theta\right)\pi\left(\theta\right)\diff X_{i}\diff\theta}.
+\end{eqnarray*}
+Let $P^{\infty}\left(\theta\right)$ be the probability measure on
+infinite independent and identically distributed sequence $X_{1},\ldots,X_{n},\ldots,$.
+Then 
+\begin{eqnarray}
+ &  & P\left(\sqrt{n\hat{I}}\left(\theta-\hat{\theta}\right)\le t\mid\hat{\theta}\in O\left(\theta_{0},\varepsilon\right)\right)\nonumber \\
+ & = & \frac{E_{\pi\left(\theta\right)}E_{P^{\infty}\left(\theta_{0}\right)}I_{\left[\hat{\theta}\in O\left(\theta_{0},\varepsilon\right)\right]}I_{\left[\sqrt{n\hat{I}}\left(\theta-\hat{\theta}\right)\le t\right]}\exp\left(\sum_{i=1}^{n}\log\pi\left(X_{i}\mid\theta\right)-\log\pi\left(X_{i}\mid\theta_{0}\right)\right)}{E_{\pi\left(\theta\right)}E_{P^{\infty}\left(\theta_{0}\right)}I_{\left[\hat{\theta}\in O\left(\theta_{0},\varepsilon\right)\right]}\exp\left(\sum_{i=1}^{n}\log\pi\left(X_{i}\mid\theta\right)-\log\pi\left(X_{i}\mid\theta_{0}\right)\right)}.\label{eq:post-change-measure}
+\end{eqnarray}
+By strong consistency of the maximum likelihood estimator, for any
+$\varepsilon>0$, there is an $N>0$, such that for any $n>N$, $P\left(\hat{\theta}\in O\left(\theta_{0},\varepsilon\right)\mid\theta_{0}\right)=1$.
+Thus, we can drop the indicator $I_{\left[\hat{\theta}\in O\left(\theta_{0},\varepsilon\right)\right]}$
+without changing the value in (\ref{eq:post-change-measure}). We
+can change the order of integration. So the numerator of (\ref{eq:post-change-measure})
+is 
+\begin{eqnarray*}
+ &  & E_{P^{\infty}\left(\theta_{0}\right)}\left(\prod_{i=1}^{n}\pi\left(X_{i}\mid\theta_{0}\right)\right)^{-1}E_{\pi\left(\theta\right)}I_{\left[\sqrt{n\hat{I}}\left(\theta-\hat{\theta}\right)\le t\right]}\prod_{i=1}^{n}\pi\left(X_{i}\mid\theta\right)\\
+ & = & E_{P^{\infty}\left(\theta_{0}\right)}\left(\prod_{i=1}^{n}\pi\left(X_{i}\mid\theta_{0}\right)\right)^{-1}\int I_{\left[\sqrt{n\hat{I}}\left(\theta-\hat{\theta}\right)\le t\right]}\prod_{i=1}^{n}\pi\left(X_{i}\mid\theta\right)\pi\left(\theta\right)\diff\theta\\
+ & = & E_{P^{\infty}\left(\theta_{0}\right)}\left(\prod_{i=1}^{n}\pi\left(X_{i}\mid\theta_{0}\right)\right)^{-1}P\left(\sqrt{n\hat{I}}\left(\theta-\hat{\theta}\right)\le t\mid X_{1},\ldots,X_{n}\right)E_{\pi\left(\theta\right)}\prod_{i=1}^{n}\pi\left(X_{i}\mid\theta\right).
+\end{eqnarray*}
+By Bernstein--von Mises theorem, 
+\[
+\lim_{n\rightarrow\infty}P\left(\sqrt{n\hat{I}}\left(\theta-\hat{\theta}\right)\le t\mid X_{1},\ldots,X_{n}\right)=\Phi\left(t\right),\ascv P^{\infty}\left(\theta_{0}\right).
+\]
+Hence, the result holds.
+\end{proof}
+To prove a similar result about conditioning on posterior mean, we
+go through similar steps as in the proof of Theorem (\ref{thm:bernstein-von-mises-mle}).
+The only needed change is to prove 
+\[
+\lim_{n\rightarrow\infty}P\left(\sqrt{n\hat{I}}\left(\theta-E\left(\theta\mid X_{1},\ldots,X_{n}\right)\right)\le t\mid X_{1},\ldots,X_{n}\right)=\Phi\left(t\right),\ascv P^{\infty}\left(\theta_{0}\right).
+\]
+We know from \citet{ghosh2011moment} that with probability 1, (\ref{eq:high-order-close-post-mean-mle})
+holds. By conditioning on $X_{1},\ldots,X_{n}$, both posterior mean
+and maximum likelihood estimator are fixed numbers and 
+\[
+\lim_{n\rightarrow\infty}\sqrt{n}\left(E\left(\theta\mid X_{1},\ldots,X_{n}\right)-\hat{\theta}\right)=0.\ascv.
+\]
+ Hence, {{} } {if we assume the CDF of
+the full posterior is continuous and asymptotically normal, then 
+\begin{eqnarray*}
+ &  & \left|P\left(\sqrt{n\hat{I}}\left(\theta-E\left(\theta\mid X_{1},\ldots,X_{n}\right)\right)\le t\mid X_{1},\ldots,X_{n}\right)-\Phi\left(t\right)\right|\\
+ & \le & \Bigg|P\left(\sqrt{n\hat{I}}\left(\theta-\hat{\theta}\right)+\hat{I}^{1/2}\sqrt{n}\left(E\left(\theta\mid X_{1},\ldots,X_{n}\right)-\hat{\theta}\right)\le t\mid X_{1},\ldots,X_{n}\right)\\
+ &  & -P\left(\sqrt{n\hat{I}}\left(\theta-\hat{\theta}\right)\le t\mid X_{1},\ldots,X_{n}\right)\Bigg|+\left|P\left(\sqrt{n\hat{I}}\left(\theta-\hat{\theta}\right)\le t\mid X_{1},\ldots,X_{n}\right)-\Phi\left(t\right)\right|\\
+ & \rightarrow & 0,\mathrm{\: as\:}\left(n\rightarrow\infty\right).
+\end{eqnarray*}
+}
+
+
+\section{Derivation of Examples}
+
+
+\subsection{\label{sub:Derivation-of-Example-1}Derivation of Example \ref{exa:Immigrate-emigrate-process}}
+
+First, we get the distribution of $\mu$. 
+\[
+\mu^{r_{2}}\exp\left(-\mu\frac{r_{2}}{\hat{\mu}}\right)\left|-\frac{r_{2}}{\left(\hat{\mu}\right)^{2}}\right|\propto r_{2}\mu^{r_{2}}\exp\left(-\frac{\mu}{\hat{\mu}}r_{2}\right).
+\]
+Now we sum out $r_{2}$. By definition $X_{0}+r_{1}-r_{2}\ge0$. Hence
+the distribution of $\hat{\mu}$ is proportional to 
+\[
+\sum_{r_{2}=0}^{X_{0}+r_{1}}r_{2}\left(\mu\exp\left(-\frac{\mu}{\hat{\mu}}\right)\right)^{r_{2}}.
+\]
+Let $U=\mu\exp\left(-\mu/\hat{\mu}\right)$ and $R=X_{0}+r_{1}=X_{0}+\hat{\lambda}T$.
+Let 
+\begin{eqnarray*}
+L & = & \sum_{r_{2}=0}^{R}r_{2}U^{r_{2}}=U\frac{\diff}{\diff U}\sum_{r_{2}=0}^{R}U^{r_{2}}=U\frac{\diff}{\diff U}\left(\frac{1-U^{R+1}}{1-U}\right)\\
+ & = & U\left(1-U\right)^{-2}\left[1-\left(R+1\right)U^{R}+RU^{R+1}\right].
+\end{eqnarray*}
+For fixed $t$, consider $\mu=\hat{\mu}+t/\sqrt{T}$. 
+\begin{eqnarray*}
+\log U & = & -\frac{\mu}{\hat{\mu}}+\log\mu=-1-\frac{t}{\sqrt{T}\hat{\mu}}+\log\hat{\mu}+\log\left(1+\frac{t}{\sqrt{T}\hat{\mu}}\right)\\
+ & = & \log\hat{\mu}-1-\frac{t^{2}}{2\left(\hat{\mu}\right)^{2}T}+o\left(T^{-1}\right).
+\end{eqnarray*}
+ {Hence 
+\[
+\lim_{T\rightarrow\infty}U=\frac{\mu_{0}}{e},\ascv.
+\]
+the limit is a constant. 
+\[
+R\log U=\left(X_{0}+\hat{\lambda}T\right)\left(\log\hat{\mu}-1\right)-\frac{\hat{\lambda}t^{2}}{2\left(\hat{\mu}\right)^{2}}+o\left(1\right).
+\]
+\[
+L=\frac{UR}{\left(1-U\right)^{2}}\left(\frac{1}{R}-\frac{R+1}{R}\exp\left(R\log U\right)+U\exp\left(R\log U\right)\right)
+\]
+Note that the density of $t=\sqrt{T}\left(\mu-\hat{\mu}\right)$ is
+only proportional to $L$, hence only the terms containing $t$ will
+affect the limit distribution, other terms can be omitted. Also recall
+that, 
+\[
+\lim_{T\rightarrow\infty}\frac{1}{R}=\lim_{T\rightarrow\infty}\frac{1}{X_{0}+\hat{\lambda}T}=0,
+\]
+we have 
+\begin{eqnarray*}
+\lim_{T\rightarrow\infty}L & \propto & \lim_{T\rightarrow\infty}\left(\frac{1}{R}-\frac{R+1}{R}\exp\left(R\log U\right)+U\exp\left(R\log U\right)\right)\\
+ & = & \lim_{T\rightarrow\infty}\left(U-1-\frac{1}{R}\right)\exp\left(\left(X_{0}+\hat{\lambda}T\right)\left(\log\hat{\mu}-1\right)-\frac{\hat{\lambda}t^{2}}{2\left(\hat{\mu}\right)^{2}}+o\left(1\right)\right)\\
+ & = & \lim_{T\rightarrow\infty}\left(\frac{\mu_{0}}{e}-1\right)\exp\left(\left(X_{0}+\hat{\lambda}T\right)\left(\log\hat{\mu}-1\right)\right)\exp\left(-\frac{\hat{\lambda}t^{2}}{2\left(\hat{\mu}\right)^{2}}+o\left(1\right)\right)\\
+ & \propto & \exp\left(-\frac{\hat{\lambda}t^{2}}{2\left(\hat{\mu}\right)^{2}}\right).
+\end{eqnarray*}
+}
+
+
+\subsection{\label{sub:Derivation-of-Example-2}Derivation of Example \ref{exa:Gamma-distribution}}
+
+We know $\overline{X}\sim\mathrm{Gamma}\left(n\alpha,\beta/n\right),$
+so $\tilde{\alpha}\sim\mathrm{Gamma}\left(n\alpha,n^{-1}\right).$
+\begin{eqnarray*}
+\pi\left(\alpha\mid\tilde{\alpha}\right) & \propto & \pi\left(\tilde{\alpha}\mid\alpha\right)\pi\left(\alpha\right)=\frac{1}{\Gamma\left(n\alpha\right)n^{-n\alpha}}\left(\tilde{\alpha}\right)^{n\alpha-1}\exp\left(-n\tilde{\alpha}\right)\exp\left(-\lambda\alpha\right)\\
+ & \propto & \frac{\left(n\tilde{\alpha}\exp\left(-\lambda/n\right)\right)^{n\alpha}}{\Gamma\left(n\alpha\right)}.
+\end{eqnarray*}
+Next we will show $\pi\left(\sqrt{n}\left(\alpha-\tilde{\alpha}\right)/b\mid\tilde{\alpha}\right)\rightarrow N\left(0,1\right)\ascv,$
+for some suitable $b$. The PDF of $t$ is proportional to 
+\[
+\frac{\left(n\tilde{\alpha}\exp\left(-\lambda/n\right)\right)^{n\left(bt/\sqrt{n}+\tilde{\alpha}\right)}}{\Gamma\left(n\left(bt/\sqrt{n}+\tilde{\alpha}\right)\right)}\frac{b}{\sqrt{n}}.
+\]
+Take logarithm, and drop all the terms not related to $t$, since
+those terms can be divided from both numerator and denominator, 
+\begin{equation}
+\sqrt{n}bt\log\left(n\tilde{\alpha}\right)-\lambda b\frac{t}{\sqrt{n}}-\log\Gamma\left(n\tilde{\alpha}\left(1+\frac{bt}{\sqrt{n}\tilde{\alpha}}\right)\right).\label{eq:log-density-drop-not-have-t}
+\end{equation}
+Using Stirling formula to approximate gamma function, 
+\begin{eqnarray*}
+ &  & \log\Gamma\left(n\tilde{\alpha}\left(1+\frac{bt}{\sqrt{n}\tilde{\alpha}}\right)\right)\\
+ & \approx & \left[n\tilde{\alpha}\left(1+\frac{bt}{\sqrt{n}\tilde{\alpha}}\right)-\frac{1}{2}\right]\log\left(n\tilde{\alpha}\left(1+\frac{bt}{\sqrt{n}\tilde{\alpha}}\right)\right)-n\tilde{\alpha}\left(1+\frac{bt}{\sqrt{n}\tilde{\alpha}}\right)+\frac{1}{2}\log2\pi.
+\end{eqnarray*}
+So (\ref{eq:log-density-drop-not-have-t}) can be written as 
+\begin{eqnarray}
+ &  & \sqrt{n}bt\log\left(n\tilde{\alpha}\right)-\lambda b\frac{t}{\sqrt{n}}-\sqrt{n}bt\log\left(1+\frac{bt}{\sqrt{n}\tilde{\alpha}}\right)\nonumber \\
+ &  & -\sqrt{n}bt\log\left(n\tilde{\alpha}\right)-\left(n\tilde{\alpha}-\frac{1}{2}\right)\log\left(1+\frac{bt}{\sqrt{n}\tilde{\alpha}}\right)+\sqrt{n}bt\nonumber \\
+ & = & -\sqrt{n}bt\log\left(1+\frac{bt}{\sqrt{n}\tilde{\alpha}}\right)-\left(n\tilde{\alpha}-\frac{1}{2}\right)\log\left(1+\frac{bt}{\sqrt{n}\tilde{\alpha}}\right)+\sqrt{n}bt-\lambda b\frac{t}{\sqrt{n}}.\label{eq:log-density-after-stirling}
+\end{eqnarray}
+Now we can apply Taylor expansion for term $\log\left(1+bt/\left(\sqrt{n}\tilde{\alpha}\right)\right)$,
+\[
+\log\left(1+\frac{bt}{\sqrt{n}\tilde{\alpha}}\right)=\frac{bt}{\sqrt{n}\tilde{\alpha}}-\frac{b^{2}t^{2}}{2n\tilde{\alpha}^{2}}+\frac{b^{3}t^{3}}{3n^{3/2}\tilde{\alpha}^{3}}+o\left(\frac{t^{3}}{n^{3/2}}\right).
+\]
+Substituting the expansion into (\ref{eq:log-density-after-stirling}),
+\begin{eqnarray*}
+ &  & -\sqrt{n}bt\log\left(1+\frac{bt}{\sqrt{n}\tilde{\alpha}}\right)-\left(n\tilde{\alpha}-\frac{1}{2}\right)\log\left(1+\frac{bt}{\sqrt{n}\tilde{\alpha}}\right)+\sqrt{n}bt-\lambda b\frac{t}{\sqrt{n}}\\
+ & = & -\sqrt{n}bt\left(\frac{bt}{\sqrt{n}\tilde{\alpha}}-\frac{b^{2}t^{2}}{2n\tilde{\alpha}^{2}}+\frac{b^{3}t^{3}}{3n^{3/2}\tilde{\alpha}^{3}}+o\left(\frac{t^{3}}{n^{3/2}}\right)\right)\\
+ &  & -\left(n\tilde{\alpha}-\frac{1}{2}\right)\left(\frac{bt}{\sqrt{n}\tilde{\alpha}}-\frac{b^{2}t^{2}}{2n\tilde{\alpha}^{2}}+\frac{b^{3}t^{3}}{3n^{3/2}\tilde{\alpha}^{3}}+o\left(\frac{t^{3}}{n^{3/2}}\right)\right)+\sqrt{n}bt-\lambda b\frac{t}{\sqrt{n}}\\
+ & = & -\frac{b^{2}t^{2}}{\tilde{\alpha}}+\frac{b^{3}t^{3}}{2\sqrt{n}\tilde{\alpha}^{2}}-o\left(\frac{t^{3}}{\sqrt{n}}\right)-\sqrt{n}bt+\frac{b^{2}t^{2}}{2\tilde{\alpha}}-\frac{b^{3}t^{3}}{2\sqrt{n}\alpha^{2}}-o\left(\frac{t^{3}}{\sqrt{n}}\right)\\
+ &  & +\frac{bt}{2\sqrt{n}\tilde{\alpha}}-\frac{b^{2}t^{2}}{4n\tilde{\alpha}^{2}}+o\left(\frac{t^{2}}{n}\right)+\sqrt{n}bt-\lambda b\frac{t}{\sqrt{n}}\\
+ & \approx & -\frac{b^{2}t^{2}}{2\tilde{\alpha}}.
+\end{eqnarray*}
+If we set $b=\sqrt{\tilde{\alpha}}$, then the rescaled partial posterior
+convergence to standard normal.
+
+
+\subsection{\label{sub:Derivation-of-Example-3}Derivation of Example \ref{exa:laplace-example}}
+
+ {First we prove lemma \ref{lem:bayes-inferential-model}.}
+\begin{proof}
+ {Assume $Y$ has a probability density function $f\left(y\right)$.
+Let $y=u\left(x,\theta\right)$ be the solution of equation $x=h\left(y,\theta\right)$.
+Then $h\left(Y,\theta\right)$ has a probability density function
+\[
+f\left(u\left(x,\theta\right)\right)\left|\frac{\partial u\left(x,\theta\right)}{\partial x}\right|.
+\]
+Then the posterior distribution under the uniform prior is proportional
+to 
+\[
+f\left(u\left(X,\theta\right)\right)\left|\frac{\partial u\left(X,\theta\right)}{\partial x}\right|.
+\]
+Now we find the probability density function of $g\left(Y,X\right)$.
+By assumptions, we know $y=u\left(x,\theta\right)$ is also the solution
+of $\theta=g\left(y,x\right)$. Hence the probability density function
+is also 
+\[
+f\left(u\left(X,\theta\right)\right)\left|\frac{\partial u\left(X,\theta\right)}{\partial x}\right|.
+\]
+}
+\end{proof}
+
+
+We know if $X,Y$ are independent exponential random variables with
+mean $\lambda$, then $X-Y$ is Laplace distributed with $\mu=0$
+and the same $\lambda$. So we know our sample $Z$ has the same distribution
+as $X-Y+\mu$. So the sample mean $\overline{Z}$ has the same distribution
+as $\overline{X}-\overline{Y}+\mu$. It is easy to check $\overline{X}$
+and $\overline{Y}$ have gamma distribution with location parameter
+$n$ and scale parameter $n^{-1}\lambda$. Hence the posterior distribution
+of $\mu$on $\overline{Z}$ under the uniform prior has the same distribution
+as $\overline{Z}-\left(\overline{X}-\overline{Y}\right)$. Hence the
+posterior distribution $\sqrt{n}\left(\mu-\overline{Z}\right)$ has
+the same distribution as $-\sqrt{n}\left(\overline{X}-\overline{Y}\right)$
+We know the characteristic function of $\sqrt{n}$$\overline{X}$
+is 
+\[
+\left[1-\frac{\lambda}{n}i\left(\sqrt{n}t\right)\right]^{-n},
+\]
+So the characteristic function of $-\sqrt{n}\left(\overline{X}-\overline{Y}\right)$
+is 
+\[
+\left[1-\frac{\lambda}{n}i\left(\sqrt{n}t\right)\right]^{-n}\left[1-\frac{\lambda}{n}i\left(-\sqrt{n}t\right)\right]^{-n}=\left(1+\frac{\lambda^{2}t^{2}}{n}\right)^{-n}\rightarrow\exp\left(-\lambda^{2}t^{2}\right).
+\]
+Hence $\sqrt{n}\left(\mu-\overline{Z}\right)$ has an asymptotic normal
+distribution with zero mean and variance $2\lambda^{2}$.
+
+
+\section{\label{sec:Proof-of-Theorem-2}Proof of Theorem \ref{thm:partial-post-m-est}}
+\begin{lem}
+\label{lem:taylor-expansion-in-dist}Under Assumptions \ref{assu:second-order-bounded-differential},
+\ref{assu:m-est-consistent-asymp-norml} and \ref{assu:bernstein-von-mises-full-posterior},
+for any $\varepsilon$, $\delta_{1}$ and $\delta_{2}$, there exists
+an $N$, such that for any $n\ge N$, 
+\[
+P_{\theta_{0}}^{\infty}\left(\omega:P_{\omega}^{n}\left(\sqrt{n}\left|G\left(\theta,\tilde{\theta}\right)-G_{1}\left(\hat{\theta},\tilde{\theta}\right)\left(\theta-\tilde{\theta}\right)\right|\le2\varepsilon\right)\ge1-\delta_{1}\right)\ge1-\delta_{2}.
+\]
+\end{lem}
+\begin{proof}
+By Taylor expansion and Assumption \ref{assu:second-order-bounded-differential},
+\begin{equation}
+\left|G\left(\theta,\tilde{\theta}\right)-G\left(\hat{\theta},\tilde{\theta}\right)-G_{1}\left(\hat{\theta},\tilde{\theta}\right)\left(\theta-\hat{\theta}\right)\right|\le L\left(\theta-\hat{\theta}\right)^{2},\label{eq:second-lip-1}
+\end{equation}
+and 
+\begin{equation}
+\left|G\left(\tilde{\theta},\tilde{\theta}\right)-G\left(\hat{\theta},\tilde{\theta}\right)-G_{1}\left(\hat{\theta},\tilde{\theta}\right)\left(\tilde{\theta}-\hat{\theta}\right)\right|\le L\left(\tilde{\theta}-\hat{\theta}\right)^{2}.\label{eq:second-lip-2}
+\end{equation}
+By posterior consistency, there exists a $\Omega_{1}\subset\Omega$,
+$P_{\theta_{0}}^{\infty}\left(\Omega_{1}\right)=1$, such that for
+any $\omega\in\Omega_{1}$, random variable $\left(\theta\mid X_{1}\left(\omega\right),\ldots,X_{n}\left(\omega\right)\right)$
+converges in probability to $\theta_{0}$. Hence $\left(\theta-\theta_{0}\right)\mid X_{1}\left(\omega\right),\ldots,X_{n}\left(\omega\right)=o_{P_{\omega}^{n}}\left(1\right)$.
+By Bernstein--von Mises, there exists a $\Omega_{2}\subset\Omega$,
+$P_{\theta_{0}}^{\infty}\left(\Omega_{2}\right)=1$, such that for
+any $\omega\in\Omega_{2}$, random variable $\left(\sqrt{n\hat{I}}\left(\theta-\hat{\theta}\right)\mid X_{1}\left(\omega\right),\ldots,X_{n}\left(\omega\right)\right)$
+converges in distribution to a standard normal random variable. Hence
+$\left(\sqrt{n\hat{I}}\left(\theta-\hat{\theta}\right)\mid X_{1}\left(\omega\right),\ldots,X_{n}\left(\omega\right)\right)=O_{P_{\omega}^{n}}\left(1\right).$
+For any $\omega\in\Omega_{1}\cap\Omega_{2}$, 
+\begin{eqnarray*}
+\left(\sqrt{n}L\left(\theta-\hat{\theta}\right)^{2}\mid X_{1}\left(\omega\right),\ldots,X_{n}\left(\omega\right)\right) & = & L\left(\sqrt{n}\left(\theta-\hat{\theta}\right)\times\left(\theta-\hat{\theta}\right)\mid X_{1}\left(\omega\right),\ldots,X_{n}\left(\omega\right)\right)\\
+ & = & LO_{P_{\omega}^{n}}\left(1\right)\times o_{P_{\omega}^{n}}\left(1\right)=o_{P_{\omega}^{n}}\left(1\right),
+\end{eqnarray*}
+which means for any $\varepsilon$ and $\delta_{1}$, there exists
+an $N_{1}$ such that 
+\[
+P_{\omega}^{n}\left(\sqrt{n}L\left(\theta-\hat{\theta}\left(\omega\right)\right)^{2}\le\varepsilon\mid X_{1}\left(\omega\right),\ldots,X_{n}\left(\omega\right)\right)\ge1-\delta_{1}.
+\]
+By Assumptions \ref{assu:m-est-consistent-asymp-norml}, $\tilde{\theta}-\theta_{0}=o_{P_{\theta_{0}}^{\infty}}\left(1\right)$,
+$\sqrt{n}\left(\tilde{\theta}-\theta_{0}\right)=O_{P_{\theta_{0}}^{\infty}}\left(1\right)$,
+$\hat{\theta}-\theta_{0}=o_{P_{\theta_{0}}^{\infty}}\left(1\right)$
+and $\sqrt{n}\left(\hat{\theta}-\theta_{0}\right)=O_{P_{\theta_{0}}^{\infty}}\left(1\right).$Then
+\[
+\sqrt{n}L\left(\tilde{\theta}-\hat{\theta}\right)^{2}\le2L\left[\sqrt{n}\left(\tilde{\theta}-\theta_{0}\right)^{2}+\sqrt{n}\left(\hat{\theta}-\theta_{0}\right)^{2}\right]=o_{P_{\theta_{0}}^{\infty}}\left(1\right),
+\]
+which means for any $\varepsilon$ and $\delta_{2}$, there exists
+an $N_{2}$, such that for any $n\ge N_{2}$, 
+\[
+P_{\theta_{0}}^{\infty}\left(\omega:\sqrt{n}L\left(\tilde{\theta}\left(\omega\right)-\hat{\theta}\left(\omega\right)\right)^{2}\le\varepsilon\right)\ge1-\delta_{2}.
+\]
+Let $\Omega_{\varepsilon}=\left\{ \omega:\sqrt{n}L\left(\tilde{\theta}\left(\omega\right)-\hat{\theta}\left(\omega\right)\right)^{2}\le\varepsilon\right\} $.
+For any $\omega\in\Omega_{1}\cap\Omega_{2}\cap\Omega_{\varepsilon}$,
+\begin{eqnarray*}
+ &  & \sqrt{n}\left|G\left(\theta,\tilde{\theta}\right)-G_{1}\left(\hat{\theta},\tilde{\theta}\right)\left(\theta-\tilde{\theta}\right)\right|\\
+ & \le & \sqrt{n}\left|G\left(\theta,\tilde{\theta}\right)-G\left(\hat{\theta},\tilde{\theta}\right)-G_{1}\left(\hat{\theta},\tilde{\theta}\right)\left(\theta-\hat{\theta}\right)\right|\\
+ &  & +\sqrt{n}\left|G\left(\tilde{\theta},\tilde{\theta}\right)-G\left(\hat{\theta},\tilde{\theta}\right)-G_{1}\left(\hat{\theta},\tilde{\theta}\right)\left(\tilde{\theta}-\hat{\theta}\right)\right|\\
+ & \le & \sqrt{n}L\left(\theta-\hat{\theta}\right)^{2}+\sqrt{n}L\left(\tilde{\theta}-\hat{\theta}\right)^{2}\le2\varepsilon,
+\end{eqnarray*}
+with probability $1-\delta_{1}$ $\left(P_{\omega}^{n}\right)$. Also
+recall $P_{\theta_{0}}^{\infty}\left(\Omega_{1}\cap\Omega_{2}\cap\Omega_{\varepsilon}\right)\ge1-\delta_{2}$.
+Hence for and $n\ge\max\left\{ N_{1},N_{2}\right\} $, 
+\[
+P_{\theta_{0}}^{\infty}\left(\omega:P_{\omega}^{n}\left(\sqrt{n}\left|G\left(\theta,\tilde{\theta}\right)-G_{1}\left(\hat{\theta},\tilde{\theta}\right)\left(\theta-\tilde{\theta}\right)\right|\le2\varepsilon\right)\ge1-\delta_{1}\right)\ge1-\delta_{2}.
+\]
+\end{proof}
+\begin{rem}
+This result is weaker than the settings in posterior consistency and
+Bernstein--von Mises theorem. In posterior consistency, the posterior
+random variable $\left(\theta\mid X_{1},\ldots,X_{n}\right)$ is convergence
+in probability in $P_{\omega}^{n}$ almost surely in $P_{\theta_{0}}^{\infty}$.
+Similar statement can be expressed in Bernstein--von Mises. However,
+in this lemma, the rescaled posterior random variable is convergence
+in probability in $P_{\omega}^{n}$ in probability in $P_{\theta_{0}}^{\infty}$. 
+\begin{rem}
+There is slight difference between the rescaled posterior random variable
+in this lemma and in 
+\begin{equation}
+\sqrt{n}\left[\int_{\mathbb{R}}g\left(x,\tilde{\theta}\right)\pi\left(x\mid\theta\right)\diff x-\int_{\mathbb{R}}g\left(x,\tilde{\theta}\right)\pi\left(x\mid\tilde{\theta}\right)\diff x-\left(\left.\frac{\diff}{\diff\theta}\int_{\mathbb{R}}g\left(x,\tilde{\theta}\right)\pi\left(x\mid\theta\right)\diff x\right|_{\theta=\tilde{\theta}}\right)\left(\theta-\tilde{\theta}\right)\right]\rightarrow0,\ascv,\label{eq:strong-vanish-error}
+\end{equation}
+. The first order differential term is $G_{1}\left(\tilde{\theta},\tilde{\theta}\right)$.
+However, since $G_{1}\left(\tilde{\theta},\tilde{\theta}\right)\rightarrow G_{1}\left(\theta_{0},\theta_{0}\right)$
+and $G_{1}\left(\hat{\theta},\tilde{\theta}\right)\rightarrow G_{1}\left(\theta_{0},\theta_{0}\right)$
+almost surely in $P_{\theta_{0}}^{\infty}$and $\sqrt{n}$ term is
+absorbed by $\left(\theta-\tilde{\theta}\right)$, we have proved
+a weak version of (\ref{eq:strong-vanish-error}). 
+\end{rem}
+\end{rem}
+\begin{proof}
+Under the Assumptions \ref{assu:second-order-bounded-differential},
+\ref{assu:m-est-consistent-asymp-norml} and \ref{assu:bernstein-von-mises-full-posterior},
+we have the result from Lemma \ref{lem:taylor-expansion-in-dist},
+\begin{equation}
+P_{\theta_{0}}^{\infty}\left(\omega:P_{\omega}^{n}\left(\sqrt{n}\left|G\left(\theta,\tilde{\theta}\right)-G_{1}\left(\hat{\theta},\tilde{\theta}\right)\left(\theta-\tilde{\theta}\right)\right|\le2\varepsilon\right)\ge1-\delta_{1}\right)\ge1-\delta_{2}.\label{eq:conv-in-dist-reminder}
+\end{equation}
+Let \[\Omega_{1}=\left\{ \omega:P_{\omega}^{n}\left(\sqrt{n}\left|G\left(\theta,\tilde{\theta}\right)-G_{1}\left(\hat{\theta},\tilde{\theta}\right)\left(\theta-\tilde{\theta}\right)\right|\le2\varepsilon\right)\ge1-\delta_{1}\right\}, \] and 
+\[C_{n}=E_{\pi\left(\theta\right)}E_{P^{\infty}\left(\theta_{0}\right)}I_{\left[\tilde{\theta}\in O\left(\theta_{0},\varepsilon\right)\right]}\exp\left(\sum_{i=1}^{n}\log f\left(X_{i}\mid\theta\right)-\log f\left(X_{i}\mid\theta_{0}\right)\right)\].
+Now by the same technique used in the proof of Theorem \ref{thm:bernstein-von-mises-mle},
+we have for sufficiently large $N$, 
+\begin{eqnarray*}
+ &  & \left|P\left(\left.\frac{\sqrt{n}\left(\theta-\tilde{\theta}\right)}{\sqrt{\tilde{V}}}\le t\right|\tilde{\theta}\in O\left(\theta_{0},\varepsilon\right)\right)-\Phi\left(t\right)\right|\\
+ & = & \left|\frac{E_{\pi\left(\theta\right)}E_{P^{\infty}\left(\theta_{0}\right)}I_{\left[\tilde{\theta}\in O\left(\theta_{0},\varepsilon\right)\right]}I_{\left[\sqrt{n\tilde{V}^{-1}}\left(\theta-\tilde{\theta}\right)\le t\right]}\prod_{i=1}^{n}f\left(X_{i}\mid\theta\right)/f\left(X_{i}\mid\theta_{0}\right)}{E_{\pi\left(\theta\right)}E_{P^{\infty}\left(\theta_{0}\right)}I_{\left[\tilde{\theta}\in O\left(\theta_{0},\varepsilon\right)\right]}\prod_{i=1}^{n}f\left(X_{i}\mid\theta\right)/f\left(X_{i}\mid\theta_{0}\right)}-\Phi\left(t\right)\right|\\
+ & \le & C_{n}^{-1}E_{\pi\left(\theta\right)}E_{P^{\infty}\left(\theta_{0}\right)}I_{\Omega_{1}}\left|P\left(\sqrt{n\tilde{V}^{-1}}\left(\theta-\tilde{\theta}\right)\le t\mid X_{1},\ldots,X_{n}\right)-\Phi\left(t\right)\right|\prod_{i=1}^{n}f\left(X_{i}\mid\theta\right)/f\left(X_{i}\mid\theta_{0}\right)\\
+ &  & +C_{n}^{-1}E_{\pi\left(\theta\right)}E_{P^{\infty}\left(\theta_{0}\right)}I_{\Omega_{1}^{c}}\left|P\left(\sqrt{n\tilde{V}^{-1}}\left(\theta-\tilde{\theta}\right)\le t\mid X_{1},\ldots,X_{n}\right)-\Phi\left(t\right)\right|\prod_{i=1}^{n}f\left(X_{i}\mid\theta\right)/f\left(X_{i}\mid\theta_{0}\right).
+\end{eqnarray*}
+
+
+First considering the samples within $\Omega_{1}$, by (\ref{eq:conv-in-dist-reminder}),
+$\sqrt{V_{0}^{-1}}\left\{ \sqrt{n}\left[G_{1}\left(\tilde{\theta},\tilde{\theta}\right)\left(\theta-\tilde{\theta}\right)-G\left(\theta,\tilde{\theta}\right)\right]\right\} $
+converges in probability to 0. By Theorem 2.1 in \citet{rivoirard2012bernstein},
+we have, 
+\begin{equation}
+\lim_{n\rightarrow\infty}\sup_{t\in\mathbb{R}}\left|P\left(\sqrt{nV_{0}^{-1}}\left(G\left(\theta,\tilde{\theta}\right)-\frac{1}{n}\sum_{i=1}^{n}g\left(X_{i},\tilde{\theta}\right)\right)\le t\mid X_{1},\ldots,X_{n}\right)-\Phi\left(t\right)\right|=0,\ascv\theta_{0},\label{eq:conv-in-dist-est-eq}
+\end{equation}
+where 
+\[
+V_{0}=\int_{\mathbb{R}}\left(g\left(x,\tilde{\theta}\right)-\int_{\mathbb{R}}g\left(y,\tilde{\theta}\right)\pi\left(y\mid\theta_{0}\right)\diff y\right)^{2}\pi\left(x\mid\theta_{0}\right)\diff x.
+\]
+Hence, $\sqrt{nV_{0}^{-1}}\left(G\left(\theta,\tilde{\theta}\right)-n^{-1}\sum_{i=1}^{n}g\left(X_{i},\tilde{\theta}\right)\right)$
+converges in distribution to standard normal distribution. By the
+definition of $M$-estimator, $n^{-1}\sum_{i=1}^{n}g\left(X_{i},\tilde{\theta}\right)=0$.
+Assume that for every $\theta$, the equation in $t$, $\int_{\mathbb{R}}g\left(x,t\right)\pi\left(x\mid\theta\right)\diff x=0$
+has only one solution $t=\theta$, then 
+\[
+G\left(\tilde{\theta},\tilde{\theta}\right)=\int_{\mathbb{R}}g\left(x,\tilde{\theta}\right)\pi\left(x\mid\tilde{\theta}\right)\diff x=0.
+\]
+Hence,
+\[
+\sqrt{n\tilde{V}^{-1}}\left(\theta-\tilde{\theta}\right)=\sqrt{nV_{0}^{-1}}\left(G\left(\theta,\tilde{\theta}\right)-\frac{1}{n}\sum_{i=1}^{n}g\left(X_{i},\tilde{\theta}\right)\right)+\sqrt{V_{0}^{-1}}\left\{ \sqrt{n}\left[G_{1}\left(\tilde{\theta},\tilde{\theta}\right)\left(\theta-\tilde{\theta}\right)-G\left(\theta,\tilde{\theta}\right)\right]\right\} ,
+\]
+by Slutsky's theorem, converges in distribution to standard normal
+distribution. Hence for large $N$, 
+\[
+\sup_{t\in\mathbb{R}}\left|P\left(\sqrt{n\tilde{V}^{-1}}\left(\theta-\tilde{\theta}\right)\le t\mid X_{1},\ldots,X_{n}\right)-\Phi\left(t\right)\right|\le\varepsilon,
+\]
+and 
+\begin{eqnarray}
+ &  & C_{n}^{-1}E_{\pi\left(\theta\right)}E_{P^{\infty}\left(\theta_{0}\right)}I_{\Omega_{1}}\sup_{t\in\mathbb{R}}\left|P\left(\sqrt{n\tilde{V}^{-1}}\left(\theta-\tilde{\theta}\right)\le t\mid X_{1},\ldots,X_{n}\right)-\Phi\left(t\right)\right| \\
+ &  & \times \prod_{i=1}^{n}f\left(X_{i}\mid\theta\right)/f\left(X_{i}\mid\theta_{0}\right)\nonumber \\
+ & \le & \varepsilon C_{n}^{-1}E_{\pi\left(\theta\right)}E_{P^{\infty}\left(\theta_{0}\right)}I_{\Omega_{1}}\prod_{i=1}^{n}f\left(X_{i}\mid\theta\right)/f\left(X_{i}\mid\theta_{0}\right)=\varepsilon.\label{eq:conv-with-omega1}
+\end{eqnarray}
+
+
+Next, considering the samples outside $\Omega_{1}$. It is trivial
+that 
+\[
+\sup_{t\in\mathbb{R}}\left|P\left(\sqrt{n\tilde{V}^{-1}}\left(\theta-\tilde{\theta}\right)\le t\mid X_{1},\ldots,X_{n}\right)-\Phi\left(t\right)\right|\le2.
+\]
+By Assumption \ref{assu:theo-mle} and the strong law of large numbers,
+and the property of the Kullback-Leibler information number 
+\[
+\prod_{i=1}^{n}f\left(X_{i}\mid\theta\right)/f\left(X_{i}\mid\theta_{0}\right)=\exp\left(n\left(\frac{1}{n}\sum_{i=1}^{n}\log f\left(X_{i}\mid\theta\right)-\frac{1}{n}\sum_{i=1}^{n}\log f\left(X_{i}\mid\theta_{0}\right)\right)\right)\le1.\ascv\left(P_{\theta_{0}}\right)
+\]
+Hence
+\begin{eqnarray}
+ &  & C_{n}^{-1}E_{\pi\left(\theta\right)}E_{P^{\infty}\left(\theta_{0}\right)}I_{\Omega_{1}^{c}}\sup_{t\in\mathbb{R}}\left|P\left(\sqrt{n\tilde{V}^{-1}}\left(\theta-\tilde{\theta}\right)\le t\mid X_{1},\ldots,X_{n}\right)-\Phi\left(t\right)\right| \\
+ &  & \times \prod_{i=1}^{n}f\left(X_{i}\mid\theta\right)/f\left(X_{i}\mid\theta_{0}\right).\nonumber \\
+ & \le & 2C_{n}^{-1}E_{\pi\left(\theta\right)}E_{P^{\infty}\left(\theta_{0}\right)}I_{\Omega_{1}^{c}}=2P^{\infty}\left(\Omega_{1}^{c}\mid\theta_{0}\right)=2\delta_{2}.\label{eq:conv-outside-omega1}
+\end{eqnarray}
+
+
+Hence, combining (\ref{eq:conv-with-omega1}) and (\ref{eq:conv-outside-omega1}),
+\[
+\sup_{t\in\mathbb{R}}\left|P\left(\left.\frac{\sqrt{n}\left(\theta-\tilde{\theta}\right)}{\sqrt{\tilde{V}}}\le t\right|\tilde{\theta}\in O\left(\theta_{0},\varepsilon\right)\right)-\Phi\left(t\right)\right|\le\varepsilon+2\delta_{2}.\ascv
+\]
+
+\end{proof}
+
+\section{\label{sec:Proof-of-Theorem-3}Proof of Theorem \ref{thm:bernsten-von-mise-inconsist-multv}}
+\begin{proof}
+By Theorem 2.1 in \citet{rivoirard2012bernstein}, we have 
+\begin{equation}
+\lim_{n\rightarrow\infty}\sup_{t\in\mathbb{R}}\left|P\left(\sqrt{n\Var_{\theta_{0}}\left(a^{T}g\left(X\right)\right)^{-1}}\left(\int a^{T}g\left(x\right)f\left(x\mid\theta\right)\diff x-\frac{1}{n}\sum_{i=1}^{n}a^{T}g\left(X_{i}\right)\right)\le t\mid X_{1},\ldots,X_{n}\right)-\Phi\left(t\right)\right|=0,\ascv.\label{eq:thm2-1-inconsist}
+\end{equation}
+By Assumption \ref{assu:super-strong-consistent} and Slutsky's theorem,
+we know $n^{-1/2}\sum_{i=1}^{n}g\left(X_{i}\right)$ has the same
+asymptotic distribution as $S$. However, by central limit theorem,
+$n^{-1/2}\sum_{i=1}^{n}g\left(X_{i}\right)$ has an asymptotic normal
+distribution with variance matrix as $\Var_{\theta_{0}}\left(g\left(X\right)\right)$.
+Hence, $\Var_{\theta_{0}}\left(g\left(X\right)\right)=\Sigma\left(\theta_{0}\right)=\lim_{n\rightarrow\infty}\tilde{\Sigma},\ascv.$
+Hence, we can replace $\Var_{\theta_{0}}\left(g\left(X\right)\right)$
+in (\ref{eq:thm2-1-inconsist}) by its strong consistent estimator,
+and get
+\[
+\lim_{n\rightarrow\infty}\sup_{t\in\mathbb{R}}\left|P\left(\sqrt{n\left(a^{T}\tilde{\Sigma}a\right)^{-1}}\left(\int a^{T}g\left(x\right)f\left(x\mid\theta\right)\diff x-n^{-1}\sum_{i=1}^{n}a^{T}g\left(X_{i}\right)\right)\le t\mid X_{1},\ldots,X_{n}\right)-\Phi\left(t\right)\right|=0,\ascv.
+\]
+By Assumption \ref{assu:super-strong-consistent}, we can replace
+$\sqrt{n}\left(n^{-1}\sum_{i=1}^{n}a^{T}g\left(X_{i}\right)\right)$
+by $\sqrt{n}a^{T}S$, and finally obtain
+\[
+\lim_{n\rightarrow\infty}\sup_{t\in\mathbb{R}}\left|P\left(\sqrt{n\left(a^{T}\tilde{\Sigma}a\right)^{-1}}\left(\int a^{T}g\left(x\right)f\left(x\mid\theta\right)\diff x-a^{T}S\right)\le t\mid X_{1},\ldots,X_{n}\right)-\Phi\left(t\right)\right|=0,\ascv.
+\]
+The remainder of the proof uses the same argument used in the proof
+of Theorem \ref{thm:bernstein-von-mises-mle}. 
+\end{proof}
+
+\section{Proof of Theorem 4}\label{sec:Proof-of-Theorem-4}
+\begin{proof}
+\textcolor{black}{First we will prove for a single slice, the support
+vector machine is robust by showing the normal vectors of separate
+hyperplanes $\psi$ are continuous functionals of conditional probability
+of $\tilde{\theta}$ given $X_{1},\ldots,X_{n}$, where $\tilde{\theta}=I_{\left[\theta\le s\right]}-I_{\left[\theta>s\right]}$
+is sliced $\theta$. Using notations in \cite{li2011principal},
+Let 
+\[
+m\left(\psi,t,X,\tilde{\theta}\right)=\psi^{T}\Sigma\psi+\lambda\left\{ 1-\tilde{\theta}\left(\psi^{T}X-t\right)\right\} ^{+},
+\]
+be the sample version of the Lagrangian of SVM. The population normal
+vectors $\psi$ are defined as the solution of the first order condition
+of the optimization problem in SVM,
+\begin{equation}
+0=D_{\left(\psi,t\right)}E\left\{ m\left(\psi,t,X,\tilde{\theta}\right)\right\} =\left(2\psi^{T}\Sigma,0\right)^{T}-\lambda E\left[\left(X,-1\right)^{T}\tilde{\theta}I_{\left\{ 1-\tilde{\theta}\left(\psi^{T}X-t\right)>0\right\} }\right],\label{eq:first-order-svm}
+\end{equation}
+where $D_{\left(\psi,t\right)}$ are partial derivatives over $\psi$
+and $t$. Let the conditional probability of $\tilde{\theta}$ given
+$X_{1},\ldots,X_{n}$ be $p\left(x\right)=P\left(\tilde{\theta}=1\mid X_{1}=x_{1},\ldots,X_{n}=x_{n}\right)$.
+We need to show that $\psi\left(p\right)$ as a functional of $p\left(x\right)$
+defined by \ref{eq:first-order-svm} is continuous. The main theorem
+we rely on is Theorem 3.1.2 in \cite{lebedev2003functional}. Next,
+we will check the three conditions in that theorem.}
+
+\textcolor{black}{Condition (i) is trivial. For verifying Condition
+(ii), we first view $p\left(X\right)$ as an element from Banach space
+$\left\{ p\left(x\right):\sup_{x}\left|p\left(x\right)\right|<\infty\right\} $,
+with the norm $\sup_{x}\left|\cdot\right|$. Let 
+\[
+g\left(X,\psi,t\right)=\begin{cases}
+2p\left(X\right)-1, & \psi^{T}X-t<1,\\
+p\left(X\right), & \psi^{T}X-t\ge1,\\
+p\left(X\right)-1, & \psi^{T}X-t\le-1.
+\end{cases}
+\]
+Then the second term in \ref{eq:first-order-svm}, which is the only
+term containing $p\left(X\right)$ can be written as 
+\begin{eqnarray*}
+ &  & E\left[\left(X,-1\right)^{T}\tilde{\theta}I_{\left\{ 1-\tilde{\theta}\left(\psi^{T}X-t\right)>0\right\} }\right]\\
+ & = & E_{X}\left(\left(X,-1\right)^{T}E_{\tilde{\theta}\mid X}\left[\tilde{\theta}I_{\left\{ 1-\left(\psi X-t\right)\tilde{\theta}>0\right\} }\right]\right)\\
+ & = & E_{X}\left\{ \left(X,-1\right)^{T}g\left(X,\psi,t\right)\right\} \\
+ & = & \int_{\left\{ \psi^{T}X-t<1\right\} }\left(x,-1\right)^{T}\left(2p\left(x\right)-1\right)\diff F\left(x\right)+\int_{\left\{ \psi^{T}X-t\ge1\right\} }\left(x,-1\right)^{T}p\left(x\right)\diff F\left(x\right)\\
+ &  & +\int_{\left\{ \psi^{T}X-t\le-1\right\} }\left(x,-1\right)^{T}\left(p\left(x\right)-1\right)\diff F\left(x\right),
+\end{eqnarray*}
+where $F\left(x\right)$ is the CDF of marginal distribution of $X_{1},\ldots,X_{n}$.
+This is a continuous linear functional map $p\left(x\right)\mapsto E\left[\left(X,-1\right)^{T}\tilde{\theta}I_{\left\{ 1-\left(\psi X+t\right)\tilde{\theta}>0\right\} }\right]$.
+So Condition (ii) holds. By Theorem 5 in \cite{li2011principal},
+$D_{\left(\psi,t\right)}E\left\{ m\left(\psi,t,X,\tilde{\theta}\right)\right\} $
+can be further differentiated around the solutions. Hence, Condition
+(iii) holds. By Theorem 3.1.2 in \cite{lebedev2003functional}, $\psi$
+is continuous in $p\left(x\right)$. }
+
+\textcolor{black}{Let $\psi_{1}=\psi\left(P\left(\tilde{\theta}=1\mid X_{1},\ldots,X_{n}\right)\right)$,
+$\psi_{2}=\psi\left(P\left(\tilde{\theta}=1\mid\Gamma_{n}^{T}\left(X_{1},\ldots,X_{n}\right)\right)\right)$,
+while by Theorem 2 in \cite{li2011principal}, $\mathrm{span}\left(\psi_{2}\right)\subset\mathrm{span}\left(\Gamma_{n}\right)$.
+Then for any $\varepsilon>0$, there exist an $N_{1}$ and a $\delta$
+such that for any $n>N_{1}$, 
+\begin{eqnarray*}
+ &  & \left|P\left\{ \tilde{\theta}=1\mid\Gamma_{n}^{T}\left(X_{1},\ldots,X_{n}\right)\right\} -P\left(\tilde{\theta}=1\mid X_{1},\ldots,X_{n}\right)\right|\\
+ & = & \left|P\left\{ \theta\le s\mid\Gamma_{n}^{T}\left(X_{1},\ldots,X_{n}\right)\right\} -P\left(\theta\le s\mid X_{1},\ldots,X_{n}\right)\right|<\delta,
+\end{eqnarray*}
+and hence $\left|\psi_{1}-\psi_{2}\right|<\varepsilon$. By Theorem
+6 in \cite{li2011principal}, the sample version of normal vectors
+$\hat{\psi}_{1}$ is weakly consistent to the population ones. Hence
+there exists an $N_{2}\ge N_{1}$, such that for any $n>N_{2},$
+\begin{eqnarray*}
+ &  & P\left(\left|\hat{\psi}_{1}-\psi_{2}\right|\ge2\varepsilon\right)\\
+ & \le & P\left(\left\{ \left|\hat{\psi}_{1}-\psi_{1}\right|\ge\varepsilon\right\} \cup\left\{ \left|\psi_{1}-\psi_{2}\right|\ge\varepsilon\right\} \right)\\
+ & = & P\left(\left|\hat{\psi}_{1}-\psi_{1}\right|\ge\varepsilon\right)\le\eta.
+\end{eqnarray*}
+Hence $\hat{\psi}_{1}-\psi_{2}\overset{p}{\rightarrow}0.$ By Theorem
+1 in \cite{bura2008distribution}, $\hat{\Gamma}_{n}$ and $\Gamma_{n}$
+being eigenvectors satisfy $\hat{\Gamma}_{n}-\Gamma_{n}\overset{p}{\rightarrow}0$. }
+\end{proof}

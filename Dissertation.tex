@@ -1,0 +1,132 @@
+\documentclass[oneside,english]{amsbook}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{color}
+\usepackage{verbatim}
+\usepackage{refstyle}
+\usepackage{float}
+\usepackage{mathrsfs}
+\usepackage{tipa}
+\usepackage{tipx}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{esint}
+\usepackage[authoryear]{natbib}
+\usepackage{array,multirow}
+
+\makeatletter
+
+
+\AtBeginDocument{\providecommand\enuref[1]{\ref{enu:#1}}}
+\AtBeginDocument{\providecommand\thmref[1]{\ref{thm:#1}}}
+\AtBeginDocument{\providecommand\eqref[1]{\ref{eq:#1}}}
+\AtBeginDocument{\providecommand\lemref[1]{\ref{lem:#1}}}
+\floatstyle{ruled}
+\newfloat{algorithm}{tbp}{loa}
+\providecommand{\algorithmname}{Algorithm}
+\floatname{algorithm}{\protect\algorithmname}
+\RS@ifundefined{subref}
+  {\def\RSsubtxt{section~}\newref{sub}{name = \RSsubtxt}}
+  {}
+\RS@ifundefined{thmref}
+  {\def\RSthmtxt{theorem~}\newref{thm}{name = \RSthmtxt}}
+  {}
+\RS@ifundefined{lemref}
+  {\def\RSlemtxt{lemma~}\newref{lem}{name = \RSlemtxt}}
+  {}
+
+
+\numberwithin{section}{chapter}
+\numberwithin{equation}{section}
+\numberwithin{figure}{section}
+  \theoremstyle{plain}
+  \newtheorem{lem}{\protect\lemmaname}
+  \theoremstyle{plain}
+  \newtheorem{assumption}{\protect\assumptionname}
+  
+  \theoremstyle{definition}
+  \newtheorem{defn}{\protect\definitionname}
+\theoremstyle{plain}
+\newtheorem{thm}{\protect\theoremname}
+  \theoremstyle{plain}
+  \newtheorem{cor}{\protect\corollaryname}
+  \theoremstyle{remark}
+  \newtheorem{rem}{\protect\remarkname}
+ \theoremstyle{definition}
+  \newtheorem{example}{\protect\examplename}
+  
+  \newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\newtheorem{proposition}{Proposition}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+
+\newtheorem{remark}{Remark}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+
+\usepackage{verbatim}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Lp}[1][p]{\mathcal{L}_{#1}}
+\newcommand{\diff}{\,\mathrm{d}}
+\newcommand{\iid}{\mathrm{iid}\,}
+\newcommand{\ascv}{\,\mathrm{a.s.}\,}
+\newcommand{\Xitn}[2][X]{{#1}_1 \mathrm{,} \ldots \mathrm{,} {#1}_{#2}}
+\newcommand{\convdist}[1][d]{\overset{#1}{\rightarrow}}
+\renewcommand{\labelenumii}{(\roman{enumii})}
+\renewcommand{\labelenumi}{\arabic{enumi}}
+ \newcommand\independent{\protect\mathpalette{\protect\independenT}{\perp}}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+\DeclareMathOperator*{\argmin}{\arg\!\min}
+\bibpunct{(}{)}{,}{a}{,}{,}
+
+\makeatother
+
+\usepackage{babel}
+  \providecommand{\assumptionname}{Assumption}
+  \providecommand{\definitionname}{Definition}
+  \providecommand{\examplename}{Example}
+  \providecommand{\lemmaname}{Lemma}
+  \providecommand{\remarkname}{Remark}
+\providecommand{\corollaryname}{Corollary}
+\providecommand{\theoremname}{Theorem}
+
+\pagestyle{plain} 
+% stop running title because in ABC Appendix, the running title has an error ref to theorem
+
+\begin{document}
+
+\tableofcontents
+
+
+\include{litRev}
+
+\include{belUni}
+
+\include{belMul}
+
+\include{elOptPrice}
+
+\include{abcsdr}
+
+\appendix
+\begingroup 
+\let\clearpage\relax 
+% command \begingroup \let\clearpage\relax \endgroup shut down the clearpage before \include 
+\include{proofBelUni}
+\endgroup
+
+\include{proofBelMul}
+\include{proofABCSDR}
+
+
+
+\bibliographystyle{elsarticle-harv}
+\bibliography{dissertation,partialPostBib,asymExpBib,elopt}
+
+
+\end{document}

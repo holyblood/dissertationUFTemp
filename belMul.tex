@@ -1,0 +1,783 @@
+\chapter{Higher-Order Properties of Bayesian Empirical Likelihood: Multivariate
+Case}
+
+\setcounter{assumption}{0}
+
+\section{Introduction}
+This chapter considers higher order asymptotic expansion Bayesian empirical likelihood in the multivariate case.
+
+In the univariate case, the posterior is centered at an $M$-estimator,
+which guarantees the consistency under mild regularity conditions. In constrast,
+in the
+multivariate case, the posterior is centered at the maximum generalized
+empirical likelihood estimator. This concept is generalized from 
+the work of \citet{qin1994empirical}
+to exponentially tilted empirical likelihood and even the Cressie-Read
+case. A similar concept has been developed in \citet{newey2004higher}
+. There is slight difference between their definition
+and ours. However, numerical
+study shows that the performance of these two are quite similar. Furthermore,
+in order for the empirical likelihood sample moments to be finite,
+we need more restrictive conditions to guarantee not only the consistency
+of generalized empirical likelihood estimator, but also law of
+the siterative logarithm. 
+
+The organization of the remaining sections in this chapter is as follows.
+In Section 2 of this paper, we consider the basic settings of the
+empirical likelihood, exponentially tilted empirical likelihood, and
+finally the more general Cressie-Read divergence criterion. Section
+3 contains some basic lemmas pertaining to these three formulations.
+While both empirical and exponentially tilted empirical likelihood
+are indeed limiting cases of the general Cressie-Read formulation,
+for technical reasons as as well as for the sake of transparency,
+we have presented some of these lemmas separately for these three
+cases. Section 4 contains the main result, namely the asymptotic expansion
+of the posterior and presents a unified derivation. Some simulation
+results are presented in Section 5. Section 6 contains some concluding
+remarks.
+
+
+\section{Basic Settings}
+
+Suppose $X_{1},\ldots,X_{n}$ are independent and identically distributed
+random vectors satisfying $Eg\left(X_{1},\theta\right)=0$, where
+$\theta\in\mathbb{R}^{p}$ and $g\left(x,\theta\right)=\left(g_{1}\left(x,\theta\right),g_{2}\left(x,\theta\right),\ldots,g_{r}\left(x,\theta\right)\right)\in\mathbb{R}^{r}$.
+Following \citet{qin1994empirical}, we focus on the situation $r>p$.
+When $r\le p$, the posterior will still asymptotically center around
+the $M$-estimator, and all the arguments are the same as the univariate case.
+However, when $r>p$ , $M$-estimators may not even exist, and we need further
+generalization. In this context, \citet{owen1988empirical}, formulated
+empirical likelihood as a nonparametric likelihood of the form $\prod_{i=1}^{n}w_{i}\left(\theta\right)$,
+where $w_{i}$ is the probability mass assigned to $X_{i}\left(i=1,\ldots,n\right)$
+satisfying the constraints 
+\begin{equation}
+\begin{cases}
+w_{i}>0,\mathrm{for\: all\: i;}\\
+\sum_{i=1}^{n}w_{i}=1;\\
+\sum_{i=1}^{n}w_{i}g\left(X_{i},\theta\right)=0.
+\end{cases}\label{eq:constraint-el}
+\end{equation}
+The target is to maximize $\prod_{i=1}^{n}w_{i}$ or equivalently
+$\sum_{i=1}^{n}\log w_{i}$ with respect to $w_{1},\ldots,w_{n}$
+subject to the constraints given in (\ref{eq:constraint-el}). Applying
+the Lagrange multiplier method, the solution turns out to be 
+\begin{equation}
+\hat{w}_{i}^{\mathrm{EL}}\left(\theta\right)=\frac{1}{n\left[1+\nu^{T}g\left(X_{i},\theta\right)\right]},\; i=1,2,\ldots,n,\label{eq:sol-emp-lik}
+\end{equation}
+where $\nu\in\mathbb{R}^{r}$, the Lagrange multiplier satisfies 
+\begin{equation}
+\sum_{i=1}^{n}\frac{g\left(X_{i},\theta\right)}{1+\nu^{T}g\left(X_{i},\theta\right)}=0.\label{eq:lambda-eq}
+\end{equation}
+
+
+It may be noted that \citet{fang2005expected,fang2006empirical} $g\left(X_{i},\theta\right)=X_{i}-\theta$. 
+
+Closely related to the empirical likelihood is the exponentially tilted
+empirical likelihood where the objective is to maximize the Shannon
+entropy $-\sum_{i=1}^{n}w_{i}\log w_{i}$ still subject to the constraints
+in (\ref{eq:constraint-el}). The resulting solution is given by 
+\begin{equation}
+\hat{w}_{i}^{\mathrm{ET}}\left(\theta\right)=\frac{\exp\left(-\nu^{T}g\left(X_{i},\theta\right)\right)}{\sum_{j=1}^{n}\exp\left(-\nu^{T}g\left(X_{i},\theta\right)\right)},\label{eq:sol-weight-etel}
+\end{equation}
+where $\nu$, the Lagrange multiplier, satisfies 
+\begin{equation}
+\sum_{i=1}^{n}\exp\left(-\nu^{T}g\left(X_{i},\theta\right)\right)g\left(X_{i},\theta\right)=0.\label{eq:lag-mul-exp-tilt-el}
+\end{equation}
+The exponentially tilted empirical likelihood is related to Kullback-Leibler
+divergence between two empirical distributions, one with weights $w_{i}$
+assigned to the $n$ sample points, and the other with uniform weights
+$1/n$ assigned to the sample points. 
+
+The general Cressie-Read divergence criterion given by 
+\[
+\mathrm{CR}\left(\lambda\right)=\frac{2}{\lambda\left(\lambda+1\right)}\sum_{i=1}^{n}\left[\left(nw_{i}\right)^{-\lambda}-1\right].
+\]
+We focus on the cases $\lambda\ge0$ and $\lambda\le-1$, because
+in these cases, $\mathrm{CR}\left(\lambda\right)$ is a convex function
+of the $w_{i}\left(i=1,\ldots,n\right)$,hence the minimization
+problem will produce a unique solution. The following lemma also shows
+within this range, the resulting empirical weights behaviour more
+like a likelihood. The limiting cases $\lambda\rightarrow0$ and $\lambda\rightarrow-1$
+correspond to the usual empirical likelihood and the exponentially
+tilted empirical likelihood as defined earlier. 
+
+For convex $\mathrm{CR}\left(\lambda\right)$, its minimum will be
+attained in the compact set $H_{n}$ determined by the data. The Lagrange
+multiplication method now gives the weights 
+\begin{equation}
+\hat{w}_{i}^{\mathrm{CR}}\left(\theta\right)=\frac{1}{n}\left(\mu+\nu^{T}g\left(X_{i},\theta\right)\right)^{-\frac{1}{\lambda+1}},\, i=1,2,\ldots,n,\label{eq:weight-cr-el}
+\end{equation}
+where $\mu\equiv\mu\left(\theta\right)$ and $\nu\equiv\nu\left(\theta\right)$
+satisfy 
+\begin{equation}
+\begin{cases}
+\sum_{i=1}^{n}\left(\mu+\nu^{T}g\left(X_{i},\theta\right)\right)^{-\frac{1}{\lambda+1}}=n,\\
+\sum_{i=1}^{n}\left(\mu+\nu^{T}g\left(X_{i},\theta\right)\right)^{-\frac{1}{\lambda+1}}g\left(X_{i},\theta \right)=0.
+\end{cases}\label{eq:lag-mul-cr-el}
+\end{equation}
+
+
+We now introduce the posterior based on an empirical likelihood. The
+basic ideal was first introduced by \citet{lazar2003bayesian} with
+bunch of numerical examples. The intuition relies on close relationship
+between empirical likelihood and empirical distribution. \citet{owen2010empirical}
+formulated 105 4 the two concepts under the same optimization framework,
+that is, they shared the same objective function, but the former 
+was solved under parametric constraints, while the latter was not.
+Considering this similarity, we can use the empirical likelihood as
+a valid distribution parametrized by inferential target. To concrete
+this intuition in a Bayesian framework, writing $\hat{w}_{i}\left(\theta\right)$
+as generic notation for either $\hat{w}_{i}^{\mathrm{EL}}$, $\hat{w}_{i}^{\mathrm{ET}}$
+or $\hat{w}_{i}^{\mathrm{CR}}$, $\pi$ with a prior probability density
+function $\rho\left(\theta\right)$, with support in $H_{n}$, the
+profile (pseudo) posterior is given by 
+\begin{equation}
+\pi\left(\theta\mid X_{1},X_{2},\ldots,X_{n}\right)=\frac{\prod_{i=1}^{n}\hat{w}_{i}\left(\theta\right)\rho\left(\theta\right)}{\int_{H_{n}}\prod_{i=1}^{n}\hat{w}_{i}\left(\theta\right)\rho\left(\theta\right)\diff\theta}.\label{eq:poster-el-expression}
+\end{equation}
+
+
+The main objective of this paper is to provide an asymptotic expansion
+of $\pi\left(\theta\mid X_{1},X_{2},\ldots,X_{n}\right)$. This will
+include in particular the Bernstein-von Mises theorem. Towards this
+end, we develop a few necessary lemmas in the next section.
+
+
+\section{Lemmas}
+
+We first give an explanation of natural domain of $\theta$, under
+empirical likelihood settings. In practice, some values of $\theta$
+will result in an empty feasible set under constraints (\ref{eq:constraint-el}).
+The which guarantees an non-empty feasible set, and thus a solution
+of the optimization problem constitutes 120 natural domain of empirical
+likelihood. One may questions whether the size of the natural domain
+is large enough to contain the true value. The following lemma alleviates
+this worry.
+\begin{lem}
+\label{lem:nondecreasing-compact-natural-domain}Assume $g\left(\cdot,\cdot\right)$
+is a continuous vector value function, then the natural domain defined
+by the constraints (\ref{eq:constraint-el}) is a compact set and
+nondecreasing with respect to sample size $n$.\end{lem}
+\begin{proof}
+By the third constraint of (\ref{eq:constraint-el}), $\theta$ is
+a continuous vector value function of $w_{1},w_{2},\ldots,w_{n}$,
+but $w_{i}$ are defined on a simplex which is a compact set through
+the first constraint of (\ref{eq:constraint-el}). We may recall that
+continuous function maps compact sets to compact sets. Hence, $\theta$
+is naturally defined on a compact set denoted by $H$.
+
+If for any $j=1,2,\ldots,r$, $g_{j}\left(X_{i},\theta\right)$, $i=1,2,\ldots,n$,
+are all non-positive or all non-negative, then the constraints (\ref{eq:constraint-el})
+are violated and $H=\emptyset$. Hence ,
+\begin{eqnarray*}
+H & = & \left\{ \bigcup_{j=1}^{r}\left\{ \left[\bigcap_{i=1}^{n}\left(g_{j}\left(X_{i},\theta\right)\ge0\right)\right]\bigcup\left[\bigcap_{i=1}^{n}\left(g_{j}\left(X_{i},\theta\right)\le0\right)\right]\right\} \right\} ^{c}\\
+ & = & \bigcap_{j=1}^{r}\left\{ \left[\bigcup_{i=1}^{n}\left(g_{j}\left(X_{i},\theta\right)\ge0\right)^{c}\right]\bigcap\left[\bigcup_{i=1}^{n}\left(g_{j}\left(X_{i},\theta\right)\le0\right)^{c}\right]\right\} .
+\end{eqnarray*}
+With $n$ increases, both $\bigcup_{i=1}^{n}\left(g_{j}\left(X_{i},\theta\right)\ge0\right)^{c}$
+and $\bigcup_{i=1}^{n}\left(g_{j}\left(X_{i},\theta\right)\le0\right)^{c}$
+will increase, so does their intersection $H$. 
+\end{proof}
+Although, intuitively we expect the empirical likelihood to behave
+as the true likelihood, we need some theoretical support to show that
+the former enjoys some of the basic properties of the latter. In particular,
+we need to verify that $\nu$ and $\mu$ are smooth functions of $\theta$
+and the (pseudo) Fisher Information based on the empirical likelihood
+is positive. 
+
+We first establish the positiveness of the Fisher information . We
+consider the three cases separately to introduce more transparency
+and continuity in our approach. 
+
+Our first lemma shows that the Lagrange multipliers $\nu\left(\theta\right)$
+and $\mu\left(\theta\right)$ are all smooth functions of $\theta$.
+\begin{comment}
+add condtions
+\end{comment}
+
+\begin{lem}
+\label{lem:first-order-smooth-lagmul}For empirical likelihood, exponentially
+tilted empirical likelihood and Cressie-Read with parameter$\left(\lambda\right)$,
+the Lagrange multipliers $\nu\left(\theta\right)$ and $\mu\left(\theta\right)$
+are smooth functions of $\theta.$\end{lem}
+\begin{proof}
+We first consider empirical likelihood and observe that, $\nu\left(\theta\right)$
+is a implicit function of $\theta$ in view of (\ref{eq:lambda-eq})
+. Further 
+\[
+\frac{\partial}{\partial\nu}\sum_{i=1}^{n}\frac{g\left(X_{i},\theta\right)}{1+\nu^{T}g\left(X_{i},\theta\right)}=-\sum_{i=1}^{n}\frac{g\left(X_{i},\theta\right)g^{T}\left(X_{i},\theta\right)}{\left(1+\nu^{T}g\left(X_{i},\theta\right)\right)^{2}},
+\]
+is negative definite, so that by the implicit function theorem, $\nu$
+is differentiable in $\theta$. Moreover, differentiating both sides
+of (\ref{eq:lambda-eq}) with respect to $\nu$, one gets
+\begin{eqnarray*}
+0 & = & \sum_{i=1}^{n}\frac{1}{1+\nu^{T}g\left(X_{i},\theta\right)}\frac{\partial g\left(X_{i},\theta\right)}{\partial\theta^{T}}\frac{\partial\theta}{\partial\nu}-\sum_{i=1}^{n}\frac{\nu^{T}g\left(X_{i},\theta\right)}{\left(1+\nu^{T}g\left(X_{i},\theta\right)\right)^{2}}\frac{\partial g\left(X_{i},\theta\right)}{\partial\theta^{T}}\frac{\partial\theta}{\partial\nu}\\
+ &  & -\sum_{i=1}^{n}\frac{g\left(X_{i},\theta\right)g^{T}\left(X_{i},\theta\right)}{\left(1+\nu^{T}g\left(X_{i},\theta\right)\right)^{2}},
+\end{eqnarray*}
+which on simplification leads to 
+\begin{equation}
+\frac{\partial\theta}{\partial\nu}=-\left[\sum_{i=1}^{n}\frac{1}{\left(1+\nu^{T}g\left(X_{i},\theta\right)\right)^{2}}\frac{\partial g\left(X_{i},\theta\right)}{\partial\theta}\right]^{-1}\sum_{i=1}^{n}\frac{g\left(X_{i},\theta\right)g^{T}\left(X_{i},\theta\right)}{\left(1+\nu^{T}g\left(X_{i},\theta\right)\right)^{2}},\label{eq:decreasing-theta-to-nu-2}
+\end{equation}
+
+
+Next, for exponentially tilted empirical likelihood, in view of (\ref{eq:lag-mul-exp-tilt-el})
+and the relation 
+\begin{eqnarray*}
+ &  & \frac{\partial}{\partial\nu}\left(\sum_{i=1}^{n}\exp\left(-\nu^{T}g\left(X_{i},\theta\right)\right)g\left(X_{i},\theta\right)\right)\\
+ & = & -\sum_{i=1}^{n}\exp\left(-\nu^{T}g\left(X_{i},\theta\right)\right)g\left(X_{i},\theta\right)g^{T}\left(X_{i},\theta\right).
+\end{eqnarray*}
+Note that this matrix is negative definite. Once again, the implicit
+function theorem guarantees the differentiability of $\nu$ in $\theta$.
+Further, differentiating both sides of (\ref{eq:lag-mul-exp-tilt-el})
+with respect to $\theta$, one gets 
+\begin{equation}
+\frac{\partial\nu}{\partial\theta}=\left(\sum_{i=1}^{n}\frac{g\left(X_{i},\theta\right)g^{T}\left(X_{i},\theta\right)}{\exp\left(-\nu^{T}g\left(X_{i},\theta\right)\right)}\right)^{-1}\left(\sum_{i=1}^{n}\frac{1-\nu^{T}g\left(X_{i},\theta\right)}{\exp\left(-\nu^{T}g\left(X_{i},\theta\right)\right)}\frac{\partial g\left(X_{i},\theta\right)}{\partial\theta}\right).\label{eq:first-deri-lag-mult-exp-tilted-el}
+\end{equation}
+
+
+A similar conclusion is achieved for $\nu\left(\theta\right)$ and
+$\mu\left(\theta\right)$ defined in (\ref{eq:lag-mul-cr-el}) in
+connection with CR$\left(\lambda\right)$. Specifically, defining
+\[
+\begin{cases}
+F_{1}=\sum_{i=1}^{n}\left(\mu+\nu^{T}g\left(X_{i},\theta\right)\right)^{-\frac{1}{\lambda+1}}-n,\\
+F_{2}=\sum_{i=1}^{n}\left(\mu+\nu^{T}g\left(X_{i},\theta\right)\right)^{-\frac{1}{\lambda+1}}g\left(X_{i},\theta\right),
+\end{cases}
+\]
+it follows that,
+\[
+\frac{\partial\left(F_{1},F_{2}\right)}{\partial\left(\mu,\nu\right)}=-\frac{1}{\lambda+1}\left(\begin{array}{cc}
+\sum_{i=1}^{n}q_{i} & \sum_{i=1}^{n}q_{i}g\left(X_{i},\theta\right)\\
+\sum_{i=1}^{n}q_{i}g^{T}\left(X_{i},\theta\right) & \sum_{i=1}^{n}q_{i}g\left(X_{i},\theta\right)g^{T}\left(X_{i,},\theta\right)
+\end{array}\right),
+\]
+ where $q_{i}=\left(\mu+\nu^{T}g\left(X_{i},\theta\right)\right)^{-\frac{1}{\lambda+1}-1}$
+. Then the determinant of Jacobian is 
+\begin{eqnarray*}
+\det\frac{\partial\left(F_{1},F_{2}\right)}{\partial\left(\mu,\nu\right)} & = & \left(\frac{1}{\lambda+1}\right)^{2}\left(\sum_{i=1}^{n}q_{i}\sum_{i=1}^{n}q_{i}g\left(X_{i},\theta\right)g^{T}\left(X_{i},\theta\right)-\sum_{i=1}^{n}q_{i}g\left(X_{i},\theta\right)\sum_{i=1}^{n}q_{i}g^{T}\left(X_{i},\theta\right)\right)\\
+ & = & \left(\frac{1}{\lambda+1}\right)^{2}\left(\sum_{i=1}^{n}q_{i}\right)^{2}\sum_{i=1}^{n}\frac{q_{i}}{\sum_{j=1}^{n}q_{j}}\left[g\left(X_{i},\theta\right)-\left(\sum_{i=1}^{n}\frac{q_{i}}{\sum_{j=1}^{n}q_{j}}g\left(X_{i},\theta\right)\right)\right]\\
+ &  & \times\left[g\left(X_{i},\theta\right)-\left(\sum_{i=1}^{n}\frac{q_{i}}{\sum_{j=1}^{n}q_{j}}g\left(X_{i},\theta\right)\right)\right]^{T},
+\end{eqnarray*}
+which is positive definite. Again, by implicit function theorem, one
+gets differentiability of $\mu\left(\theta\right)$ and $\nu\left(\theta\right)$with
+respect to $\theta$, and 
+\begin{eqnarray}
+ &  & \left(\begin{array}{c}
+\partial\mu/\partial\theta\\
+\partial\nu/\partial\theta
+\end{array}\right)\nonumber \\
+ & = & \left(\frac{\partial\left(F_{1},F_{2}\right)}{\partial\left(\mu,\nu\right)}\right)^{-1}\left(\begin{array}{c}
+\partial F_{1}/\partial\theta\\
+\partial F_{2}/\partial\theta
+\end{array}\right)\\
+ & = & \left(-\frac{1}{\lambda+1}\right)\left(\lambda+1\right)^{2}\left[\sum_{i=1}^{n}q_{i}\sum_{i=1}^{n}q_{i}g\left(X_{i},\theta\right)g^{T}\left(X_{i},\theta\right)-\sum_{i=1}^{n}q_{i}g\left(X_{i},\theta\right)\sum_{i=1}^{n}q_{i}g^{T}\left(X_{i},\theta\right)\right]^{-1}\nonumber \\
+ &  & \times\left(\begin{array}{cc}
+\sum_{i=1}^{n}q_{i}g\left(X_{i},\theta\right)g^{T}\left(X_{i},\theta\right) & -\sum_{i=1}^{n}q_{i}g\left(X_{i},\theta\right)\\
+-\sum_{i=1}^{n}q_{i}g^{T}\left(X_{i},\theta\right) & \sum_{i=1}^{n}q_{i}
+\end{array}\right)\nonumber \\
+ &  & \times\left(\begin{array}{c}
+-\left(\lambda+1\right)^{-1}\sum_{i=1}^{n}q_{i}\nu^{T}\partial g\left(X_{i},\theta\right)/\partial\theta\\
+-\left(\lambda+1\right)\sum_{i=1}^{n}q_{i}\nu^{T}g\left(X_{i},\theta\right)\partial g\left(X_{i},\theta\right)/\partial\theta+\sum_{i=1}^{n}\left(\mu+\nu^{T}g\left(X_{i},\theta\right)\right)^{\frac{1}{\lambda+1}}\partial g\left(X_{i},\theta\right)/\partial\theta
+\end{array}\right)\label{eq:first-der-lag-mul-crel}
+\end{eqnarray}
+
+\end{proof}
+The next result shows that all the derivatives of the Lagrange multipliers
+$\nu\left(\theta\right)$ and $\mu\left(\theta\right)$ are smooth
+functions of $\theta\in H$. We provide a unified proof for all three
+cases where we utilize the previous lemma. 
+\begin{assumption}
+\label{assu:high-derive-cond}Assume for any $\left(k_{1},k_{2},\ldots,k_{p}\right)\in\mathbb{N}^{p}$,
+satisfying $\sum_{i=1}^{p}k_{i}=k\le K+4$, the higher-order mixture
+partial derivatives 
+\[
+\frac{\partial^{k}g\left(X,\theta\right)}{\partial\theta_{1}^{k_{1}}\partial\theta_{2}^{k_{2}}\cdots\partial\theta_{p}^{k_{p}}},
+\]
+exists and continuous in $\theta$, almost surely in $X$.\end{assumption}
+\begin{lem}
+\label{lem:mul-el-smooth-lagrange-mul-1}Under the Assumption \ref{assu:high-derive-cond},
+all partial derivatives of $\nu\left(\theta\right)$ and $\mu\left(\theta\right)$
+are smooth functions of $\theta$ for $\theta\in H$.\end{lem}
+\begin{proof}
+The result is proved by induction. We have see already in Lemma \ref{lem:first-order-smooth-lagmul},
+the gradient $\nabla\nu\left(\theta\right)$ and $\nabla\mu\left(\theta\right)$
+are smooth functions of $\theta$. Suppose the result holds for all
+$k$th partial derivatives of $\nu\left(\theta\right)$ and $\mu\left(\theta\right)$
+for $k\le K$. The writing 
+\[
+\nabla^{k}\nu\left(\theta\right)=h_{k}\left(\nu\left(\theta\right),\theta\right),1\le k\le K,
+\]
+ 
+\[
+\nabla^{k+1}\nu\left(\theta\right)=\frac{\partial h_{k}}{\partial\nu^{T}}\nabla\nu+\frac{\partial h_{k}}{\partial\theta}
+\]
+which is also a smooth function of $\theta$ by the induction hypothesis
+and Lemma 1. A similar proof works for $\mu\left(\theta\right)$.
+\end{proof}
+
+\section{Maximum Generalized Empirical Likelihood Estimator}
+
+One important justification of maximum likelihood estimator is the
+good performance substantiated by large sample theory, such as consistency
+and asymptotic normality. It can be shown that the above theoretical results
+can be seamlessly transferred onto estimators resulting from maximum
+empirical weights. \citet{qin1994empirical} already pointed out the
+validity to use empirical likelihood to define maximum empirical likelihood
+estimator. We extend the same idea into more general Cressie-Read
+family. 
+\begin{defn}[Maximum Generalized Empirical Likelihood Estimator]
+\label{def:gmele}Let $\hat{w}_{i}\left(\theta\right)$ be the empirical
+weights on sample $X_{1},X_{2},\ldots,X_{n}$, generating from empirical
+likelihood, exponentially tilted empirical likelihood or Cressie-Read
+family. Then 
+\[
+\tilde{\theta}=\argmin_{\theta\in H}-\sum_{i=1}^{n}\log\hat{w}_{i}\left(\theta\right),
+\]
+called  maximum generalized empirical likelihood estimator.
+\end{defn}
+Lemma \ref{lem:mul-el-smooth-lagrange-mul-1} establishes the continuity
+of empirical likelihood and Lemma \ref{lem:nondecreasing-compact-natural-domain}
+reveals the compactness of $H$, then these results guarantee the
+existence of $\tilde{\theta}$. So this concept is well-defined. One
+advantage of this estimator over the traditional $M$-estimator is that
+it can always produce a good quality estimator even when traditional
+one has no solution. Before exploring the asymptotic properties of
+this new estimator, we derive an equivalent formulation of  maximum
+generalized empirical likelihood estimator, which may be more appropriate
+for numerical computation and theoretical derivation. 
+
+First, we define $\Psi$ functions under the three cases. In empirical
+likelihood case, let 
+\begin{eqnarray*}
+\Psi_{1}\left(x\mid\theta,\nu\right) & = & \frac{g\left(x,\theta\right)}{1+\nu^{T}g\left(x,\theta\right)},\\
+\Psi_{2}\left(x\mid\theta,\nu\right) & = & \frac{1}{1+\nu^{T}g\left(x,\theta\right)}\nu^{T}\frac{\partial g\left(x,\theta\right)}{\partial\theta}.
+\end{eqnarray*}
+Let $\Psi^{\mathrm{EL}}\left(x\mid\theta,\nu\right)=\left(\Psi_{1},\Psi_{2}\right)^{T}$.
+For exponentially tilted empirical likelihood, let 
+\begin{eqnarray*}
+\Psi_{1}\left(x\mid\theta,\nu,\mu,\lambda_{1},\lambda_{2}\right) & = & \nu^{T}\frac{\partial g\left(x,\theta\right)}{\partial\theta}-\lambda_{1}\exp\left(-\mu-\nu^{T}g\left(x,\theta\right)\right)\nu^{T}\frac{\partial g\left(x,\theta\right)}{\partial\theta}\\
+ &  & -\exp\left(-\mu-\nu^{T}g\left(x,\theta\right)\right)\nu^{T}\frac{\partial g\left(x,\theta\right)}{\partial\theta}\lambda_{2}^{T}g\left(x,\theta\right)+\exp\left(-\mu-\nu^{T}g\left(x,\theta\right)\right)\lambda_{2}^{T}\frac{\partial g\left(x,\theta\right)}{\partial\theta},\\
+\Psi_{2}\left(x\mid\theta,\nu,\mu,\lambda_{1},\lambda_{2}\right) & = & g\left(x,\theta\right)-\lambda_{1}\exp\left(-\mu-\nu^{T}g\left(x,\theta\right)\right)g\left(x,\theta\right)-\exp\left(-\mu-\nu^{T}g\left(x,\theta\right)\right)g\left(x,\theta\right)\lambda_{2}^{T}g\left(x,\theta\right),\\
+\Psi_{3}\left(x\mid\theta,\nu,\mu,\lambda_{1},\lambda_{2}\right) & = & 1-\lambda_{1}\exp\left(-\mu-\nu^{T}g\left(x,\theta\right)\right)-\exp\left(-\mu-\nu^{T}g\left(x,\theta\right)\right)\lambda_{2}^{T}g\left(x,\theta\right),\\
+\Psi_{4}\left(x\mid\theta,\nu,\mu,\lambda_{1},\lambda_{2}\right) & = & \exp\left(-\mu-\nu^{T}g\left(x,\theta\right)\right)-\frac{e}{n},\\
+\Psi_{4}\left(x\mid\theta,\nu,\mu,\lambda_{1},\lambda_{2}\right) & = & \exp\left(-\mu-\nu^{T}g\left(x,\theta\right)\right)g\left(x,\theta\right),
+\end{eqnarray*}
+where $\lambda_{1}$ and $\lambda_{2}$ are the new Lagrange multipliers
+which we will define later. Let $\Psi^{\mathrm{ET}}\left(x\mid\theta,\nu,\mu,\lambda_{1},\lambda_{2}\right)=\left(\Psi_{1},\ldots,\Psi_{5}\right)^{T}.$
+In the Cressie-Read case, let 
+\begin{eqnarray*}
+\Psi_{1}\left(x\mid\theta,\nu,\mu,\lambda_{1},\lambda_{2}\right) & = & \frac{1}{\lambda+1}\Bigg[\frac{\nu^{T}\partial g\left(x,\theta\right)/\partial\theta}{\mu+\nu^{T}g\left(x,\theta\right)}-\lambda_{1}\frac{\nu^{T}\partial g\left(x,\theta\right)/\partial\theta}{\left(\mu+\nu^{T}g\left(x,\theta\right)\right)^{1+1/\left(\lambda+1\right)}}\\
+ &  & -\frac{\left(\nu^{T}\partial g\left(x,\theta\right)/\partial\theta\right)\left(\lambda_{2}^{T}g\left(x,\theta\right)\right)}{\left(\mu+\nu^{T}g\left(x,\theta\right)\right)^{1+1/\left(\lambda+1\right)}}+\frac{\lambda_{2}^{T}\partial g\left(x,\theta\right)/\partial\theta}{\left(\mu+\nu^{T}g\left(x,\theta\right)\right)^{1+1/\left(\lambda+1\right)}}\Bigg],\\
+\Psi_{2}\left(x\mid\theta,\nu,\mu,\lambda_{1},\lambda_{2}\right) & = & \frac{1}{\lambda+1}\left[\frac{g\left(x,\theta\right)}{\mu+\nu^{T}g\left(x,\theta\right)}-\lambda_{1}\frac{g\left(x,\theta\right)}{\left(\mu+\nu^{T}g\left(x,\theta\right)\right)^{1+1/\left(\lambda+1\right)}}-\frac{g\left(x,\theta\right)\left(\lambda_{2}^{T}g\left(x,\theta\right)\right)}{\left(\mu+\nu^{T}g\left(x,\theta\right)\right)^{1+1/\left(\lambda+1\right)}}\right],\\
+\Psi_{3}\left(x\mid\theta,\nu,\mu,\lambda_{1},\lambda_{2}\right) & = & \frac{1}{\lambda+1}\Bigg[\frac{1}{\mu+\nu^{T}g\left(x,\theta\right)}-\lambda_{1}\left(\mu+\nu^{T}g\left(x,\theta\right)\right)^{-1-1/\left(\lambda+1\right)}\\
+ &  & -\left(\mu+\nu^{T}g\left(x,\theta\right)\right)^{-1-1/\left(\lambda+1\right)}\lambda_{2}^{T}g\left(x,\theta\right)\Bigg],\\
+\Psi_{4}\left(x\mid\theta,\nu,\mu,\lambda_{1},\lambda_{2}\right) & = & \left(\mu+\nu^{T}g\left(x,\theta\right)\right)^{-1/\left(\lambda+1\right)}-1,\\
+\Psi_{5}\left(x\mid\theta,\nu,\mu,\lambda_{1},\lambda_{2}\right) & = & \left(\mu+\nu^{T}g\left(x,\theta\right)\right)^{-1/\left(\lambda+1\right)}g\left(x,\theta\right).
+\end{eqnarray*}
+Let $\Psi^{\mathrm{CR}}\left(x\mid\theta,\nu,\mu,\lambda_{1},\lambda_{2}\right)=\left(\Psi_{1},\ldots,\Psi_{5}\right)^{T}$.
+Use above definitions, we elicit the following lemma.
+\begin{lem}
+\label{lem:extend-m-estimator}The  maximum generalized empirical
+likelihood estimator is the solution of $n^{-1}\sum_{i=1}^{n}\Psi\left(X_{i}\mid\theta,\nu,\mu,\lambda_{1},\lambda_{2}\right)=0$.
+If we denote the solution as $\left(\theta^{*},\nu^{*},\mu^{*},\lambda_{1}^{*},\lambda_{2}^{*}\right)$,
+then $\tilde{\theta}=\theta^{*}$, $\nu\left(\tilde{\theta}\right)=\nu^{*}$
+and $\mu\left(\tilde{\theta}\right)=\mu^{*}$.\end{lem}
+\begin{proof}
+We provide the proofs separately for the three kinds
+of empirical likelihoods. 
+
+First for empirical likelihood, the relationship between $\theta$
+and $\nu$ are restricted by equation constraint (\ref{eq:lambda-eq}).
+By the Definition \ref{def:gmele}, the maximum generalized empirical
+likelihood estimator can also be the solution of 
+\[
+\max_{\theta,\nu}l\left(\theta\right)=-\frac{1}{n}\sum_{i=1}^{n}\log\left(1+\nu^{T}g\left(X_{i},\theta\right)\right),
+\]
+subject to
+\[
+\sum_{i=1}^{n}\frac{g\left(X_{i},\theta\right)}{1+\nu^{T}g\left(X_{i},\theta\right)}=0.
+\]
+Directly calculation shows 
+\[
+\frac{\partial l\left(\theta\right)}{\partial\nu}=\frac{1}{n}\sum_{i=1}^{n}\frac{g\left(X_{i},\theta\right)}{1+\nu^{T}g\left(X_{i},\theta\right)}=\frac{1}{n}\sum_{i=1}^{n}\Psi_{1}\left(X_{i}\mid\theta,\nu\right).
+\]
+So the solution of unconstrained problem automatically satisfies the
+constraint (\ref{eq:lambda-eq}). Moreover, 
+\[
+\frac{\partial l\left(\theta\right)}{\partial\theta}=\frac{1}{n}\sum_{i=1}^{n}\Psi_{2}\left(X_{i}\mid\theta,\nu\right).
+\]
+So the system of equations $n^{-1}\sum_{i=1}^{n}\Psi\left(X_{i}\mid\theta,\nu\right)=0$
+is a necessary condition of the optimization problem.
+Hence the lemma holds for the empirical likelihood case.
+
+Next, we consider exponentially tilted empirical likelihood. Reviewing
+the Lagrange method to get the empirical weights (\ref{eq:sol-weight-etel}),
+we find 
+\[
+\hat{w}_{i}\left(\theta\right)=\exp\left(-1-\mu-\nu^{T}g\left(X_{i},\theta\right)\right),
+\]
+where $\mu$ and $\nu$ satisfy 
+\begin{eqnarray*}
+\sum_{i=1}^{n}\exp\left(-1-\mu-\nu^{T}g\left(X_{i},\theta\right)\right) & = & 1,\\
+\sum_{i=1}^{n}\exp\left(-1-\mu-\nu^{T}g\left(X_{i},\theta\right)\right)g\left(X_{i},\theta\right) & = & 0.
+\end{eqnarray*}
+ Hence, the optimization problem in Definition \ref{def:gmele} shares
+the same maximum as the problem 
+\[
+\max_{\theta,\nu,\mu}l\left(\theta\right)=\frac{1}{n}\sum_{i=1}^{n}\left(-1-\mu-\nu^{T}g\left(X_{i},\theta\right)\right),
+\]
+subject to 
+\begin{eqnarray*}
+\sum_{i=1}^{n}\exp\left(-1-\mu-\nu^{T}g\left(X_{i},\theta\right)\right) & = & 1,\\
+\sum_{i=1}^{n}\exp\left(-1-\mu-\nu^{T}g\left(X_{i},\theta\right)\right)g\left(X_{i},\theta\right) & = & 0.
+\end{eqnarray*}
+Unlike the empirical likelihood case, here we do not have any shortcut.
+The Lagrange multiplier method is the only choice. The Lagrangian
+can be written as 
+\begin{eqnarray*}
+L\left(\theta,\nu,\mu,\lambda_{1},\lambda_{2}\right) & = & \frac{1}{n}\sum_{i=1}^{n}\left(-1-\mu-\nu^{T}g\left(X_{i},\theta\right)\right)+\lambda_{1}\left(\sum_{i=1}^{n}\exp\left(-\mu-\nu^{T}g\left(X_{i},\theta\right)\right)-e\right)\\
+ &  & +\lambda_{2}^{T}\left(\sum_{i=1}^{n}\exp\left(-1-\mu-\nu^{T}g\left(X_{i},\theta\right)\right)g\left(X_{i},\theta\right)\right).
+\end{eqnarray*}
+Calculation shows $\nabla L=n^{-1}\sum_{i=1}^{n}\Psi\left(X_{i}\mid\theta,\nu,\mu,\lambda_{1},\lambda_{2}\right)$.
+Hence, the same argument supporting empirical likelihood case validate
+the lemma in exponentially tilted empirical likelihood case.
+
+The Cressie-Read case can follow exactly the same procedure in exponentially
+tilted empirical likelihood case.
+\end{proof}
+This lemma offer a better numerical scheme to get the maximum generalized
+empirical likelihood estimator than using the original definition. In the original
+definition, for each iteration of $\theta$, one needs to solve nonlinear
+equations to get Lagrange multipliers $\nu$, which will introduce
+another iteration. By using the first order condition as in this lemma,
+we can use usual nonlinear equation solver to get the result in a
+single layer iteration.  Lemma \ref{lem:extend-m-estimator}
+also provides a quick solution on asymptotic properties of maximum
+generalized empirical likelihood estimator. Indeed, it is trivial
+to see, 
+\begin{eqnarray*}
+E\Psi^{\mathrm{EL}}\left(X\mid\theta_{0},0\right) & = & 0,\\
+E\Psi^{\mathrm{ET}}\left(X\mid\theta_{0},0,-1,0\right) & = & 0,\\
+E\Psi^{\mathrm{CR}}\left(X\mid\theta_{0},0,1,0,1\right) & = & 0.
+\end{eqnarray*}
+Hence, maximum generalized empirical likelihood estimator can also
+be interpreted as an ordinary $M$-estimator defined by $\Psi$ function.
+The consistency and asymptotic normality can  easily be extracted from
+the ordinary $M$-estimator theory. However, in order to expand the posterior
+around maximum generalized empirical likelihood estimator, we need
+a slight stronger asymptotic property called the law of the iterative logarithm.
+Particularly, the consistency requires the following condition from 
+\citet{huber1967behavior}.
+\begin{assumption}
+\label{assu:consistency-m-est}%
+Let $\eta=\left(\theta,\nu,\mu,\lambda_{1},\lambda_{2}\right)$, $\psi\left(\eta\right)=E\Psi\left(X\mid\eta\right)$
+	\begin{enumerate}
+	\item Let the parameter space $H$ be locally compact with countable base.
+	\item For each fixed $\eta\in H$, $\Psi\left(x\mid\eta\right)$ is square
+	integrable in $\eta$ and separable in sense of Doob: there is zero
+	measure set $N$ and a countable subset of $H'\subset H$, such that
+	for every open set $U\subset H$, and every closed interval $A$,
+	the sets $\left\{ x:\Psi\left(x\mid\eta\right)\in A,\:\forall\eta\in U\right\} $
+	and $\left\{ x:\Psi\left(x\mid\eta\right)\in A,\:\forall\eta\in U\cap H'\right\} $
+	differ by a subset of $N$.
+	\item The function $\Psi$ is a.s. continuous in $\theta$. 
+	\item $\psi$ has unique zero at $\eta=\eta_0$.
+	\item There exists a continuous function which is bounded away from zero, 
+			$b(\eta)>b_0>0$, such that
+			\begin{enumerate}
+				\item $\sup_\eta b^{-1}(\eta)\left|\Psi(x,\eta)\right|$ is 	 
+					integrable,
+				\item $\varliminf_{\eta \rightarrow \infty} b^{-1}(\eta) \left|
+					\psi(\eta)\right| \ge 1$,
+				\item $E\left\{ \varlimsup_{\eta \rightarrow \infty} b^{-1}(\eta)
+						\left|\Psi(\eta)-\psi(\eta)\right|\right\} <1$.
+			\end{enumerate}
+	\end{enumerate}
+\end{assumption}
+The assumptions we need come from \citet{he1995law}. We state them
+as follows.
+\begin{assumption}
+\label{assu:lil-m-est}
+Let $u\left(x,\eta,d\right)=\sup_{\left|\tau-\eta\right|\le d}\left|\Psi\left(x\mid\tau\right)-\Psi\left(x\mid\eta\right)\right|$,
+where $\left|\cdot\right|$ takes sup-norm $\left|\eta\right|=\max_{1\le j\le p}\left|\eta_{j}\right|$.
+Let $\eta_{n}$ satisfy 
+\[
+\frac{1}{\sqrt{n\log\log n}}\sum_{i=1}^{n}\Psi\left(X_{i}\mid\eta_{n}\right)\rightarrow0,\ascv.
+\]
+\end{assumption}
+The following conditions guarantee law of the iterative logarithm.
+\begin{assumption}
+\label{assu:lil-m-est-2}
+\begin{enumerate}
+
+\item There is a $\eta_{0}\in H$, such that $\psi\left(\eta_{0}\right)=0$,
+and $\psi$ has a non-singular derivative at $\eta_{0}$.
+\item There exist positive numbers $a,\: b,\: c,\: d,\:\alpha,\:\beta$,
+and $d_{0}$ such that $\alpha\ge\beta>2$, and 
+
+\begin{enumerate}
+\item $\left|\psi\left(\eta\right)\right|\ge a\left|\eta-\eta_{0}\right|$,
+for $\left|\eta-\eta_{0}\right|\le d_{0}$,
+\item $Eu\left(x,\eta,d\right)\le bd$, for $\left|\eta-\eta_{0}\right|+d\le d_{0}$,
+\item $Eu^{\alpha}\left(x,\eta,d\right)\le cd^{\beta}$, for $\left|\eta-\eta_{0}\right|+d\le d_{0}$.
+\end{enumerate}
+\item $\left|\eta_{n}-\eta_{0}\right|\le d_{0}$ almost surely as $n$ goes
+infinity.
+
+\end{enumerate}
+\end{assumption}
+Actually, the second condition is merely requiring we have a theoretical
+target, and the fourth condition is automatically satisfied if we
+have consistency. By the theorem in \citet{he1995law},
+we get the law of the iterative logarithm for both maximum generalized
+empirical likelihood estimator and the Lagrange multipliers. Now we
+are ready to state another lemma to tie the empirical likelihood weights
+and likelihood together with following condition on the unknown distribution.
+\begin{assumption}
+\label{assu:finite-theoretic-moment} Let $\left(k_{j1},k_{j2},\ldots,k_{jp}\right)\in\mathbb{N}^{p}$,
+and $\sum_{i=1}^{p}k_{ji}=k_{j}\le K+4$, $j=1,\ldots,l$, then 
+\[
+E\left(\prod_{j=1}^{l}\frac{\partial^{k_{l}}g\left(X,\theta_{0}\right)}{\partial\theta_{1}^{k_{l1}}\partial\theta_{2}^{k_{l2}}\cdots\partial\theta_{p}^{k_{lp}}}\right),
+\]
+exists and is finite.\end{assumption}
+\begin{lem}
+\label{lem:finite-empirical-weight-moment}Let $\omega_{i}\left(\theta\right)$
+be the unnormalized empirical weights from empirical likelihood, that
+is $\omega_{i}\left(\theta\right)=n\hat{w}_{i}\left(\theta\right)$
+in empirical likelihood or Cressie-Read case, and $\omega_{i}\left(\theta\right)=\exp\left(-\nu\left(\theta\right)g\left(X_{i},\theta\right)\right)$
+in exponentially tilted empirical likelihood. Use the same notation
+in Assumption \ref{assu:high-derive-cond}. Under the Assumption \ref{assu:high-derive-cond},
+\ref{assu:consistency-m-est}, \ref{assu:lil-m-est}, \ref{assu:lil-m-est-2} and \ref{assu:finite-theoretic-moment},
+then for any $k\le K+4$, any number $s\in\mathbb{R}$, 
+\[
+\lim_{n\rightarrow\infty}\frac{1}{n}\sum_{i=1}^{n}\omega_{i}\left(\tilde{\theta}\right)^{s}\prod_{j=1}^{l}\frac{\partial^{k_{l}}g\left(X,\theta_{0}\right)}{\partial\theta_{1}^{k_{l1}}\partial\theta_{2}^{k_{l2}}\cdots\partial\theta_{p}^{k_{lp}}}=E\left(\prod_{j=1}^{l}\frac{\partial^{k_{l}}g\left(X,\theta_{0}\right)}{\partial\theta_{1}^{k_{l1}}\partial\theta_{2}^{k_{l2}}\cdots\partial\theta_{p}^{k_{lp}}}\right)\ascv.
+\]
+\end{lem}
+\begin{proof}
+Similar to%
+\begin{comment}
+add detail lemma number
+\end{comment}
+{} \citet{owen2010empirical}, we have 
+\[
+\lim_{n\rightarrow\infty}\max_{1\le i\le n}n^{-1/3}g\left(X_{i},\theta_{0}\right)=0\ascv.
+\]
+By law of the iterative logarithm on Lagrange multiplier $\nu$, there
+exists some constant $C_{1}$ such that 
+\[
+\varlimsup_{n\rightarrow\infty}\frac{\sqrt{n}\nu\left(\tilde{\theta}\right)}{\sqrt{2\log\log n}}=C_{1}\ascv.
+\]
+Hence 
+\[
+\varlimsup_{n\rightarrow\infty}\nu^{T}\left(\tilde{\theta}\right)\max_{1\le i\le n}g\left(X_{i},\tilde{\theta}\right)=o\left(\sqrt{\frac{2\log\log n}{n}}\times n^{1/3}\right)=o\left(\frac{\sqrt{2\log\log n}}{n^{1/6}}\right)=0.
+\]
+So $\nu^{T}\left(\tilde{\theta}\right)g\left(X_{i},\tilde{\theta}\right)$
+are uniformly going to zero. Hence $\omega_{i}\left(\tilde{\theta}\right)$
+are uniformly going to 1 and the lemma holds.
+\end{proof}
+This lemma supports consistency of empirical sample moment to the true
+moment and further justifies the intuition to use empirical likelihood
+as a valid likelihood. 
+
+\citet{newey2004higher} proposed a similar estimator replacing the
+objective function in Definition \ref{def:gmele} with divergence
+measure when one calculates empirical weights. Their definition coincides
+with us when the divergence measure is empirical likelihood. Although,
+their starting point is generalized method of moment estimator and
+the intuition is slight different from ours, the simulation hardly differs
+the performance. In Table \ref{tab:mgele-mde}, we present the simulation
+result. 
+\begin{table}
+% latex table generated in R 3.1.0 by xtable 1.7-3 package % Fri Apr 03 14:30:16 2015
+%\begin{table}[ht]
+\centering
+\begin{tabular}{rrrrr}
+  \hline
+ & MGELE ETEL & MDE ETEL & MGELE CR & MDE CR \\ 
+  \hline
+N=20 & 0.1394 & 0.1320 & 0.2130 & 0.1408 \\
+   N=50 & 0.0759 & 0.0759 & 0.1867 & 0.0766 \\
+   N=100 & 0.0536 & 0.0536 & 0.2099 & 0.0539 \\
+   N=200 & 0.0392 & 0.0401 & 0.2214 & 0.0396 \\
+   N=500 & 0.0274 & 0.0298 & 0.1824 & 0.0274 \\
+    \hline
+\end{tabular}
+%\end{table}\protect\caption{\label{tab:mgele-mde}Compare Performance MGELE and MDE}
+\caption{\label{tab:mgele-mde}Compare Performance MGELE and MDE}
+\end{table}
+
+
+Before stating the main result, 
+we need to prove that the Hessian matrices of the empirical likelihood, the exponentially tilted empirical likelihood and Cressie-Read empirical likelihood are positive definite.
+
+\begin{lem}
+\label{lem:pd-sample-var-2}
+Under  Assumptions \ref{ass:denom-not-zero} and \ref{ass:first-order-smooth-g}, 
+there exists an $N$, 
+such that for any $n\ge N$,
+${\partial^{2}\tilde{l}_n\left(\tilde{\theta} \right)} / {\partial\theta \partial\theta^T}$ is negative definite,
+where $\tilde{l}\left(\theta\right)=n^{-1}\sum_{i=1}^{n}\log\hat{w}_{i}\left(\theta\right)$
+where $\hat{w}_{i}$ is either $\hat{w}_{i}^{\mathrm{EL}}$, $\hat{w}_{i}^{\mathrm{ET}}$
+or $\hat{w}_{i}^{\mathrm{CR}}$ $\left(i=1,\ldots,n\right)$.
+\end{lem}
+
+\begin{proof}
+	See Appendix B.1 
+\end{proof}
+
+
+
+\section{Main Result\label{sec:main-result}}
+
+For multivariate case
+in the empirical likelihood, exponentially tilted empirical likelihood and Cressie-Read empirical likelihood, let $B$ be the Cholesky decomposition of
+negative of the Hessian matrix 
+\[
+-\left.\frac{\partial^{2}\hat{l}}{\partial\theta^{T}\partial\theta}\right|_{\theta=\tilde{\theta}}=B^{T}B.
+\]
+Let $Y=\sqrt{n}B\left(\theta-\tilde{\theta}\right)$, define differential
+operators 
+\[
+\delta_{i}=\frac{1}{i!}\left(Y^{T}B^{-T}\nabla\right)^{i},
+\]
+where $\nabla$ is the gradient operator. 
+
+We expand the prior around the maximum generalized empirical likelihood estimator $\tilde{\theta}$ and have
+\begin{eqnarray*}
+\rho_{K}\left(\theta\right) & = & \rho\left(\tilde{\theta}\right)+\delta_{1}\rho\left(\tilde{\theta}\right)n^{-\frac{1}{2}}+\delta_{2}\rho\left(\tilde{\theta}\right)n^{-1}+\cdots+\delta_{K}\rho\left(\tilde{\theta}\right)n^{-\frac{K}{2}},
+\end{eqnarray*}
+where $\delta_{i}\rho\left(\tilde{\theta}\right)$ are results from
+applying the differential operators prior density then evaluating
+at $\tilde{\theta}$. We abbreviate $\delta_{i}\rho\left(\tilde{\theta}\right),\: i=2,3,\ldots K$
+as $\delta_{i}\rho$.
+
+\begin{comment}
+add multivariate case coefficients
+\end{comment}
+
+
+
+Let $I_{i,h}=\left\{ \left(m_{3,i},m_{4,i},\ldots,m_{K+3,i}\right)\in\mathbb{N}^{K}:\sum_{u=3}^{K+3}m_{u,i}=i,\:\sum_{u=3}^{K+3}m_{u,i}\left(u-2\right)=h\right\} $ be index sets.
+
+\begin{comment}
+the formula is wrong, need a new one. 
+\end{comment}
+Let $P_{K}\left(A,n\right)$ be the expansion polynomial 
+\begin{eqnarray*}
+ &  & P_{K}\left(A,n\right)\\
+ & = & \left(\rho\left(\tilde{\theta}\right)\int_{A\cap H_{n}}\exp\left(-\frac{Y^{T}Y}{2}\right)\diff Y\right)n^{-\frac{1}{2}}+\left(\int_{A\cap H_{n}}\exp\left(-\frac{Y^{T}Y}{2}\right)\left(\delta_{1}\rho+\rho\left(\tilde{\theta}\right)\delta_{3}\hat{l}\right)\diff Y\right)n^{-1}\\
+ &  & +\sum_{h=2}^{K}\Bigg\{\int_{A\cap H_{n}}\exp\left(-\frac{Y^{T}Y}{2}\right)\Bigg[\delta_{h}\rho\\
+ &  & +\sum_{j=0}^{h-1}\delta_{j}\rho\sum_{\frac{h-j}{K+1}\le i\le h-j}\frac{1}{i!}\sum_{I_{i,h-j}}\binom{i}{m_{3,i},m_{4,i},\ldots,m_{K+3,i}}\prod_{u=3}^{K+3}\left(\delta_{u}\hat{l}\right)^{m_{u,i}}\Bigg]\diff Y\Bigg\} n^{-\frac{h+1}{2}}\\
+ & = & \int_{A\cap H_{n}}\exp\left(-\frac{Y^{T}Y}{2}\right)\sum_{h=0}^{K}\alpha_{h}\left(Y,n\right)n^{-\frac{h}{2}}\diff n^{-\frac{1}{2}}Y,
+\end{eqnarray*}
+where $\alpha_{h}\left(Y,n\right)$ are corresponding coefficients
+before each order of $n$. % 
+The main theorem of this section is as follows.
+\begin{comment}
+add normal case and multivariate case
+\end{comment}
+For rigorous expansion, we need the $M$-estimator to be unique.
+\begin{assumption}
+\label{assu:uniq-m-est-mult}
+Assume $\tilde{\theta}$ is the unique maximizer in $H$.
+\end{assumption}
+\begin{thm}[Fundamental Theorem for Expansion]
+\label{thm:main-theorem-2}Under the Assumptions \ref{assu:consistency-m-est}, \ref{assu:lil-m-est}, \ref{assu:lil-m-est-2},  
+\ref{assu:finite-theoretic-moment} and \ref{assu:uniq-m-est-mult},
+there exist a positive constant $M_{1}$ and a large integer $N_{1}$,
+such that for any Borel set $A\subset\mathbb{R}^{p}$, and any $n>N_{1}$%
+\begin{comment}
+add subscript to constant
+\end{comment}
+{} 
+\[
+\left|\int_{A\cap H_{n}}\prod_{i=1}^{n}\hat{w}_{i}\left(\theta\right)\pi\left(\theta\right)\diff n^{-\frac{1}{2}}Y-P_{K}\left(A,n\right)\right|\le M_{1}n^{-\frac{K+2}{2}},\ascv.
+\]
+
+\end{thm}
+
+This theorem can be used to prove many asymptotic results
+\begin{thm}[Asymptotic expansion]
+Under the same assumptions as Theorem \ref{thm:main-theorem-2}, there exist
+a positive constant $M_{2}$ and a large integer $N_{2}$, such that
+for any Borel set $A\subset\mathbb{R}^{p}$ and any $n>N_{2}$,%
+\begin{comment}
+add subscript to constant
+\end{comment}
+{} 
+\begin{equation}
+\left|\Pi\left(B\left(\theta-\tilde{\theta}\right)\in A|X_{1},X_{2},\ldots,X_{n}\right)-\Phi_{p}\left(A|H_{n}\right)-\sum_{i=1}^{K}\gamma_{i}\left(A,n\right)n^{-\frac{i}{2}}\right|\le M_{1}n^{-\frac{K+1}{2}},\ascv.\label{eq:asym-exp-poster-prob}
+\end{equation}
+
+\begin{proof}
+By Theorem \ref{thm:main-theorem-2}, we have 
+\begin{equation}
+\left|\int_{A\cap H_{n}}\prod_{i=1}^{n}\hat{w}_{i}\left(\theta\right)\pi\left(\theta\right)\diff n^{-\frac{1}{2}}Y-P_{K}\left(A,n\right)\right|\le M_{1}n^{-\frac{K+2}{2}},\label{eq:main-theorem-result-A}
+\end{equation}
+and 
+\begin{equation}
+\left|\int_{H_{n}}\prod_{i=1}^{n}\hat{w}_{i}\left(\theta\right)\pi\left(\theta\right)\diff n^{-\frac{1}{2}}Y-P_{K}\left(H_{n},n\right)\right|\le M_{1}n^{-\frac{K+2}{2}}.\label{eq:main-theorem-result-Hn}
+\end{equation}
+By definition 
+\[
+\Pi\left(B\left(\theta-\tilde{\theta}\right)\in A|X_{1},X_{2},\ldots,X_{n}\right)=\frac{\int_{A\cap H_{n}}\prod_{i=1}^{n}\hat{w}_{i}\left(\theta\right)\pi\left(\theta\right)\diff n^{-\frac{1}{2}}Y}{\int_{H_{n}}\prod_{i=1}^{n}\hat{w}_{i}\left(\theta\right)\pi\left(\theta\right)\diff n^{-\frac{1}{2}}Y}.
+\]
+\begin{comment}
+add more detail in bounded. bounded above and below.
+\end{comment}
+We know that all the terms in (\ref{eq:main-theorem-result-A}) and (\ref{eq:main-theorem-result-Hn}),
+are almost surely bounded by some constant $C_{1}$ for all $n>N_{1}$,
+then there exists a constant $C_2$ such that
+\begin{eqnarray}
+ &  & \left|\Pi\left(B\left(\theta-\tilde{\theta}\right)\in A|X_{1},X_{2},\ldots,X_{n}\right)-\frac{P_{K}\left(A,n\right)}{P_{K}\left(H_{n},n\right)}\right|\nonumber \\
+ & \le & \left|\frac{\int_{A\cap H_{n}}\prod_{i=1}^{n}\hat{w}_{i}\left(\theta\right)\pi\left(\theta\right)\diff n^{-\frac{1}{2}}Y}{\int_{H_{n}}\prod_{i=1}^{n}\hat{w}_{i}\left(\theta\right)\pi\left(\theta\right)\diff n^{-\frac{1}{2}}Y}-\frac{P_{K}\left(A,n\right)}{P_{K}\left(H_{n},n\right)}\right|\nonumber \\
+ & = & \Bigg|\frac{\int_{A\cap H_{n}}\prod_{i=1}^{n}\hat{w}_{i}\left(\theta\right)\pi\left(\theta\right)\diff n^{-\frac{1}{2}}Y-P_{K}\left(A,n\right)}{\int_{H_{n}}\prod_{i=1}^{n}\hat{w}_{i}\left(\theta\right)\pi\left(\theta\right)\diff n^{-\frac{1}{2}}Y}\nonumber \\
+ &  & -\frac{\left(\int_{H_{n}}\prod_{i=1}^{n}\hat{w}_{i}\left(\theta\right)\pi\left(\theta\right)\diff n^{-\frac{1}{2}}Y-P_{K}\left(H_{n},n\right)\right)P_{K}\left(A,n\right)}{\int_{H_{n}}\prod_{i=1}^{n}\hat{w}_{i}\left(\theta\right)\pi\left(\theta\right)\diff n^{-\frac{1}{2}}YP_{K}\left(H_{n},n\right)}\Bigg|\nonumber \\
+ & \le & \frac{1}{\left|\int_{H_{n}}\prod_{i=1}^{n}\hat{w}_{i}\left(\theta\right)\pi\left(\theta\right)\diff n^{-\frac{1}{2}}Y\right|}\Bigg(\left|\int_{A\cap H_{n}}\prod_{i=1}^{n}\hat{w}_{i}\left(\theta\right)\pi\left(\theta\right)\diff n^{-\frac{1}{2}}Y-P_{K}\left(A,n\right)\right|\nonumber \\
+ &  & +\left|\int_{H_{n}}\prod_{i=1}^{n}\hat{w}_{i}\left(\theta\right)\pi\left(\theta\right)\diff n^{-\frac{1}{2}}Y-P_{K}\left(H_{n},n\right)\right|\left|\frac{P_{K}\left(A,n\right)}{P_{K}\left(H_{n},n\right)}\right|\Bigg)\nonumber \\
+ & \le & \frac{1}{C_{1}}\left(M_{1}n^{-\frac{K+2}{2}}+M_{1}n^{-\frac{K+2}{2}}\frac{C_{2}}{C_{1}}\right)=\frac{M_{1}}{C_{1}}\left(1+\frac{C_{1}}{C_{2}}\right)n^{-\frac{K+2}{2}}.\label{eq:two-quotient-close}
+\end{eqnarray}
+Now we find the quotient series of $P_{K}\left(A,n\right)/P_{K}\left(H_{n},n\right)$.
+Let 
+\[
+\frac{P_{K}\left(A,n\right)}{P_{K}\left(H_{n},n\right)}=\sum_{i=0}^{\infty}\gamma_{i}\left(A,n\right)n^{-\frac{i}{2}}.
+\]
+Then by the product rule of series, the coefficients $\gamma_{i}\left(A,n\right)$
+are determined by 
+\[
+\int_{A\cap H_{n}}\exp\left(-\frac{Y^{T}Y}{2}\right)\alpha_{h}\left(Y,n\right)\diff Y=\sum_{j=0}^{h}\int_{H_{n}}\exp\left(-\frac{Y^{T}Y}{2}\right)\alpha_{j}\left(Y,n\right)\diff Y\gamma_{h-j}\left(A,n\right).
+\]
+Through simple calculation, we find first two items of $\gamma_{i}\left(A,n\right)$
+as
+\begin{eqnarray*}
+\gamma_{0}\left(A,n\right) & = & \frac{\rho\left(\tilde{\theta}\right)\int_{A\cap H_{n}}\exp\left(-{Y^{T}Y}/{2}\right)\diff Y}{\rho\left(\right)\int_{H_{n}}\exp\left(-{Y^{T}Y}/{2}\right)\diff Y}=\frac{\int_{A\cap H_{n}}\exp\left(-{Y^{T}Y}/{2}\right)\diff Y}{\int_{H_{n}}\exp\left(-{Y^{T}Y}/{2}\right)\diff Y}=\Phi_{p}\left(A|H_{n}\right),\\
+\gamma_{1}\left(A,n\right) & = & \frac{\int_{A\cap H_{n}}\exp\left(-{Y^{T}Y}/{2}\right)\left(\delta_{1}\rho+\rho\left(\tilde{\theta}\right)\delta_{3}\tilde{l}\right)\diff Y}{\int_{H_{n}}\exp\left(-\frac{Y^{T}Y}{2}\right)\diff Y}\\
+ &  & -\frac{-\int_{H_{n}}\exp\left(-{Y^{T}Y}/{2}\right)\left(\delta_{1}\rho+\rho\left(\tilde{\theta}\right)\delta_{3}\hat{l}\right)\diff Y\Phi_{p}\left(A|H_{n}\right)}{\int_{H_{n}}\exp\left(-{Y^{T}Y}/{2}\right)\diff Y}\\
+ & = & \frac{\int_{A\cap H_{n}}\left(\delta_{1}\rho+\rho\left(\tilde{\theta}\right)\delta_{3}\hat{l}\right)\varphi_{p}\left(Y\right)\diff Y}{\Phi_{p}\left(H_{n}\right)}-\frac{\int_{H_{n}}\left(\delta_{1}\rho+\rho\left(\tilde{\theta}\right)\delta_{3}\hat{l}\right)\varphi_{p}\left(Y\right)\diff Y}{\Phi_{p}\left(H_{n}\right)}\Phi_{p}\left(A|H_{n}\right),
+\end{eqnarray*}
+where $\varphi_{p}$ is the density of  $p$-dimensional standard normal
+distribution, $\Phi_{p}$ is the probability or conditional probability
+of dimension $p$ standard normal distribution. By the discussion
+following Lemma \ref{lem:finite-empirical-weight-moment}, we know that
+all $\gamma_{i}$ are almost surely uniformly bounded for all large
+$n$. Then there exists a constant $M_{2}$, such that 
+\begin{equation}
+\left|\frac{P_{K}\left(A,n\right)}{P_{K}\left(H_{n},n\right)}-\Phi_{p}\left(A|H_{n}\right)-\sum_{i=1}^{K}\gamma_{i}\left(A,n\right)n^{-\frac{i}{2}}\right|\le M_{2}n^{-\frac{K+1}{2}}.\label{eq:quotient-serier-approx}
+\end{equation}
+We combine (\ref{eq:two-quotient-close}) and (\ref{eq:quotient-serier-approx})
+to get \eqref{asym-exp-poster-prob}.
+\end{proof}
+\end{thm}
+We provide detailed proof of the this theorem in the appendix. The proof
+is similar to \citet{johnson1970asymptotic}, with some modification
+needed in the empirical likelihood framework. 
+
+Let $K=2$. Then we get asymptotic normality of the posterior distribution. 
+\begin{cor}[Asymptotic normality]
+Use the assumption in Theorem \ref{thm:main-thm} with $K=2$, then
+the posterior distribution converges in distribution to normal distribution
+almost surely, that is 
+\[
+\left.\sqrt{n}B^T\left(\theta-\tilde{\theta}\right)\right|X_{1},\ldots,X_{n}\rightarrow N(0,I),\ascv,
+\]
+\end{cor}
+
+

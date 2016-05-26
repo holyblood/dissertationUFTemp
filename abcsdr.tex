@@ -1,0 +1,810 @@
+\chapter{Approximate Bayesian Computation via Sufficient Dimension Reduction}
+
+\setcounter{assumption}{0}
+\section{Introduction}
+
+There are two main objectives of this article. First, we want to provide
+some theoretical results related to the currently emerging topic of
+approximate Bayesian computation (ABC). The second is to show some
+connectivity between ABC and another important emerging topic of research,
+namely, sufficient dimension reduction (SDR). While the latter has
+surfaced primarily in the{} frequentist's{}
+domain of research, it is possible to tie it with ABC as well. In
+particular, we want to show how ABC can be carried through nonlinear
+SDR. 
+
+Modern science invokes more and more Byzantine stochastic models,
+such as stochastic kinetic network (\citet{wilkinson2011stochastic}),
+differential equation system (\citet{picchini2014inference}) and
+multi-hierarchical model (\citet{jasra2012filtering}), whose computational
+complexity and intractability challenge the application of classical
+statistical inference. Traditional maximum likelihood methods will
+malfunction when the evaluation of likelihoods becomes slow and inaccurate.
+Lack of analytical form of the likelihood also  {undermines
+} the usage of Bayesian inferential tools, such as Markov chain Monte
+Carlo (MCMC), Laplace approximation (\citet{tierney1986accurate}),
+variational Bayes (\citet{jaakkola2000bayesian}) and posterior expansion
+(\citet{johnson1970asymptotic}, Zhong and Ghosh%
+\begin{comment}
+need ask
+\end{comment}
+). 
+
+The ABC methodology  {stems from} the observation
+that the interpretability of the candidate model usually leads to
+an applicable sampler of data given parameters, and ingeniously circumvents
+the evaluation of likelihood functions. The idea behind ABC can be
+summarized as follows: 
+\begin{algorithm}[H]
+\begin{enumerate}
+\item Sample parameters $\theta_{i}$ from the prior distribution $\pi\left(\theta\right)$;
+\item Sample data $Z_{i}$ based on the model $f\left(z\mid\theta_{i}\right)$;
+\item Compare the simulated data $Z_{i}$ and the observed data $X_{i,\mathrm{obs}}$,
+to accept or reject $\theta_{i}$.
+\end{enumerate}
+\protect\caption{Idea of ABC}
+\end{algorithm}
+ \citet{rubin1984bayesianly} first mentioned this idea and \citet{tavare1997inferring}
+proposed the first version of ABC, which studying population genetics.
+The prototype of ABC in recent research was given in \citet{pritchard1999population},
+where the comparison of two data sets was simplified to a comparison
+of summary statistics $S$ and the accept-reject decision was made
+up to a certain error tolerance. 
+\begin{algorithm}[h]
+\begin{enumerate}
+\item Sample parameters $\theta_{i}$ from the prior distribution $\pi\left(\theta\right)$;
+\item Sample data $Z_{i}$ based on the model $f\left(z\mid\theta_{i}\right)$;
+\item Accept $\theta_{i}$ if $\rho\left(S\left(Z_{i}\right),S\left(X_{\mathrm{obs}}\right)\right)\le\varepsilon$, {{}
+} {for some metric $\rho$} {.}
+\end{enumerate}
+\protect\caption{\label{alg:Prichard-ABC-1}Prichard's Modified ABC}
+\end{algorithm}
+We can view this algorithm as a modified version of accept-reject
+algorithm (\citet{robert2013monte}). The posterior is sampled by
+altering the frequency of the proposal distribution, that is, the
+prior. Now the full posterior distribution is approximated by the
+following two steps (\citet{fearnhead2012constructing}): 
+\begin{equation}
+\pi\left(\theta\mid X_{\mathrm{obs}}\right)\approx\pi\left(\theta\mid S_{\mathrm{obs}}\right)\approx\pi\left(\theta\mid S_{\mathrm{sim}}\in O\left(S_{\mathrm{obs}},\varepsilon\right)\right),\label{eq:two-step-approx-abc}
+\end{equation}
+where $O\left(S_{\mathrm{obs}},\varepsilon\right)$ means a neighborhood
+defined by the comparison measure $\rho$ and tolerance level $\varepsilon$.
+We may note that the first approximation is exact when $S$ is sufficient.
+Allowing the summary statistics to vary in an acceptable range sacrifices
+a little accuracy in exchange for a significant improvement in computational
+efficiency, which {makes } the algorithm more practical
+and user-friendly. 
+
+Pursuant to Algorithm \ref{alg:Prichard-ABC-1}, there are multiple
+generalizations in the statistical literatures. \citet{marjoram2003markov}
+{introduced } MCMC-ABC algorithm to concentrate the
+samples in high posterior probability region, thereby increasing the
+accept rate. Noisy ABC, proposed by \citet{wilkinson2013approximate},
+makes use of all the prior samples by assigning kernel weights instead
+of hard-threshold accept-reject mechanism and hence reduces the computational
+burden. This perspective is corroborated in \citet{fearnhead2012constructing}
+by convergence of Bayesian estimators. When the dependence structure
+between hierarchies is intractable, ABC filtering technique innovated
+by \citet{jasra2012filtering} comes to the rescue. Later in \citet{dean2014parameter},
+a consistency argument is established for the specific case of hidden
+Markov models. Moreover, many ABC algorithm above can be easily coded
+in a parallel way, and hence take advantages of modern CPU, GPU structures.
+This feature makes ABC algorithms extremely time-saving against long-established,
+looping-based MCMC and MLE algorithms. 
+
+Despite the fruitful results on ABC both from applied and theoretical
+points of view. However, there exist only a handful of papers which
+focus on the effect of the choice of summary statistics on the approximation
+quality. The quintessential case is the summary statistics are sufficient,
+and the resultant ABC sampler produces exact samples from the true
+posterior distribution when $\varepsilon$ goes to zero. Nevertheless,
+in a labyrinthine model, it is difficult to extract sufficient statistics,
+except for some very special case, such as exponential random graph
+models (e.g. \citet{grelaud2009abc}). \citet{joyce2008approximately}
+proposed a concept called $\varepsilon-$sufficient to quantify the
+effect of statistics. Nonetheless, this property is also difficult
+to verify in complicated models. If we are interested only in model
+selection, \citet{prangle2014semi} designs a semi-automatic algorithm
+to construct summary statistics via logistic regression. And laterly,
+\citet{marin2014relevant} gives sufficient conditions on summary
+statistics in order to choose the right model based on the Bayes factor.
+They advocate that the ideal summary statistics are ancillary in both
+model candidates. One of our contribution comes from the mathematical
+analysis of the consequence of conditioning the parameters of interest
+on consistent statistics and intrinsically inconsistent statistics,
+and appraises the efficiency of the posterior approximation based
+on the former. Generally speaking, using consistent statistics results
+in right concentration of the approximate posterior, while less efficiency
+of statistics leads to less efficiency of approximation. One byproduct
+is our theorem vindicates the usage of the posterior mean as summary
+statistics as in \citet{fearnhead2012constructing}. 
+
+In addition to the pure theoretical contribution, we also extend the{}
+{two-step}{} algorithm in \citet{fearnhead2012constructing}
+in a more flexible and nonparametric way for automatic constructing
+summary statistics. We borrow the idea from another thriving topic,
+namely sufficient dimension reduction (SDR). The motivation of SDR
+which generalizes the concept of sufficient statistics is to estimate{}
+{a} transformation $\varphi$, either{}
+linear or nonlinear, such that 
+\begin{equation}
+Y\independent X\mid\varphi\left(X\right).\label{eq:sdr}
+\end{equation}
+ The first SDR method titled sliced inverse regression dates back
+to \citet{li1991sliced}, followed by principle Hessian direction
+in \citet{li1992principal} and also by \citet{1991}, and \citet{cook1998principal}.
+As we step in the era of big data, this idea leads to a sea of papers
+on both linear and nonlinear, predictor and response. Among the more
+recent work, we refer to \citet{cook2002dimension}, \citet{xia2002adaptive},
+\citet{li2005contour}, \citet{li2009dimension}, \citet{wu2008kernel},
+\citet{yeh2009nonlinear}, \citet{su2011partial} and \citet{su2012inner}.
+The association between SDR and ABC relies on the shared mathematical
+formulation. If we think $\theta$ as the response and $X$ as the
+predictor, then an ideal summary statistics $S\left(X\right)$ will
+give 
+\[
+\theta\independent X\mid S\left(X\right).
+\]
+This simple observation offers raison d'etre to use existing SDR methods
+in constructing summary statistics. The employment of dimension reduction
+methods in our algorithm is different from that in \citet{blum2013comparative}.
+In \citet{blum2013comparative}, dimension reduction methods, such
+as best subset selection, projection techniques and regularization
+approaches, are applied to reduce the dimension of existing summary
+statistics, but here, we try to reduce the size of the original data.
+Particularly in our paper, we incorporate the principal  support vector
+machine for nonlinear dimension reduction given in \citet{li2011principal}
+into ABC, which uses the{} {principal
+} component of support vectors in reproducing kernel Hilbert space
+(RKHS) as a nonparametric estimator of $\varphi$. 
+
+The outline of remaining sections is as follows. Section \ref{sec:asymp-partial-post}
+contains asymptotic results on the partial posterior. We gradually
+relax the restriction on summary statistics and investigate the relationship
+between the partial posterior and the full posterior. As a side result,
+we give a lemma building a bridge between the recent prior free inferential
+model (\citet{martin2013inferential} and \citet{martin2015conditional})
+and traditional Bayesian inference. Section \ref{sec:abc-sdr} elicits
+a new ABC algorithm which automatically produces summary statistics
+through nonlinear SDR. A simulation result is provided in this section{}
+{as well}. Section \ref{sec:Discussion} briefly
+discusses the results and points out some possible future generalizations.
+
+
+\section{\label{sec:asymp-partial-post}Asymptotic Properties of Partial Posterior}
+
+Suppose $X_{1},\ldots,X_{n}\mid\theta$ are i.i.d. with common PDF
+$f\left(x\mid\theta\right)$, and there exists a true but unknown
+value $\theta_{0}$. Without loss of generality, we assume $\theta\in\mathbb{R}$,
+and all probability density functions are with respect to the Lebesgue
+measure. For illustration purpose, we define the following terminology.
+\begin{defn}[Partial Posterior]
+Let $S=S\left(X_{1},\ldots,X_{n}\right)$ be{} {statistics
+} of the data. Given a prior $\pi\left(\theta\right)$,
+we call the distribution 
+\[
+\pi\left(\theta\mid S\right)\propto\pi\left(\theta\right)g\left(S\mid\theta\right)
+\]
+the partial posterior, where $g\left(S\mid\theta\right)$ is the probability
+density function of statistic $S\left(X_{1},\ldots,X_{n}\right)$
+derived from the data density, and correspondingly, 
+\[
+\pi\left(\theta\mid X_{1},\ldots,X_{n}\right)\propto\pi\left(\theta\right)f\left(X_{1},\ldots,X_{n}\mid\theta\right)
+\]
+ is called the full posterior.
+\end{defn}
+From equation (\ref{eq:two-step-approx-abc}), partial posterior significantly
+reduces the complexity of full posterior by replacing the dependence
+on full data by lower dimensional statistics $S$. If the partial
+posterior deviates from {the } full
+posterior too much, then no matter how delicately we sample from $\pi\left(\theta\mid S_{\mathrm{sim}}\in O\left(S_{\mathrm{obs}},\varepsilon\right)\right)$
+, how small $\varepsilon$ we choose, the resultant samples would
+not behave like ones drawn from the original full posterior, which {makes } the subsequent Bayesian analysis fragile
+and unreliable. Therefore, theoretical connection between some easily
+verifiable properties and asymptotic behaviour of partial posterior
+is of relevance. In particular, we want to study consistency and asymptotic
+normality of our Bayesian procedures. The following theorems try to
+demonstrate the connection between the asymptotic behaviour of summary
+statistics and that of partial posterior. We start from the most popular
+statistics, the maximum likelihood estimator (MLE) of $\theta$. 
+\begin{thm}
+\label{thm:bernstein-von-mises-mle}Let $\hat{\theta}$, the MLE of
+$\theta$, be a strongly consistent estimator, and let $\hat{I}$
+be the observed Fisher information evaluated at $\hat{\theta}$, and
+the full posterior holds Bernstein--von Mises theorem. Then for any
+$\varepsilon>0$, and any $t$, the partial posterior after conditioned
+on $\hat{\theta}$ satisfies 
+\[
+\lim_{n\rightarrow\infty}P\left(\sqrt{n\hat{I}}\left(\theta-\hat{\theta}\right)\le t\mid\hat{\theta}\in O\left(\theta_{0},\varepsilon\right)\right)=\Phi\left(t\right),\ascv.
+\]
+\end{thm}
+\begin{proof}
+See  \ref{sec:proof-thm-1}.\end{proof}
+\begin{rem}
+There is a slight difference between 
+\[
+\lim_{n\rightarrow\infty}P\left(\sqrt{n\hat{I}}\left(\theta-\hat{\theta}\right)\le t\mid\hat{\theta}\in O\left(\theta_{0},\varepsilon\right)\right)=\Phi\left(t\right),\ascv.\left(P_{\theta_{0}}\right)
+\]
+and 
+\[
+\lim_{n\rightarrow\infty}P\left(\sqrt{n\hat{I}}\left(\theta-\hat{\theta}\right)\le t\mid\hat{\theta}\right)=\Phi\left(t\right),\ascv.
+\]
+By definition, 
+\begin{equation}
+P\left(\sqrt{n\hat{I}}\left(\theta-\hat{\theta}\right)\le t\mid\hat{\theta}\right)=\lim_{\varepsilon\rightarrow0}\frac{P\left(\sqrt{n\hat{I}}\left(\theta-\hat{\theta}\right)\le t,\hat{\theta}\in O\left(s,\varepsilon\right)\right)}{P\left(\hat{\theta}\in O\left(s,\varepsilon\right)\right)}.\label{eq:def-loose-partial-post}
+\end{equation}
+The result of Theorem \ref{thm:bernstein-von-mises-mle} can only
+be used to prove 
+\[
+\lim_{\varepsilon\rightarrow0}\lim_{n\rightarrow\infty}P\left(\sqrt{n\hat{I}}\left(\theta-\hat{\theta}\right)\le t\mid\hat{\theta}\in O\left(\theta_{0},\varepsilon\right)\right)=\Phi\left(t\right),\ascv,
+\]
+switching order of limits in equation (\ref{eq:def-loose-partial-post}). 
+\begin{rem}
+The definition of $P\left(\theta\mid\hat{\theta}\in O\left(\theta_{0},\varepsilon\right)\right)$
+is different from the approximation $P\left(\theta\mid\hat{\theta}\in O\left(\hat{\theta}_{\mathrm{obs}},\varepsilon\right)\right)$.
+In former case, $\hat{\theta}$ is evaluated at $X_{1},\ldots,X_{n}\sim\pi\left(x\mid\theta_{0}\right)$,
+the observed data, while the latter evaluates $\hat{\theta}$ at $Z_{1},\ldots,Z_{m}\sim\pi\left(z\mid\theta\right)$,
+the simulated data. 
+\end{rem}
+\end{rem}
+By {assumptions }, the asymptotic
+distribution of the full posterior is still normal, and we have 
+\begin{eqnarray*}
+ &  & \sup_{t\in\mathbb{R}}\left|P\left(\sqrt{n\hat{I}}\left(\theta-\hat{\theta}\right)\le t\mid\hat{\theta}\in O\left(\theta_{0},\varepsilon\right)\right)-P\left(\sqrt{n\hat{I}}\left(\theta-\hat{\theta}\right)\le t\mid X_{1},\ldots,X_{n}\right)\right|\\
+ & \le & \sup_{t\in\mathbb{R}}\left|P\left(\sqrt{n\hat{I}}\left(\theta-\hat{\theta}\right)\le t\mid\hat{\theta}\in O\left(\theta_{0},\varepsilon\right)\right)-\Phi\left(t\right)\right|+\sup_{s\in\mathbb{R}}\left|P\left(\sqrt{n\hat{I}}\left(\theta-\hat{\theta}\right)\le s\mid X_{1},\ldots,X_{n}\right)-\Phi\left(s\right)\right|\\
+ & \le & 2\varepsilon\rightarrow0,\left(n\rightarrow\infty\right).
+\end{eqnarray*}
+Hence, we can informally say that two random variables $\sqrt{n\hat{I}}\left(\theta-\hat{\theta}\right)\mid\hat{\theta}$
+and $\sqrt{n\hat{I}}\left(\theta-\hat{\theta}\right)\mid X_{1},\ldots,X_{n}$
+are close in distribution. Note that both random variables asymptotically
+center at consistent MLE, and hence will eventually concentrate at
+$\theta_{0}$. Meanwhile, the scale factors in both random variables
+are $\sqrt{n\hat{I}}$, which {ensures
+} the same square root credible  {intervals}.
+In this sense, we feel that the partial posterior conditioned on MLE
+has the same efficiency as the full posterior. Later theorems will
+tell us that if the summary statistics are not efficient, the corresponding
+partial likelihood will have a different scale factor, and thus lose
+efficiency and result in a larger credible interval. 
+
+A slightly modified proof of Theorem \ref{thm:bernstein-von-mises-mle}
+can be used to support the posterior mean as a summary statistic in
+\citet{fearnhead2012constructing} and we still have a similar result,
+namely 
+\[
+\lim_{n\rightarrow\infty}P\left(\sqrt{n\hat{I}}\left(\theta-E\left(\theta\mid X_{1},\ldots,X_{n}\right)\right)\le t\mid E\left(\theta\mid X_{1},\ldots,X_{n}\right)\in O\left(\theta_{0},\varepsilon\right)\right)=\Phi\left(t\right),\ascv.
+\]
+The key fact to support the assert above comes from \citet{ghosh2011moment},
+that is, the higher order closeness of the posterior mean and the
+MLE, 
+\begin{equation}
+\lim_{n\rightarrow\infty}\sqrt{n}\left(E\left(\theta\mid X_{1},\ldots,X_{n}\right)-\hat{\theta}\right)=0,\ascv.\label{eq:high-order-close-post-mean-mle}
+\end{equation}
+Indeed, any estimator who has the same or higher order of closeness
+to MLE will work as an efficient summary statistic.
+
+Theorem \ref{thm:bernstein-von-mises-mle} can be generalized to more
+intricate models. The following example shows the same phenomenon
+in data generated from a Markov process.
+\begin{example}
+\label{exa:Immigrate-emigrate-process}Immigration-emigration process
+is {a } crucial
+model in survival analysis and can be viewed as a special case of
+mass-action stochastic kinetic  {network
+} (\citet{wilkinson2011stochastic}). The model is defined by a birth
+procedure and {a } death
+procedure during an infinitesimal time interval, namely, 
+\[
+P\left(X\left(t+\diff t\right)=x_{1}\mid X\left(t\right)=x_{0}\right)=\begin{cases}
+\lambda\diff t+o\left(\diff t\right), & x_{1}=x_{0}+1,\\
+\mu x_{0}\diff t+o\left(\diff t\right), & x_{1}=x_{0}-1,\\
+1-\lambda\diff t-\mu x_{0}\diff t+o\left(\diff t\right), & x_{1}=x_{0}.
+\end{cases}
+\]
+Assume that we observe full data in the time interval $\left[0,T\right]$.
+Let $T_{i},i=1,\ldots,n$ be the event times and $X_{i}=X\left(T_{i}\right),i=1,\ldots,n$.
+Let $X_{0}$ be initial population, $T_{0}=0$, $T_{n+1}=T$. Then
+by Gillespie's algorithm, the likelihood is proportional to 
+\[
+\lambda^{r_{1}}\exp\left(-\lambda T\right)\mu^{r_{2}}\exp\left(-\mu A_{T}\right),
+\]
+where $r_{1}$ and $r_{2}$ are number of events corresponding to
+immigration and emigration, and 
+\[
+A_{T}=\int_{0}^{T}X\left(t\right)\diff t.
+\]
+The MLEs are 
+\[
+\hat{\lambda}=\frac{r_{1}}{T},\hat{\mu}=\frac{r_{2}}{A_{T}},
+\]
+and they are strongly consistent estimators of $\lambda$ {and $\mu$} when $T$ goes to
+infinity. By the computation in  \ref{sub:Derivation-of-Example-1},
+we have the partial posterior density function of $\sqrt{T}\left(\mu-\hat{\mu}\right)$
+conditioned on $\hat{\mu}$, $r_{1}$ and $T$ given by 
+\[
+\lim_{T\rightarrow\infty}\pi\left(\sqrt{T}\left(\mu-\hat{\mu}\right)=t\mid\hat{\mu},r_{1},T\right)=\frac{\hat{\mu}}{\sqrt{2\pi\hat{\lambda}}}\exp\left(-\frac{\hat{\lambda}}{\hat{\mu}^{2}}t^{2}\right),\ascv.
+\]
+
+\end{example}
+The MLE seems to be a perfect surrogate for  {the
+} full data. However, in many cases, use of MLE is
+prohibitive due to heavy computational burden, particularly when the
+likelihood function is intractable. This is when the ABC comes on
+stage. $M$-estimator is a generalization of the MLE, which is also
+consistent and asymptotically normal under mild conditions. Many $M$-estimators
+can be easily calculated, especially some moment estimators. To give
+an idea of the nature of approximation, we consider the following
+examples.
+\begin{example}
+\label{exa:Gamma-distribution}Gamma distribution can be used to model
+hazard functions in survival analysis. The shape parameter of gamma
+distribution determines the trend of hazard and hence is a vital parameter
+to estimate. Assume $X_{1},\ldots,X_{n}\sim\mathrm{Gamma}\left(\alpha,\beta\right)$,
+where we know the scale parameter $\beta$, but not the shape parameter
+$\alpha$. The MLE of $\alpha$ is the solution of 
+\[
+-\log\Gamma\left(\alpha\right)-\alpha\log\beta+\left(\alpha-1\right)\sum_{i=1}^{n}\log X_{i}-\frac{\sum_{i=1}^{n}X_{i}}{\beta}=0,
+\]
+which involves repeated evaluation of the gamma function in search
+of the root. A simple $M$-estimator $\tilde{\alpha}=\overline{X}/\beta$
+is derived from its mean equation, 
+\[
+\sum_{i=1}^{n}\left(X_{i}-\alpha\beta\right)=0.
+\]
+ Now we consider the partial posterior $\pi\left(\alpha\mid\tilde{\alpha}\right)$,
+when the prior is $\pi\left(\alpha\right)\propto\exp\left(-\lambda\alpha\right)$.
+By the calculation in  \ref{sub:Derivation-of-Example-2}, we show
+that the limit of cumulative probability function of $\sqrt{n}\tilde{\alpha}^{-1}\left(\alpha-\tilde{\alpha}\right)$
+given $\tilde{\alpha}$ is 
+\[
+\lim_{n\rightarrow\infty}P\left(\sqrt{n}\tilde{\alpha}^{-1}\left(\alpha-\tilde{\alpha}\right)\le t\mid\tilde{\alpha}\right)=\Phi\left(t\right),\ascv,
+\]
+which means that the Bernstein-von Mises theorem holds for the partial
+posterior conditioned on the $M$-estimator $\tilde{\alpha}$. The
+scale factor of   the partial posterior is $\sqrt{n}\tilde{\alpha}^{-1}$,
+which is smaller than that of {the
+} full posterior, $\sqrt{n\psi'\left(\alpha\right)}$,
+where $\psi\left(\alpha\right)$ is digamma function. That results
+in a larger credible interval based on the partial posterior. 
+\begin{example}
+\label{exa:laplace-example}Another example is Laplace distribution
+with PDF 
+\[
+f_{\mu,\lambda}\left(t\right)=\frac{1}{2\lambda}\exp\left(-\frac{\left|t-\mu\right|}{\lambda}\right).
+\]
+ Here we want inference the location parameter $\mu$ holding $\lambda$
+fixed. The MLE is the {the } sample
+median and the moment estimator is {the
+}sample mean. Here we calculate the partial posterior based on sample
+mean. By the calculation in  \ref{sub:Derivation-of-Example-3}, we
+find that the characteristic function of $\sqrt{n}\left(\mu-\overline{X}\right)$
+converges to $\exp\left(-\lambda^{2}t^{2}\right)$, which is the characteristic
+function of normal distribution. 
+\end{example}
+\end{example}
+Example \ref{exa:laplace-example} uses the following lemma which
+is of independent interest. 
+\begin{lem}
+\label{lem:bayes-inferential-model}Assume $X$ has the same distribution
+as $h\left(Y,\theta\right)$, where $h$ is a function one-to-one
+in $\theta$ and $Y$ is a random variable independent of $\theta$.
+Let $\theta=g\left(y,x\right)$ and $y=u\left(x,\theta\right)$ be
+the solutions of equation $x=h\left(y,\theta\right)$. Further assume
+$\partial u\left(x,\theta\right)/\partial x$ exists and is not equal
+to zero. Then the posterior distribution of $\theta$ conditioned
+on $X$ under the uniform prior has the same distribution as $g\left(Y,x\right)$,
+where $x$ is fixed. \end{lem}
+\begin{rem}
+Although not quite related to ABC, this lemma gives another interpretation
+of inferential model of \citet{martin2013inferential} and \citet{martin2015conditional}.
+In their settings, $Y$ is called unobserved ancillary variable, and
+$g\left(y,x\right)$ is $\Theta_{x}\left(u\right)$ in their notation.
+They claim that their procedure results in a distribution of $\theta$
+without referring to a prior. However, by our lemma, this model is
+mathematically the same as a posterior given a uniform prior.
+\end{rem}
+The following theorems are built upon the Theorem 2.1 in \citet{rivoirard2012bernstein},
+which guarantees the asymptotic normality of linear functionals of
+nonparametric posterior. So we need all the assumptions in that theorem.
+Additionally, we need the following assumptions. 
+\begin{assumption}
+\label{assu:second-order-bounded-differential}There is a neighbourhood
+$\theta\in O\left(\theta_{0},\varepsilon\right)$ such that $\int_{\mathbb{R}}g\left(x,\theta_{0}\right)\pi\left(x\mid\theta\right)\diff x$
+is a continuous twice differentiable in $\theta$ and the second order
+derivative is bounded by some constant $L$. 
+\begin{assumption}
+\label{assu:m-est-consistent-asymp-norml}$M$-estimator $\tilde{\theta}$
+and MLE $\hat{\theta}$ are both strongly consistent and asymptotically
+normal.
+\begin{assumption}
+\label{assu:bernstein-von-mises-full-posterior} Bernstein--von Mises
+theorem and posterior consistency hold for the full posterior of $\theta$.
+\begin{assumption}
+\label{assu:theo-mle}For any $\theta\in\Theta$, $E_{\theta_{0}}\log f\left(X\mid\theta\right)\le E_{\theta_{0}}\log f\left(X\mid\theta_{0}\right)$. 
+\end{assumption}
+\end{assumption}
+\end{assumption}
+\end{assumption}
+Now we can articulate the theorem. 
+\begin{thm}
+\label{thm:partial-post-m-est}Under the Assumptions \ref{assu:second-order-bounded-differential},
+\ref{assu:m-est-consistent-asymp-norml}, \ref{assu:bernstein-von-mises-full-posterior},
+\ref{assu:theo-mle}, and conditions of Theorem 2.1 in \citet{rivoirard2012bernstein},
+for any $\varepsilon$ and $t$, 
+\[
+\lim_{n\rightarrow\infty}P\left(\left.\frac{\sqrt{n}\left(\theta-\tilde{\theta}\right)}{\sqrt{\tilde{V}}}\le t\right|\tilde{\theta}\in O\left(\theta_{0},\varepsilon\right)\right)=\Phi\left(t\right),\ascv,
+\]
+where $\tilde{V}=V_{0}/G_{1}\left(\tilde{\theta},\tilde{\theta}\right)^{2}$
+is Godambe information. \end{thm}
+\begin{proof}
+See  \ref{sec:Proof-of-Theorem-2}.
+\end{proof}
+Using similar arguments as Theorem \ref{thm:bernstein-von-mises-mle},
+the partial posterior $\sqrt{n\tilde{V}^{-1}}\left(\theta-\tilde{\theta}\right)\mid\tilde{\theta}$ {{}
+} {is asymptotically } close in distribution to  {the
+}full posterior $\sqrt{n\hat{I}}\left(\theta-\hat{\theta}\right)\mid X_{1},\ldots,X_{n}$.
+Since both the $M$-estimator and the MLE are strongly consistent,
+the partial posterior still concentrates around the right $\theta_{0}$,
+but now the asymptotic $\alpha-$level credible interval based on
+the partial posterior, namely 
+\[
+\left(\tilde{\theta}-Z_{\alpha/2}\sqrt{\frac{\tilde{V}}{n}},\tilde{\theta}+Z_{\alpha/2}\sqrt{\frac{\tilde{V}}{n}}\right),
+\]
+will be larger than that based on the full posterior, 
+\[
+\left(\hat{\theta}-Z_{\alpha/2}\sqrt{\frac{\hat{I}^{-1}}{n}},\hat{\theta}+Z_{\alpha/2}\sqrt{\frac{\hat{I}^{-1}}{n}}\right),
+\]
+where $Z_{\alpha/2}$ is $\left(1-\alpha/2\right)$ quantile of standard
+normal distribution, because the Godambe information $\tilde{V}^{-1}$
+is typically no larger than Fisher information $\hat{I}$. Hence,
+we lose efficiency if we condition the posterior on an inefficient
+estimator, which coincides our intuition.
+
+For extreme tortuous models, even finding a consistent estimator can
+be quite hard. There are still some simple statistics which may be
+consistent to some {{} } {functions } of
+$\theta$. Unless they are ancillary statistics, they always contain
+some information about the {{} } {parameters
+} of interest. Moreover, in real case, we use several statistics,
+each of which gives independent information of the full posterior.
+In the remainder of this section, we will mathematically qualify what
+independent information means and show that using more than one statistic
+will improve the efficiency. 
+
+Let $S_{i}$, $i=1,\ldots,q$ be statistics of the sample. We make
+the following trivial assumptions. 
+\begin{assumption}
+\label{assu:joint-normal-inconsist-stat}The joint distribution of
+$S_{1},\ldots,S_{q}$ converges in distribution to a multivariate
+normal distribution $N\left(h\left(\theta_{0}\right),n^{-1/2}\Sigma\left(\theta_{0}\right)\right)$,
+and each $S_{i}$ converges to $h_{i}\left(\theta_{0}\right)$ almost
+surely. Further, assume $\Sigma\left(\theta_{0}\right)$ {{}
+}\textcolor{black}{is } positive definite, and $h\left(\theta_{0}\right)$
+is a linear functional of the distribution function, that is 
+\[
+h\left(\theta_{0}\right)=\int_{\mathbb{R}}g\left(x\right)f\left(x\mid\theta_{0}\right)\diff x,
+\]
+where $g\left(x\right)\in\mathbb{R}^{q}$. 
+\end{assumption}
+Assumption \ref{assu:joint-normal-inconsist-stat} characterizes the
+ independent information statement. Because if $\Sigma\left(\theta_{0}\right)$
+has a lower rank, then some of $S_{i}$ can be expressed as \textcolor{black}{
+}linear combinations of {{} }\textcolor{black}{other } $S_{j}$
+asymptotically. Then the partial posterior can be reduced to a partial
+posterior based solely on the $S_{j}$. The functional form of $h$ is
+a natural consequence when we apply some version of strong law of
+large numbers to prove convergence of statistics. 
+
+In order to prove the theorem, we need some more technical assumptions.
+\begin{assumption}
+\label{assu:super-strong-consistent}Let $S=\left(S_{1},\ldots,S_{q}\right)$,
+assume 
+\[
+\lim_{n\rightarrow\infty}n^{1/2}\left\{ \frac{1}{n}\sum_{i=1}^{n}g\left(X_{i}\right)-S\right\} =0,\ascv.
+\]
+and there exists a strongly consistent estimator $\tilde{\Sigma}$
+of $\Sigma\left(\theta_{0}\right)$
+\end{assumption}
+Only Assumption \ref{assu:super-strong-consistent} seems quite restrictive.
+Based on all these assumptions, the theorem describing the partial
+posterior conditioned on less informative statistics can be found
+as follows:
+\begin{thm}
+\label{thm:bernsten-von-mise-inconsist-multv}Under the Assumptions
+\ref{assu:joint-normal-inconsist-stat},
+\ref{assu:super-strong-consistent} and conditions of Theorem 2.1
+in \citet{rivoirard2012bernstein}, for any vector $a\in\mathbb{R}^{q}$,
+\[
+\lim_{n\rightarrow\infty}\sup_{t\in\mathbb{R}}\left|P\left(\left.\frac{\sqrt{n}a^{T}\left(h\left(\theta\right)-S\right)}{\sqrt{a^{T}\tilde{\Sigma}a}}\le t\right|S\right)-\Phi\left(t\right)\right|=0,\ascv.
+\]
+\end{thm}
+\begin{proof}
+See \ref{sec:Proof-of-Theorem-3}.
+\end{proof}
+Theorem \ref{thm:bernsten-von-mise-inconsist-multv} extends the asymptotic
+results about $M$-estimators to more general statistics, particularly
+the intrinsically inconsistent statistics defined as follows.
+\begin{defn}[Intrinsic Consistency]
+Let $S$ be an non-ancillary statistic and converges to $h\left(\theta_{0}\right)$
+almost surely. If $h\left(\cdot\right)$ is an one-to-one function
+and has an inverse function, then we say $S$ is intrinsically consistent.
+Otherwise, we say $S$ is intrinsically inconsistent. 
+\end{defn}
+If $S$ is a one dimensional intrinsic inconsistent statistic, then
+Theorem \ref{thm:bernsten-von-mise-inconsist-multv} asserts the $\left(1-\alpha\right)$
+asymptotic credible set based on {{} } {the
+} partial posterior is 
+\[
+\left\{ \theta:S-Z_{\alpha/2}\sqrt{\frac{\tilde{\Sigma}}{n}}\le h\left(\theta\right)\le S+Z_{\alpha/2}\sqrt{\frac{\tilde{\Sigma}}{n}}\right\} .
+\]
+In an extreme case, when sample size $n$ is large enough, such that
+$Z_{\alpha/2}/\sqrt{n}\approx0$, the asymptotic credible interval
+by {{} } {the } full posterior would be
+close to the singleton $\left\{ \hat{\theta}\right\} $. However,
+the credible set based on {{} } {the } partial
+posterior would be $\left\{ \theta:h\left(\theta\right)=S\right\} $.
+By the definition of intrinsic inconsistency, $h$ is not a one-to-one
+function. Then the set $\left\{ \theta:h\left(\theta\right)=S\right\} $
+would possibly hold multiple elements, hence larger than that from {{}
+} {the } full posterior. Again, in this sense, we
+perceive loss of efficiency due to conditioning the posterior on arbitrary
+statistics. 
+
+Another interesting use of Theorem \ref{thm:bernsten-von-mise-inconsist-multv}
+is a more pragmatic asymptotic assessment of effectiveness of including {{}
+} {many} statistics than that in \citet{joyce2008approximately}.
+In their settings, the effectiveness of summary statistics is measured
+by the difference between log-likelihoods, thus not operable when
+likelihood  {{} functions are} intractable. On the other
+hand, our approach only {{} } {requires
+}the asymptotic behaviour of statistics, and the corresponding credible
+set with $q$ statistics can be developed by Cremer%
+\begin{comment}
+ask Ghosh
+\end{comment}
+{} device as 
+\[
+\left\{ \theta:n\left(h\left(\theta\right)-S\right)^{T}\tilde{\Sigma}\left(h\left(\theta\right)-S\right)\le\chi_{1-\alpha,q}^{2}\right\} ,
+\]
+where $\chi_{1-\alpha,q}^{2}$ is $\left(1-\alpha\right)$ quantile
+of chi-square distribution with degree of freedom $q$. To select
+summary statistics, we can compare the asymptotic credible sets with
+and without the current statistic. If the difference is small, then
+we can safely throw the current statistic away. 
+
+The following is a simple example to illustrate this phenomenon.
+\begin{example}
+\textcolor{black}{Let $X_{i}$ are i.i.d. sample from $N\left(\mu,\mu^{2}\right)$
+and we calculate the partial posterior $\pi\left(\mu\mid s^{2}\right)$,
+where $s^{2}$ is the sample standard deviation.  The prior of $\mu^{2}$
+is assumed to be inverse gamma distribution with shape parameter $\alpha$
+and scale parameter $\beta$. We know the $s^{2}\sim\mu^{2}\chi_{n-1}^{2}/\left(n-1\right)$,
+hence the partial posterior of $\mu^{2}$ conditioning on $s^{2}$
+is an inverse gamma distribution with shape parameter $\left\{ \alpha-1+\left(n-1\right)/2\right\} $
+and scale parameter $\left\{ \beta+\left(n-1\right)s^{2}/2\right\} $.
+This leads to a bimodal partial posterior for $\mu$. Hence, we can
+only get the absolute value of $\mu$ without sign information from
+this partial posterior.}
+\end{example}
+
+\section{\label{sec:abc-sdr}Approximate Bayesian Computation {{}
+} {via } Nonlinear Sufficient Dimension Reduction}
+
+In principle, almost all the existing dimension reduction methods
+are valid in estimating the summary statistics. However, there is
+a slight difference between the setting of SDR and ABC. In the theory
+of SDR, the independent assumption \ref{eq:sdr} must hold rigorously,
+which implies $Y\mid X$ has exactly the same distribution as $Y\mid S\left(X\right)$.
+However, by our Theorem \ref{thm:bernstein-von-mises-mle}, \ref{thm:partial-post-m-est}
+and \ref{thm:bernsten-von-mise-inconsist-multv}, the two distributions
+are only close in large but finite sample. 
+
+In our paper, we choose principal support vector machine in \citet{li2011principal}.
+Suppose we have a regression problem $\left(Y_{i},X_{i}\right)$,
+and search a nonlinear transformation $\varphi:\mathbb{R}^{p}\rightarrow\mathbb{R}^{d}$,
+such that $Y\independent X\mid\varphi\left(X\right)$. Then the main
+steps in principal support vector machine are given in Algorithm \ref{alg:Principal-Support-Vector}
+. 
+
+\begin{algorithm}
+\begin{enumerate}
+\item (Optional) Marginally standardize data $X_{1},\ldots,X_{n}$. The
+purpose of this step is so that the kernel $\kappa$ treats different
+components of $X_{i}$ more or less equally. 
+\item Choose kernel $\kappa$ and the number of basis {{} } {functions
+}$k$ (usually around $n/3\sim2n/3$). Compute $K=\left(\kappa\left(X_{i},X_{j}\right)\right)_{n\times n}$.
+Let $Q=I_{n}-J_{n}/n$, where $J_{n}$ is the $n\times n$ matrix
+whose entries are 1. Compute largest $k$ eigenvalues $\lambda_{1},\ldots,\lambda_{k}$
+and corresponding eigenvectors $w_{1},\ldots,w_{k}$ of matrix $QKQ$.
+Let $\Psi=\left(w_{1},\ldots,w_{k}\right)$ and $P_{\Psi}=\Psi\left(\Psi^{T}\Psi\right)^{-1}\Psi^{T}$
+be the projection matrix onto $\Psi$.
+\item \label{enu:svm}Partition the response variable space $Y$ into $h$
+slices defined by $y_{1},\ldots,y_{h-1}$. For each $y_{s},\: s=1,\ldots,h-1$,
+define a new response variable $\tilde{Y}_{si}=I_{\left[Y_{i}\le y_{s}\right]}-I_{\left[Y_{i}>y_{s}\right]}$.
+Then solve the modified support vector machine problem as a standard
+quadratic programming 
+\[
+\min_{\alpha}-1^{T}\alpha+\frac{1}{4}\alpha^{T}\mathrm{diag}\left(\tilde{Y}_{s}\right)P_{\Psi}\mathrm{diag}\left(\tilde{Y}_{s}\right)\alpha,
+\]
+subject to constraints
+\[
+\begin{cases}
+0\le\alpha\le\lambda,\\
+\tilde{Y}_{s}^{T}\alpha=0,
+\end{cases}
+\]
+where $\mathrm{diag}\left(\tilde{Y}_{s}\right)$ is a diagonal matrix
+using $\tilde{Y}_{s}$ as diagonal, $\lambda$ is a hyper-parameter
+in ordinary support vector machine. The coefficients of support vectors
+in RKHS {{} } {are} 
+\[
+c_{s}^{*}=\frac{1}{2}\left(\Psi^{T}\Psi\right)^{-1}\Psi^{T}\mathrm{diag}\left(\tilde{Y}_{s}\right)\alpha_{s}.
+\]
+
+\item \label{enu:pca}Let $d$ be the target dimension. Compute the eigenvectors
+$v_{1},\ldots,v_{d}$ of first largest $d$ eigenvalues of the matrix
+$\sum_{s=1}^{h-1}c_{s}^{*}c_{s}^{*T}$. Let $V=\left(v_{1},\ldots,v_{d}\right).$
+\item Let $K\left(x,X\right)=\left(\kappa\left(x,X_{i}\right)-n^{-1}\sum_{j=1}^{n}\kappa\left(x,X_{j}\right)\right)$
+be a $n$ dimensional vector. Then the estimated transformation $\hat{\varphi}\left(x\right)=V^{T}\left(\mathrm{diag}\left(\lambda_{1},\ldots\lambda_{k}\right)\right)^{-1}\Psi^{T}K\left(x,X\right).$
+\end{enumerate}
+\protect\caption{Principal Support Vector Machine\label{alg:Principal-Support-Vector}}
+\end{algorithm}
+By slicing the response variable space, we discretize variation of
+$Y$. The support vector machine in Step \ref{enu:svm} recognizes
+the robust separate hyperplanes. We will expect the variation of $Y$
+along the directions within hyperplanes to be negligible and that
+along the directions perpendicular to the hyperplanes the most part
+of covariation between $Y$ and $X$ is explained. The principal component
+analysis on the support vectors in Step \ref{enu:pca} estimates the {{}
+} {principal } {{} }perpendicular directions
+and hence creates the sufficient directions in RHKS. 
+
+Based on Algorithm \ref{alg:Principal-Support-Vector}, we formulate
+our  {two-step }approximate Bayesian computation algorithm
+in Algorithm \ref{alg:ABC-via-PSVM}.
+
+\begin{algorithm}
+\begin{enumerate}
+\item \label{enu:direct-sampling}Sample $\theta_{i}$ from the prior $\pi\left(\theta\right)$
+and sample $X_{i1},\ldots,X_{in}$ from the model $f\left(x\mid\theta_{i}\right)$. 
+\item View $\left(\theta_{i},X_{i1},\ldots X_{in}\right)$ as a multivariate
+regression problem and reduce the dimension from $n$ to $d$ via
+principal support vector machine. Denote the estimated transformation
+as $\hat{S}\left(X_{1},\ldots,X_{n}\right)$. 
+\item Either use existent samples in Step \ref{enu:direct-sampling} or
+repeat it and get new sample. Calculate the estimated summary statistics
+$\hat{S}_{i}=\hat{S}\left(X_{i1},\ldots,X_{in}\right)$ on each set
+$X_{i1},\ldots,X_{in}$ corresponding to prior samples $\theta_{i}$.
+Also calculate $\hat{S}_{\mathrm{obs}}=\hat{S}\left(X_{1},\ldots,X_{n}\right)$
+on the observed data set.
+\item Based on the metric $\rho\left(\hat{S}_{i},\hat{S}_{\mathrm{obs}}\right)$,
+make the decision of accept or reject of $\theta_{i}$. 
+\end{enumerate}
+\protect\caption{\label{alg:ABC-via-PSVM}ABC via PSVM}
+\end{algorithm}
+Algorithm \ref{alg:ABC-via-PSVM} directly generalizes the semi-automatic
+ABC in \citet{fearnhead2012constructing}. In their algorithm, the
+summary statistics are fixed as posterior means and recommended the
+estimation method is polynomial regression. Our algorithm relaxes
+the restriction on summary statistics and{} lets
+the data and nonparametric algorithm together find them adaptively.
+One significant difference between our algorithm and the conventional
+ABC is in Step \ref{enu:direct-sampling}, where each prior sample
+$\theta_{i}$ produces exact $n$ simulated data, because the nonparametric
+estimator of statistics should take $n$ arguments so that it can
+be evaluated at both observed data and simulated data.
+\subsection{Robustness of PSVM}
+
+\textcolor{black}{The discrepancy between the asymptotic behavior
+of ABC and settings in SDR requires new properties of PSVM, namely
+robustness, which suggests that $\hat{\Gamma}$ from PSVM would be
+in the vicinity of the true summary statistics function $\Gamma$
+in some sense even if the partial posterior is only close to the full
+posterior. Here is the theorem which validates this property.}
+\begin{theorem}[Robustness of PSVM]
+\textcolor{black}{\label{thm:robust-psvm} Assume 
+\[
+\lim_{n\rightarrow\infty}\sup_{s}\left|P\left\{ \theta\le s\mid\Gamma_{n}^{T}\left(X_{1},\ldots,X_{n}\right)\right\} -P\left(\theta\le s\mid X_{1},\ldots,X_{n}\right)\right|=0,
+\]
+where $\Gamma\in\mathbb{R}^{n\times d}$, with $d$ fixed. Further
+assume all the conditions in Theorem 4 and 5 in \cite{li2011principal}. Let $\hat{\Gamma}_{n}$
+be the result from PSVM. Then 
+\[
+\hat{\Gamma}_{n}-\Gamma_{n}\overset{p}{\rightarrow}0.
+\]
+}\end{theorem}
+\begin{proof}
+\textcolor{black}{See Appendix E. }
+\end{proof}
+
+\subsection{\textcolor{black}{Simulation Example }}
+
+\textcolor{black}{First, we will show a simple simulation example
+to illustrate the robustness of SVM, which serves as the foundation
+of the robustness of PSVM.}
+\begin{example}
+\textcolor{black}{Let $\theta\mid X_{1},X_{2}\sim N\left(2X_{1}+X_{2}+0.001\left(X_{1}^{2}+X_{2}^{2}\right),1\right)$.
+Hence the conditional distribution of $\theta$ on $X_{1},X_{2}$
+is close to $N\left(2X_{1}+X_{2},1\right)$. Then the normal vectors
+of sliced SVM should be in vicinity of $\left(2,1\right)$. We choose
+the slicing point $s=1.5$. The results are summarized in Fig \ref{fig:Normal-Vectors-sliced-svm}.
+The dots are normal vectors, the solid line is the principal component
+direction of normal vectors, and the reference dashed line is $\psi_{1}=2\psi_{2}$.
+We can see the principal component direction is quite close to the
+reference line.}
+
+\begin{figure}
+{\includegraphics[scale=0.5]{normalVec}\protect\caption{\textcolor{black}{Normal Vectors of Separate Hyperplanes in Sliced
+SVM}\label{fig:Normal-Vectors-sliced-svm}}
+}
+
+\end{figure}
+
+\end{example}
+
+Next, we will show a simple simulation example to illustrate our algorithm.
+
+\begin{example}
+Autoregressive model with lag one, AR(1). 
+\[
+Y_{i}=\beta Y_{i-1}+\varepsilon.
+\]
+Set $Y_{1}=1$ and number of observation is 100. Assume $\varepsilon\sim N\left(0,0.5^{2}\right)$,
+true regression coefficient 0.6. We put uniform prior in $\left(-1,1\right)$
+on $\beta$, then the true posterior distribution is $N\left(\sum_{i=1}^{99}Y_{i}Y_{i+1}/\left(1+\sum_{i=1}^{99}Y_{i}^{2}\right),\left(1+\sum_{i=1}^{99}Y_{i}^{2}\right)^{-1}\right)$.
+Now we apply our algorithm with the target dimension $d=1$ and slicing
+pieces $h=4$ with the slicing parameters $y_{k}$ as quartiles. The
+sample size from the prior is 1000, with $k=100/2=500$. Kernel $\kappa$
+is chosen as Gaussian kernel $\kappa\left(x_{i},x_{j}\right)=\exp\left(-10^{-5}\times |x_{i}-x_{j} |^{2}\right)$.
+Then the posterior density estimated from ABC samples are plotted
+in Fig. \ref{fig:ABC-vs-True}. %
+\begin{comment}
+try increasing number of slice and k
+\end{comment}
+
+
+\begin{figure}
+\includegraphics[scale=0.7]{ABCvsFull_100_1000_4.pdf}\protect\caption{ABC Density vs True Posterior Density\label{fig:ABC-vs-True}}
+\end{figure}
+The slight skewness in Fig. \ref{fig:ABC-vs-True} possibly due the
+the small sample size of the observed data. Another interesting result
+of this simulation is shown in Fig. \ref{fig:ss-vs-mle}. 
+\begin{figure}
+\includegraphics[scale=0.7]{ESSvsMLE_100_1000_4.pdf}\protect\caption{Estimated Summary Statistic vs MLE\label{fig:ss-vs-mle}}
+\end{figure}
+There is a strong linear relationship between the estimated summary
+statistic and MLE 
+\[
+\hat{\beta}=\frac{\sum_{i=1}^{99}Y_{i}Y_{i+1}}{\sum_{i=1}^{99}Y_{i}^{2}},
+\]
+which is one of the most efficient summary {{} } {statistics
+} based on Theorems \ref{thm:bernstein-von-mises-mle} and \ref{thm:partial-post-m-est}.
+Hence, our algorithm will automatically approach the most efficient
+summary statistics in a nonparametric way. 
+\end{example}
+
+\section{\label{sec:Discussion}Discussion}
+
+\begin{comment}
+not know epsilon sufficient, not know sufficient lead to intrinsic
+consistency,regression had to generate to multivariate theta,dim must
+be same
+\end{comment}
+In this paper, we explore ABC both from a theoretical and computational
+points of view. The theory part architects the foundation of ABC by
+linking asymptotic properties of statistics to that of the partial
+posterior. The application part innovates the algorithm by virtue
+of bridging selection of summary statistics and SDR. However, although
+the theory in \citet{li1992principal} is very powerful and may be
+used as a theoretical guard of our algorithm, it heavily depends on
+the relation (\ref{eq:sdr}) holding rigorously. We do not know whether
+the result from principal support vector machine would be defunct
+if (\ref{eq:sdr}) is only valid in $\varepsilon$-sufficient way.
+Moreover, bringing in dimension reduction regression settings perhaps
+moderates the usage when there are multiple parameters of interest,
+and may need advance techniques such as envelope models of \citet{su2011partial,su2012inner}. 
+
+
+\section*{Acknowledgment}
+
+Ghosh's research was partially supported by an NSF Grant.

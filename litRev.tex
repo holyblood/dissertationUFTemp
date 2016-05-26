@@ -1,0 +1,689 @@
+\chapter{Literature Review}
+
+\section{Empirical Likelihood}
+
+Empirical likelihood is a nonparametric method of inference based
+on data-driven likelihood ratio function. Like the bootstrap and jackknife,
+empirical likelihood inference does not require us to specify a family
+of distributions for the data. 
+Also like parametric likelihood methods,
+empirical likelihood makes an automatic determination of the shape
+of confidence regions; it straightforwardly incorporates side information
+expressed through constraints or prior distributions; it extends to
+biased sampling and censored data, and it has very favorable asymptotic
+power properties.
+
+Empirical likelihood was first proposed by \citet{owen1988empirical}
+as follows. For i.i.d sample $X_{1},\ldots,X_{n},$ the empirical
+likelihood ration function is 
+\[
+R\left(\mu\right)=\max\left\{ \left.\prod_{i=1}^{n}nw_{i}\right|\sum_{i=1}^{n}w_{i}X_{i}=\mu,w_{i}\ge0,\sum_{i=1}^{n}w_{i}=1\right\} ,
+\]
+and the resulting asymptotic confidence region is 
+\begin{equation}
+\left\{ \mu\mid R\left(\mu\right)\ge\chi_{1,\alpha}^{2}\right\} =\left\{ \left.\sum_{i=1}^{n}w_{i}X_{i}\right|\prod_{i=1}^{n}nw_{i}\ge\chi_{1,\alpha}^{2},w_{i}\ge0,\sum_{i=1}^{n}w_{i}=1\right\} .\label{eq:ci-original-el}
+\end{equation}
+\begin{comment}
+rubin 1981 bayesian bootstrap in wu changbao. ? lit review asymp exp
+obj prior. 
+\end{comment}
+The following research generalizes this method to more complex settings,
+\[
+R\left(\theta\right)=\min\left\{ \left.d\left(\sum_{i=1}^{n}w_{i}I_{\left[x=X_{i}\right]},\sum_{i=1}^{n}\frac{1}{n}I_{\left[x=X_{i}\right]}\right)\right|\sum_{i=1}^{n}w_{i}g\left(X_{i},\theta\right)=0,w_{i}\ge0,\sum_{i=1}^{n}w_{i}=1\right\} ,
+\]
+where $g\left(\cdot,\cdot\right)$ is general estimating function,
+and $d\left(\cdot,\cdot\right)$ is some divergence measure.%
+\begin{comment}
+prob cov ch2 ch3
+\end{comment}
+{} For more details, see \citet{owen2010empirical}.
+
+
+\subsection{Different $g$ }
+
+\citet{owen1991empirical} first considered normal equations
+in linear regression as $g$. Later, almost all the facets in traditional
+linear regression were transplanted into empirical likelihood. \citet{chen1993accuracy,chen1994empirical}
+developed confidence regions for regression coefficients. \citet{jing1995two,adimari1995empirical}
+considered the problem of comparing the means of two populations.
+\citet{davidian1987variance} investigated different variance structures
+in regression. \citet{kolaczyk1995information} formulated empirical
+information criterion as an empirical likelihood version of AIC. 
+
+Besides linear regression, the authors in this area also took efforts
+to incorporate more complex models into empirical likelihood. \citet{chen1993smoothed}
+used kernel smoothing technique to construct $g$ for quantiles. \citet{whang2006smoothed}
+extended this technique into empirical likelihood quantile regression.
+\citet{kolaczyk1994empirical} further extended $g$ into generalized
+linear model. \citet{hall1993empirical} studied empirical likelihood
+confidence bands for kernel density estimates. \citet{chen2000empirical}
+studied empirical likelihood confidence intervals for local linear
+kernel smoothing. \citet{peng2004empirical} investigated empirical
+likelihood confidence intervals for heavy-tailed distributions.
+
+Data drawn from sophisticated designs have also been taken into consideration.
+\citet{qin1993empirical} applied empirical likelihood to biased sampling
+data, whose distribution $G$ related the distribution of interest
+$F$ through a biasing function $u$, that is
+\[
+G\left(A\right)=\frac{\int_{A}u\left(y\right)\diff F\left(y\right)}{\int u\left(y\right)\diff F\left(y\right)},
+\]
+for every Borel set $A$.
+This result was further generalized by \citet{qin1997goodness,qin1999empirical} and \citet{qin1998semiparametric}
+for biased sampling. \citet{chen1993empirical}
+presented empirical likelihood for samples from a finite population.
+\citet{chen1999pseudo} formulated an empirical likelihood that incorporated
+design weights. \citet{wu2001model} considered a setting where the
+entire population is known but only the sample are available. \citet{loh1996latin}
+investigated Latin hypercube samples by empirical likelihood confidence
+region. Empirical likelihood analysis of cumulative hazard function
+was established by \citet{murphy1995likelihood}. \citet{adimari1997empirical}
+considered empirical likelihood inferences for the mean under independent
+right censoring and later \citet{pan2002empirical} extended it to
+do inference about more general functionals of the hazard function
+$\int q_{n}\left(x\right)\diff\Lambda\left(x\right)$. \citet{murphy1997semiparametric}
+considered general double censoring and proportional hazard
+model.
+
+Inference on infinite dimensional parameters, such as CDF and quantile
+functions are also visited. \citet{owen1995nonparametric} built exact
+confidence bands for CDF based on empirical likelihood. \citet{hollander1997likelihood}
+found asymptotic confidence bands for survival function for right
+censoring data. \citet{zhang1996confidence,zhang1999bootstrapping}
+constructed confidence bands when auxiliary information was available. 
+
+Finally, for independent data, I refer to \citet{qin1994empirical}
+as a useful general case. They analyzed the behavior of empirical
+likelihood when $g$ was a smooth estimating function and number of
+parameters was less than number of constraint equations. They proposed
+maximum empirical likelihood estimators which could be viewed as
+an alternative to least square estimators when the data could not square
+with the model. \citet{molanes2009empirical} extended this work into
+non-smooth criterion function. 
+
+Dependent data can also be analyzed by empirical likelihood. \citet{chuang2002empirical}
+applied empirical likelihood to unstable auto-regression. \citet{kitamura1997empirical}
+developed block-wise empirical likelihood for weakly dependent data
+and extended the result in \citet{qin1994empirical}. \citet{chen2009smoothed}
+combined block-wise and smooth techniques in order to estimate quantiles
+for weakly dependent data. \citet{nordman2007empirical} applied block-wise
+empirical likelihood for long-range dependence processes but the limit
+distribution became a multiple Wiener integral instead of simple $\chi^{2}$.
+The spectral approach to empirical likelihood was due to \citet{monti1997empirical}.
+\citet{mykland1995dual} extended empirical likelihood into martingale
+by dual likelihood technique. Suppose $m_{n}\left(\theta\right)$
+is a zero mean martingale depending on data and model, for example,
+a sample estimating equation or martingale leading to Nelson--Aalen
+estimator, then the log dual likelihood $l\left(\mu\right)$ for dual
+parameter $\mu$ and fixed $\theta$ is defined by partial differential
+equations 
+\[
+m_{n}\left(\theta\right)=\left.\nabla l_{\theta}\left(\mu\right)\right|_{\mu=0},
+\]
+ or through Dol\textipa{\'e}ans--Dade multiplicative martingale 
+\[
+l_{\theta}\left(\mu\right)=-\mu^{T}\Lambda_{t}\left(\theta\right)+\sum_{s\le t}\left(1+\mu^{T}\Delta m_{s}\left(\theta\right)\right).
+\]
+This definition coincides empirical likelihood for i.i.d data and discrete time. \citet{wang2011empirical} addressed quantile
+and the corresponding likelihood ratio test is $\mathrm{LR}=2\sup_{\mu}l_{\theta}\left(\mu\right)$.
+regression with longitudinal data by empirical likelihood. A more
+recent study by \citet{bandyopadhyay2015frequency} introduced empirical
+likelihood into spatial data analysis. 
+
+
+\subsection{Different $d$ }
+
+There is also literature on the effect of different empirical divergence
+measures in empirical likelihood settings. \citet{hall1999biased}
+used empirical entropy to construct robust confidence regions for
+non-robust statistics like the mean. \citet{baggerly1998empirical}
+extended $d$ to Cressie-Read family in the sample mean case and proved
+empirical likelihood was the only Bartlett correctable member of that
+family. In econometrics, \citet{mittelhammer2000econometric} used
+empirical entropy and Cressie--Read divergence measure in $d$ and
+linked maximum empirical likelihood estimator to general method of
+moment. To overcome the drawback that empirical likelihood domain
+$\Theta$ was usually smaller than the full parameter space $\mathbb{R}^{p}$,
+\citet{tsao2014extended} defined a surjective composite similarity
+mapping 
+\[
+h^{C}\left(\theta\right)=\hat{\theta}_{\mathrm{MELE}}+\left(1+\frac{R\left(\theta\right)}{2n}\right)\left(\theta-\hat{\theta}_{\mathrm{MELE}}\right),
+\]
+from $\Theta$ to $\mathbb{R}^{p}$, and used its generalized inverse
+to adjust original empirical likelihood into $R\left(\left(h^{C}\right)^{-1}\left(\theta\right)\right)$. 
+
+
+\subsection{Higher-Order Properties }
+
+Higher order properties have also been investigated. Bartlett
+correctable is one of the most favorite aspects of using empirical likelihood.
+This correction is usually based on an Edgeworth expansion of the empirical
+likelihood version, and has the following form: instead of using \ref{eq:ci-original-el},
+the more accurate version is 
+\[
+\left\{ \theta\mid-2\log R\left(\theta\right)\le\left(1+\frac{a}{n}\right)\chi_{p,1-\alpha}^{2}\right\} ,
+\]
+or 
+\[
+\left\{ \theta\mid-2\log R\left(\theta\right)\le\left(1-\frac{a}{n}\right)^{-1}\chi_{p,1-\alpha}^{2}\right\} .
+\]
+The fist Bartlett correction was given in \citet{diciccio1991empirical}
+for the sample mean. \citet{zhang1996accuracy} extended it to general
+estimating function. However, \citet{lazar1999empirical} reported
+failure of Bartlett correction when there were nuisance parameters.
+This is where the empirical likelihood shows different
+behavior from parametric likelihoods. This problem was solved by \citet{chen2006bartlett}.
+Other Bartlett correction usually follows the development of the empirical
+likelihood model. \citet{biao1998note} showed that there was no first
+order asymptotic benefit from global side constraints in kernel density
+estimation. However, \citet{chen1997empirical} proved that the second
+order asymptotic benefit could be expected via imposing side information.
+\citet{newey2004higher} considered higher order properties of
+maximum empirical likelihood estimators in the general method of moments
+setting. \citet{kitamura2001asymptotic} gave some theorems on the
+large deviation properties of empirical likelihood, and his simulation
+suggested empirical likelihood performed very well at hypotheses father
+from the null. 
+
+
+\subsection{High Dimension and Sparsity}
+
+High dimensional data and sparsity are pivotal topics in recent years
+and they also shed light on empirical likelihood. \citet{tsao2004bounds}
+pointed out the failure of empirical likelihood even if the number
+of parameters was moderately larger than the number of observations $p/n>1/2$.
+\citet{hjort2009extending} rescaled the empirical likelihood itself
+by number of parameters and asserted a normal limit distribution. Their
+work was generalized by \citet{chen2009effects} with less restrictions.
+\citet{chen2008adjusted} and \citet{emerson2009calibration} proposed adjusted
+empirical likelihood by adding pseudo observations. \citet{bartolucci2007penalized}
+added Tikhonov regularization defined sample covariance matrix and
+succeeded when growing $p<n$. \citet{lahiri2012penalized} added
+component wise penalties and extended the result into weak and  long-range
+dependency and $p>n$. \citet{tang2010penalized} added popular SCAD
+penalty to traditional empirical likelihood for population mean and
+validated sparsity in high dimensional settings. \citet{leng2012penalized}
+extended this work to generalized estimating equations and more general
+penalties. An interesting result from \citet{chang2015high} shows
+the usual block-wise empirical likelihood is still working if the
+number of constraints is growing with the number of parameters in some
+rate.
+
+
+\subsection{Bayesian }
+
+Compared to the fruitful frequentist research in empirical likelihood,
+Bayesian counterparts are just at the beginning. \citet{lazar2003bayesian}
+started the Bayesian empirical likelihood and did many simulations
+to prove its validation. \citet{schennach2005bayesian,schennach2007point}
+explained the Bayesian exponentially tilted empirical likelihood as
+the limit of some nonparametric procedure. \citet{grendar2009asymptotic}
+found the equivalence between maximum empirical likelihood estimators
+and Bayesian maximum a posteriori probability estimators under model
+misspecification. \citet{lancaster2010bayesian} used Bayesian exponentially
+tilted empirical likelihood for quantile regression. \citet{fang2005expected,fang2006empirical}
+established probability matching prior for empirical likelihood for
+population mean case, which allowed the credible intervals to have
+validity in the frequentist sense. \citet{chang2008bayesian} consolidated
+this result by showing empirical likelihood was the only member who
+enjoyed both Bayesian and frequentist validity. \citet{vexler2013nonparametric}
+used empirical likelihood as a non-parametric method to estimate Bayes
+factor in model selection. \citet{vexler2014posterior} showed some
+James-Stein phenomenon for Bayesian empirical likelihood. \citet{rao2010bayesian}
+ a prior on empirical
+weights $w_{i}$ in complex survey settings.
+
+\begin{comment}
+more papers in abc folder, pro and con of el
+\end{comment}
+
+
+
+\section{Option Pricing}
+
+Since the seminal works by \citet{black1973pricing} and \citet{merton1973intertemporal},
+option valuation methodologies have been extensively developed. The
+Black-Scholes model has become one of the most well-known discoveries
+in finance literature, which relates the cross-sectional properties
+of option prices with the underlying asset return distribution.
+However, \citet{rubinstein1985nonparametric} and \citet{melino1990pricing} pointed out
+several limitations in the Black-Scholes model due to the strong assumptions,
+such as non-normality of the returns, stochastic volatility (implied
+volatility smile), jumps and others. Both parametric and nonparametric
+approaches have been proposed to deal with these issues. 
+
+\citet{scott1987option,hull1987pricing} and \citet{wiggins1987option} extended the
+Black and Scholes model and allowed the volatility to be stochastic.
+\citet{heston1993closed} developed a closed-form solution for option pricing
+with the underlying assets volatility being stochastic. \citet{duan1995garch}
+proposed a GARCH option pricing model in an attempt to explain some
+systematic biases associated with the Black-Scholes model. Later \citet{heston2000closed} provided a closed-form solution for option pricing
+with the underlying assets volatility following GARCH$(p,q)$ process.
+\citet{bates1996jumps} and  \citet{bakshi1997empirical} derived an option pricing
+model with stochastic volatility and jumps. \citet{kou2002jump} provided a
+solution to pricing the option with the double exponential jumps diffusion
+process. \citet{carr1999option} introduced the fast Fourier transform
+approach to option pricing given a specified characteristic function
+of the return, which provides an efficient computational algorithm
+to calculate the option prices. For further reference, see \citet{duffie2000transform,bakshi2000spanning},  and \citet{carr2009saddlepoint} among
+others. All these methods are parametric based, which assume a parametric
+form of either the distribution of the underlying assets returns or
+the characteristic function of the underlying assets returns. 
+
+Nonparametric approaches have also been proposed to capture the underlying
+asset and option price data to reconstruct the structure of the diffusion
+process. For example, \citet{hutchinson1994nonparametric} applied the
+neural network techniques to price the derivatives. \citet{ait1998nonparametric} used the kernel regression to fit the state-price density
+implicitly in option pricing. \citet{ait1996nonparametric} proposed a nonparametric
+pricing estimation procedure for interest rate derivative securities
+under the assumption that the unknown volatility is independent of
+time. \citet{stutzer1996simple} adopted the canonical valuation method, which
+incorporats the no-arbitrary principle embodied in the formula for
+calculating the expectation of the discounted value of assets under
+the risk-neutral probability distribution. %
+
+
+
+
+\section{Approximate Bayesian Computation}
+
+Approximate Bayesian Computation (ABC) methods, also known as likelihood-free
+techniques, have appeared in the past ten years as the most satisfactory
+approach to intractable likelihood problems, first in genetics then
+in a broader spectrum of applications. Intractable likelihood is a
+common phenomenon in statistical modeling. 
+\begin{itemize}
+\item The likelihood is expressed as a multidimensional integral, 
+\[
+l\left(\theta\mid Y\right)=\int l^{*}\left(\theta\mid Y,u\right)\diff u,
+\]
+where $Y$ is observation, $u$ is latent variable and $\theta$ is
+the parameter of interest, for example, coalecent model in population
+genetics. Typically when the dimension of $u$ is large, the convergence
+properties of MCMC like Gibbs sampler and Metropolis--Hastings algorithm
+are too poor to use in practice. 
+\item The normalizing constant is unknown. This is typically the case of
+Gibbs random fields in order to model spatially correlated data such
+as epidemiology and image analysis. 
+\item The likelihood function is not completely known, that is 
+\[
+l\left(\theta\mid Y\right)=l_{1}\left(\theta\mid Y\right)l_{2}\left(\theta\right).
+\]
+In the past, Laplace approximations by \citet{tierney1986accurate}
+or variational Bayes solutions by \citet{jaakkola2000bayesian} have
+been advanced for such problems. However, Laplace approximations require
+some analytic knowledge of the posterior distribution, while variational
+Bayes solutions replace the true model with another pseudo-model which
+is usually much simpler and thus misses some of the features of the
+original model.
+\end{itemize}
+\begin{comment}
+abc machine learning
+\end{comment}
+
+
+The idea of ABC dated back to \citet{rubin1984bayesianly} as an intuitive
+way to understand posterior distributions from a frequentist's perspective,
+because parameters from the posterior are more likely to be those
+that could have generated the observed data. The first ABC algorithm
+was born in \citet{tavare1997inferring} and  \citet{pritchard1999population}
+as 
+\begin{algorithm}[h]
+\begin{enumerate}
+\item Sample parameters $\theta_{i}$ from the prior distribution $\pi\left(\theta\right)$;
+\item Sample data $Z_{i}$ based on the model $f\left(z\mid\theta_{i}\right)$;
+\item Accept $\theta_{i}$ if $\rho\left(S\left(Z_{i}\right),S\left(X_{\mathrm{obs}}\right)\right)\le\varepsilon$, {{}
+} {for some metric $\rho$ and summary statistics
+$S$. }
+\end{enumerate}
+\protect\caption{\label{alg:Prichard-ABC}Prichard's Modified ABC}
+\end{algorithm}
+For more details, see \citet{marin2012approximate}.
+
+
+\subsection{Different Sampling Schemes}
+
+In practice, if one uses non-informative prior, simulation would be
+very inefficient, because of high rejection rate of prior sample locating
+in low posterior probability regions. As an answer to this problem,
+\citet{marjoram2003markov} applied Metropolis--Hastings algorithm
+in sampling from prior distributions and built MCMC-ABC algorithm.
+\citet{picchini2014inference} used this method to analyze data from
+stochastic differential equations. \citet{lee2014variance} backed
+up this method by several theoretical results including variance bound
+and geometric ergodicity. \citet{ratmann2009model} used tolerance
+level $\varepsilon=\rho\left(S_{i},S_{\mathrm{obs}}\right)$ as an
+additional parameter of the model and proposed ABC$_{\mu}$, as method
+to assess model uncertainty. \citet{wilkinson2013approximate} replaced
+the hard accept-reject scheme by soft kernel smoothing, called noisy
+ABC, 
+\[
+\pi_{\varepsilon}\left(\theta,z\mid Y\right)\propto\pi\left(\theta\right)f\left(z\mid\theta\right)K_{\varepsilon}\left(Y-z\right),
+\]
+where $K_{\varepsilon}$ is a well-chosen kernel parameterized by
+the bandwidth $\varepsilon$. He also made the valuable point that
+noisy ABC simulated exactly from the posterior conditioning on observations
+with errors. \citet{sisson2007sequential} combine partial rejection
+control and ABC to solve the inefficiency when prior and posterior
+are dissimilar. In order to analyze hidden Markov models, \citet{jasra2012filtering}
+proposed ABC filtering incorporated sequential Monte Carlo (SMC) method.
+This procedure was theoretically justified in parameter estimation by
+\citet{dean2014parameter}. %
+\begin{comment}
+detail of justification
+\end{comment}
+Using SMC sampler will result in a bias in approximation to the posterior.
+To overcome this problem, \citet{beaumont2009adaptive} incorporated
+population Monte Carlo method into ABC-PRC by modifying the importance
+sampling weights with an component-wise random walk estimator of likelihood
+and using decreasing tolerance levels. MCMC-ABC also suffers from
+poor mixture properties when tolerance level is small. To rectify this
+weakness, \citet{baragatti2013likelihood} proposed ABC parallel tempering
+scheme. The basic technique is running several MCMC-ABC chains with
+different tolerance levels and swap some chains under certain conditions.
+They recommended ABC-PT when the posterior was multi-modal. 
+
+
+\subsection{Calibration}
+
+\citet{mckinley2009inference} performed a simulation comparing ABC-MCMC
+and ABC-SMC. The conclusions are the choice of the distance, the summary
+statistics are paramount to the success of ABC, while the tolerance
+level does not seem to have a strong influence.
+
+For parameter estimation, the ideal summary statistics would be the
+sufficient statistics. However, for most real problems, it is impossible
+to find them. \citet{joyce2008approximately} considered sequential
+inclusion of summary statistics based on likelihood ratios. Nevertheless,
+their method does not address the issue of construction of summary
+statistics and does not take into account the sequential nature of
+likelihood ratios. \citet{aeschbacher2012novel} advocated inclusion
+via boosting. \citet{blum2013comparative} summarized several other
+methods to select summary statistics, such as information criterion,
+partial least square regression, neural network. \citet{fearnhead2012constructing}
+used polynomial regression to estimate the posterior mean and used
+it as a summary statistic. To our knowledge, this is the
+first method which is able to  construct automatic summary statistics.
+\citet{ruli2013approximate} suggested using score function of composite
+likelihood as summary statistics. \citet{barthelme2014expectation}
+applied expectation propagation approximation in ABC, that is approximating
+the posterior by 
+\[
+\pi\left(\theta\right)\prod_{i=1}^{n}\int f\left(Z_{i}\mid Y_{1},\ldots,Y_{i-1},\theta\right)I_{\left[\left|S_{i}\left(Z_{i}\right)-S_{i}\left(Y_{i}\right)\right|\le\varepsilon\right]}\diff Z_{i},
+\]
+where $S_{i}$ is a local summary statistics for a lower dimensional
+data $Z_{i}$, typically $S_{i}\left(Z_{i}\right)=Z_{i}$. By replacing
+global summary statistics with local ones, they proved their algorithm
+EP-ABC was faster than usual ABC because the accept rate might be
+higher.
+
+For model selection, the situation is complex. \citet{grelaud2009abc}
+used sufficient statistics in model selection between Gibbs random
+fields. However, \citet{marin2014relevant} suggested the statistics
+auxiliary under all candidate models as the best summary statistics
+in model selection based on Bayesian factor.%
+\begin{comment}
+add the paper post the problem of model selection in abc
+\end{comment}
+
+
+Calibration of tolerance levels has also attracted many attention. \citet{biau2012new}
+viewed the rejection based on metric as a $k$-nearest neighbor procedure
+and then calibration on $\varepsilon$ is equivalent to calibration
+of $k$. Their results favor $k\approx N^{\left(p+4\right)/\left(p+d+4\right)}$,
+where $N$ is the number of simulations from model, $p$ is the dimension
+of the parameters of interest, and $d>4$ is the dimension of the
+summary statistics, and under this calibration, they derived rate
+of convergence of mean square error of density estimation. \citet{ratmann2013statistical}
+treated the calibration of $\varepsilon$ as a statistical hypothesis
+testing problem and obtained $\varepsilon$ as a critique value in
+hypothesis testing. The advantage of their method is the MAP estimate
+is the same under full posterior and ABC posterior and the Kullback--Leibler
+divergence of the two distributions is small. 
+
+
+\subsection{Post-Process}
+
+Besides modifying sampling scheme and summary statistics, one could
+also improve inference by carefully processing the output from
+ABC. Viewing approximation to the posterior as a conditional density
+estimation problem, \citet{beaumont2002approximate} applied local
+linear regression by replacing the simulated raw $\theta$ by 
+\[
+\theta^{*}=\theta-\left(S\left(z\right)-S\left(Y\right)\right)^{T}\hat{\beta},
+\]
+where $\hat{\beta}$ is obtained by a weighted least square regression,
+using weights of the form $K_{\varepsilon}\left(\rho\left(S\left(z\right),S\left(Y\right)\right)\right)$.
+\citet{blum2010non} generalized this idea to nonlinear regression
+with heteroskedasticity estimated by a neural net with one hidden
+layer. \citet{leuenberger2010bayesian} addressed the same issue using
+inverse regression.
+
+
+\section{Sufficient Dimension Reduction}
+
+
+
+Sufficient dimension reduction (SDR) is an emerging topic in recent
+statistical area. As one of the answers to high dimension problems
+, SDR usually has solid theoretical background to guarantee large
+sample consistency and valid statistical procedures to select the
+dimension of results, comparing with machine learning techniques such
+as manifold learning. The original problem is formulated as follows.
+Let $X\in\mathbb{R}^{p}$ and $Y\in\mathbb{R}$, and there is a unknown
+lower dimensional transformation $S:\mathbb{R}^{p}\rightarrow\mathbb{R}^{d}$,
+where $d<p$, the one we need to estimate, which satisfies 
+\[
+P\left(Y\le y\mid X\right)=P\left(Y\le y\mid S\left(X\right)\right),\forall y\in \mathbb{R}.
+\]
+Most papers in SDR focus on the case where  $S$ is a
+linear transformation, that is $S\left(X\right)=\beta^{T}X$, where
+$\beta\in\mathbb{R}^{p\times d}$. Note that even in linear SDR, 
+inference differs from transitional parameter estimation, because
+for any non-singular matrix $T$, $\beta T$ is still a valid dimension
+reduction transformation. As a result, the exact values of each
+entries in $\beta$ is not identifiable, but the column space of $\beta$
+is uniquely determined. So the parameters in linear SDR should essentially
+be in a space called central subspace denoted by $S_{Y\mid X}$ in \citet{cook1994interpretation}
+and the optimization problems are in general
+constrained in the set of subspaces called Grassmann manifold instead
+of the usual Euclidean space. %
+\begin{comment}
+non-linear dr by cond on sigma algebra
+\end{comment}
+Sometimes, we are only interested in $E\left(Y\mid X\right)$, for
+example, in linear regression. Then a weak assumption can be made
+as 
+\[
+E\left(Y\mid X\right)=E\left(Y\mid\beta^{T}X\right).
+\]
+The corresponding space of $\beta$ is called central mean subspace
+$S_{E\left(Y\mid X\right)}$ in \citet{cook2002dimension}. \citet{yin2002dimension}
+generalized the idea into central $k$-th moment subspace $S_{Y\mid X}^{\left(k\right)}$
+defined as 
+\[
+E\left(Y^{j}\mid X\right)=E\left(Y^{j}\mid\beta^{T}X\right),\mathrm{\: for\:}j=1,\ldots,k.
+\]
+ To estimate the conditional variance, \citet{zhu2009dimension} introduced
+the notion of central variance subspace $S_{\Var\left(Y\mid X\right)}$,
+defined as 
+\[
+\Var\left(Y\mid X\right)=E\left(\Var\left(Y\mid X\right)\mid\beta^{T}X\right).
+\]
+
+
+To estimate the defined space, statisticians innovated several methods,
+which can be roughly classified into three categories: inverse regression
+methods, non-parametric methods, and semi-parametric methods. For
+simplicity, they usually assume $X$ has zero mean and identity variance-covariance
+matrix. \citet{lee2013general} formulated the ideas by general measure
+theory and central $\sigma$-field $\mathscr{G}_{Y\mid X}$ as 
+\[
+Y\independent X\mid\mathscr{G}_{Y\mid X}.
+\]
+ For more details, I refer to \citet{ma2013review}.
+
+
+\subsection{Inverse Regression }
+
+The first inverse regression method, sliced inverse regression (SIR)
+proposed by  \citet{li1991sliced}, is a precursor of SDR. In that
+paper, he proved 
+\[
+E\left(X\mid Y\right)\in S_{Y\mid X},
+\]
+and used principal component analysis (PCA) to get the main direction
+of several estimators $\hat{E}\left(X\mid Y=y_{1}\right),\ldots,\hat{E}\left(X\mid Y=y_{s}\right)$
+by sliced mean. This paper also built an exemplary approach for other inverse
+regression based methods. He showed that key quantities, mostly
+conditional moments, belonged to the corresponding central space, then
+use PCA to find the main direction of these key quantities. This paper
+also invents two standard conditions in linear SDR, named linearity
+condition 
+\[
+E\left(X\mid\beta^{T}X\right)=L\beta^{T}X,
+\]
+and constant covariance condition 
+\[
+\Var\left(X\mid\beta^{T}X\right)=Q,
+\]
+where $Q$ is a non-random matrix. The two condition restrict the
+usage of SIR to nearly normal $X$. Lately, \citet{dong2010dimension}
+relaxed the linearity condition to polynomial condition, that is,
+$E\left(X\mid\beta^{T}X\right)$ is a polynomial function of $\beta^{T}X$.
+Inspired by SIR, \citet{zhu1996asymptotics} proposed kernel inverse
+regression using kernel technique to estimate the same key quantities
+in SIR. \citet{wu2008kernel} generalized this to nonlinear SDR problem.
+\citet{wang2014transformed} applied probability integral transformation
+to SIR in order to solve nonlinear SDR. \citet{li2011principal} replaced
+moments key quantities by a more robust quantile-like quantities defined
+by a sliced SVM. They proved $\psi\left(y\right)\in S_{Y\mid X}$,
+if $\psi$ was a solution of a generalized SVM problem, 
+\[
+\left(\psi\left(y\right),t\left(y\right)\right)=\argmin_{\psi,t}\psi^{T}\hat{\Sigma}_{X}\psi+\lambda E_{X,Y}\left(1-\left(I_{\left[Y\le y\right]}-I_{\left[Y>y\right]}\right)\left[\psi^{T}\left(X-\overline{X}\right)-t\right]\right)_{+}.
+\]
+Their method, called principal support vector machine, can be applied
+to both linear and kernelized nonlinear SDR problem.As pointed in
+\citet{1991}, SIR fails when there are some symmetric patterns, ,
+so they proposed sliced average variance estimation (SAVE) using the
+second conditional moments, 
+\[
+\mathrm{span}\left(I_{p}-\Var\left(X\mid Y\right)\right)\subset S_{Y\mid X}.
+\]
+\citet{zhu2007hybrid} suggested a hybrid of SIR and SAVE by a convex
+combination. \citet{li2007directional} proposed direction regression
+(DR) based on 
+\[
+\mathrm{span}\left(2I_{p}-E\left(\left.\left(X-\tilde{X}\right)\left(X-\tilde{X}\right)^{T}\right|Y,\tilde{Y}\right)\right)\subset S_{Y\mid X}.
+\]
+To avoid tuning parameters such as the number of slices and bandwidth
+of kernel, \citet{zhu2010sufficient} proposed discretization-expectation
+procedure. \citet{zhu2010dimension} proposed cumulative slicing estimation
+and \citet{li2005contour} proposed contour regression. The above
+methods usually use non-parametric or semi-parametric method to estimate
+the key quantities, to take the advantage of explicit likelihood,
+\citet{cook2009likelihood} introduced likelihood acquired directions
+as MLE of inverse regression. 
+
+For central mean subspace, \citet{li1989regression} proved the column
+space of ordinary least squares is a subspace of $S_{E\left(Y\mid X\right)}$.
+\citet{li1992principal} proposed principal Hessian directions and
+\citet{cook2002dimension} proposed iterative Hessian transformations
+to recover $S_{E\left(Y\mid X\right)}$. 
+
+Multivariate response settings are also considered. %
+\begin{comment}
+add envelope and dr ask dr su 
+\end{comment}
+Three main stream methods are developed. The first is generalizing
+sliceing into hypercubes defined by different topologies, for instance,
+\citet{aragon1997gauss,hsing1999nearest,setodji2004k}.The second
+is recovering the joint central subspace from marginal central subspaces,
+for instance, \citet{cook2003model,saracco2005asymptotics,yin2006moment}.
+The last one is projecting multivariate response onto lower dimensional
+space, for instance, \citet{li2008projective,zhu2010dimension}. 
+
+
+\subsection{Non-Parametric Methods}
+
+Non-parametric methods do not require the linearity condition or constant
+covariance condition. And thus these methods are more flexible than
+inverse regression methods. However, they still rely on continuous
+$X$, and hence could not be applied to categorical predictors.
+
+The first non-parametric method is the minimum average variance estimation
+(MAVE) by \citet{xia2002adaptive}, which estimated the central mean
+subspace by kernel weighted least square subject to Grassmann manifold
+restriction. The advantage of this method is exhaustiveness, meaning
+that it would recover the whole $S_{E\left(Y\mid X\right)}$ if $d$
+is correctly specified. %
+\begin{comment}
+add bayesian method khare
+\end{comment}
+This method settles the characters of almost all non-parametric methods,
+that is, smoothing approach to unknown link function $m$ defined
+as 
+\[
+Y=m\left(\beta^{T}X\right)+\varepsilon.
+\]
+Lately, \citet{xia2007constructive} proposed density based MAVE to
+estimate central subspace, basically replacing response $Y$ by kernel
+smoothing $K_{b}\left(Y-y\right)$, and \citet{wang2008sliced} proposed
+sliced regression. \citet{hernandez2005dimension,yin2005direction,yin2008successive}
+replaced the weighted least square by other loss functions.
+
+
+\subsection{Semi-Parametric Methods}
+
+As far as the authors know, there is only one semi-parametric method
+by \citet{ma2012semiparametric} now. In the same way as in sufficient
+statistics , they decomposed the likelihood functions into two parts,
+one of which contained only predictors, and the other of which contained
+response, and the only interest in dimension reduction community was
+the latter part. Based on this observation, they formulated consistency
+estimating equations by influence function class defined as 
+\[
+\left\{ f\left(Y,X\right)-E\left(f\left(Y,X\right)\mid\beta^{T}X,Y\right):E\left(f\left(Y,X\right)\mid X\right)=E\left(f\left(Y,X\right)\mid\beta^{T}X\right),\forall f\right\} ,
+\]
+particularly, the following forms were used 
+\[
+f\left(Y,X\right)=\left(g\left(Y,\beta^{T}X\right)-E\left(g\left(Y,\beta^{T}\right)\mid\beta^{T}X\right)\right)\left(\alpha\left(X\right)-E\left(\alpha\left(X\right)\mid\beta^{T}X\right)\right),
+\]
+for any $g$ and $\alpha$. This approach does not require moment
+conditions like linearity condition or constant covariance condition,
+or continuous condition of predictors. The authors also shew in their
+paper several inverse regression methods could be derived by different
+settings of $g$ and $\alpha,$ and the statistical intuitive of linearity
+condition and constant covariance condition could also be explained
+under this framework.
+
+
+\subsection{Inference about $d$}
+
+Statistical inference about reduction dimension is a characteristic
+of sufficient dimension reduction. There are sequential test methods
+by \citet{schott1994determining,velilla1998assessing,bura2001extending,cook2001special,cook2004determining,cook2005sufficient}.
+\citet{ye2003using} and \citet{zhu2006fourier} proposed bootstrap
+method to select $d$. BIC-type methods are considered in \citet{zhu2006sliced,zhu2007kernel,luo2009contour}.
+A more fashion method is proposed by \citet{zhu2010sparse} as sparse
+eigen-decomposition strategy. They imposed adaptive LASSO penalty
+to spectral decomposition problem in inverse regression, and the minimization
+could be solved very effectively by LARS algorithm in \citet{efron2004least}. 
+
+
+\subsection{High Dimension}
+
+The laurel of modern statistics should be crowned to inference under
+increasing number of parameters. To avoid singularity of marginal
+covariance matrix of $X$ when $p>n$, some authors incorporate partial
+least squares into inverse regression, such as in \citet{li2007partial,cook2007dimension,zhu2009distribution,zhu2010dimension}.
+Another strategy is to utilize the sparsity principle, such as LASSO,
+SCAD and Dantzig selector. This leads to sure independence ranking
+and screening procedure in \citet{zhu2011model}. \citet{wu2008consistency}
+applied Tikhonov penalties to kernel sliced inverse regression to
+solve nonlinear SDR. %
+\begin{comment}
+add wuchang bao setting consistency and normalty proof
+\end{comment}
+
+
